@@ -1,0 +1,12 @@
+[submodule "deps/artisanry"]
+	path = deps/artisanry
+	url = https://github.com/RobertZenz/minetest-australopithecus-artisanry
+[submodule "deps/utils"]
+	path = deps/utils
+	url = git@github.com:RobertZenz/minetest-australopithecus-utils.git
+[submodule "deps/minetest-australopithecus-worldgen"]
+	path = deps/minetest-australopithecus-worldgen
+	url = git@github.com:RobertZenz/minetest-australopithecus-worldgen.git
+[submodule "deps/worldgen-utils"]
+	path = deps/worldgen-utils
+	url = git@github.com:RobertZenz/minetest-australopithecus-worldgen-utils.git
