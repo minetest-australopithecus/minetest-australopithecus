@@ -63,6 +63,8 @@ ap.core.helpers.register_ice("glacial", {
 	}
 })
 
+ap.core.helpers.register_snow()
+
 minetest.register_node("core:gravel", {
 	diggable = true,
 	groups = {
@@ -92,17 +94,6 @@ minetest.register_node("core:sand_stone", {
 	},
 	tiles = {
 		"sand_stone.png"
-	}
-})
-
-minetest.register_node("core:snow", {
-	diggable = true,
-	groups = {
-		crumbly = 3,
-		oddly_breakable_by_hand = 1
-	},
-	tiles = {
-		"snow.png"
 	}
 })
 
