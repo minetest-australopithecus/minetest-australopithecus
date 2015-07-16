@@ -95,7 +95,7 @@ local function register_ramps(name, definition)
 	
 	local ramp_definition = nil
 	
-	for counter = 8, 9, 1 do
+	for counter = 2, 9, 1 do
 		-- Ramp
 		local ramp_name = name .. "_ramp_" .. counter
 		ramp_definition = tableutil.merge(definition, {
