@@ -235,6 +235,23 @@ local function register_ramps(name, definition)
 	register_conversion(name, steep_smooth_ramp_name)
 end
 
+local function register_cobble(name, definition)
+	local cobble_name = postfix_name(name, "cobble")
+	
+	definition = tableutil.merge(definition, {
+		description = definition.description .. " Cobble",
+		drop = "core:" .. cobble_name,
+		name = cobble_name,
+		tiles = {
+			cobble_name .. ".png"
+		}
+	})
+	
+	minetest.register_node("core:" .. cobble_name, definition)
+	
+	register_ramps(cobble_name, definition)
+end
+
 
 ap.core.helpers.register_dirt = function(name, prototype)
 	name = postfix_name(name, "dirt")
@@ -388,7 +405,7 @@ ap.core.helpers.register_rock = function(name, prototype)
 	local definition = {
 		description = "Rock",
 		diggable = true,
-		drop = "core:" .. name,
+		drop = "core:" .. name .. "_cobble",
 		groups = {
 			cracky = 1
 		},
@@ -403,6 +420,7 @@ ap.core.helpers.register_rock = function(name, prototype)
 	minetest.register_node("core:" .. name, definition)
 	
 	register_ramps(name, definition)
+	register_cobble(name, definition)
 end
 
 ap.core.helpers.register_snow = function(name, prototype)
@@ -423,6 +441,7 @@ ap.core.helpers.register_snow = function(name, prototype)
 	
 	minetest.register_node("core:" .. name, definition)
 	
+	register_cobble(name, definition)
 	register_ramps(name, definition)
 end
 
