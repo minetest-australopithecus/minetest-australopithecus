@@ -198,6 +198,7 @@ local function register_ramps(name, definition)
 	local smooth_ramp_definition = tableutil.merge(ramp_definition, {
 		description = definition.description .. " (Smooth ramp)",
 		drawtype = "mesh",
+		drop = "core:" .. smooth_ramp_name,
 		mesh = "ramp.obj",
 		name = smooth_ramp_name,
 		node_box = nodebox_cache.ramps.smooth
@@ -211,6 +212,7 @@ local function register_ramps(name, definition)
 	local smooth_inner_corner_definition = tableutil.merge(ramp_definition, {
 		description = definition.description .. " (Smooth inner corner)",
 		drawtype = "mesh",
+		drop = "core:" .. smooth_inner_corner_name,
 		mesh = "inner_corner_ramp.obj",
 		name = smooth_inner_corner_name,
 		node_box = nodebox_cache.ramps.smooth_inner
@@ -224,6 +226,7 @@ local function register_ramps(name, definition)
 	local smooth_outer_corner_definition = tableutil.merge(ramp_definition, {
 		description = definition.description .. " (Smooth outer corner)",
 		drawtype = "mesh",
+		drop = "core:" .. smooth_outer_corner_name,
 		mesh = "outer_corner_ramp.obj",
 		name = smooth_outer_corner_name,
 		node_box = nodebox_cache.ramps.smooth_outer
@@ -237,6 +240,7 @@ local function register_ramps(name, definition)
 	local steep_smooth_ramp_definition = tableutil.merge(ramp_definition, {
 		description = definition.description .. " (Steep smooth ramp)",
 		drawtype = "mesh",
+		drop = "core:" .. steep_smooth_ramp_name,
 		mesh = "steep_ramp.obj",
 		name = steep_smooth_ramp_name,
 		node_box = nodebox_cache.ramps.steep_smooth
