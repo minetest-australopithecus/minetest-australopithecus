@@ -477,7 +477,6 @@ ap.core.helpers.register_snow = function(name, prototype)
 	
 	register_node(definition)
 	
-	register_rubble(name, definition)
 	register_ramps(name, definition)
 end
 
