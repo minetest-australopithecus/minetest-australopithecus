@@ -377,6 +377,7 @@ ap.core.helpers.register_grass = function(name, crumbly)
 		drop = "core:dirt",
 		groups = {
 			crumbly = crumbly or 3,
+			grass = 1,
 			soil = 1,
 			oddly_breakable_by_hand = 1
 		},
