@@ -25,29 +25,25 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
--- Main setup
-australopithecus = {}
-ap = australopithecus
-
--- Main module
-ap.core = {}
-
-ap.core.artisanry = Artisanry:new()
+local dirt = {
+	name = "core:dirt"
+}
 
 
-
--- Load all files
-local base_path = minetest.get_modpath(minetest.get_current_modname())
-
--- Helpers first
-dofile(base_path .. "/helpers/helpers.lua")
-dofile(base_path .. "/helpers/nodes.lua")
-
--- Main files
-dofile(base_path .. "/debug.lua")
-dofile(base_path .. "/mechanics.lua")
-dofile(base_path .. "/nodes.lua")
-
--- Activate Artisanry
-ArtisanryUI.activate(ap.core.artisanry)
+-- Replace grass with dirt if a node is placed on it.
+minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing)
+	local pos_underneath = {
+		x = pos.x,
+		y = pos.y - 1,
+		z = pos.z
+	}
+	
+	local node = minetest.get_node(pos_underneath)
+	
+	-- TODO Testing the name isn't the best thing, maybe we can attach additional information to the node.
+	-- TODO This removes the grass for everything, some nodes might not want to replace grass.
+	if stringutil.endswith(node.name, "grass") then
+		minetest.set_node(pos_underneath, dirt)
+	end
+end)
 

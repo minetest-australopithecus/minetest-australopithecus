@@ -25,29 +25,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
--- Main setup
-australopithecus = {}
-ap = australopithecus
+minetest.register_tool("core:stick_of_truth", {
+	description = "A mighty stick.",
+	inventory_image = "stick_of_truth.png",
+	range = 5.0,
+	tool_capabilities = {
+		full_punch_interval = 0.5,
+		groupcaps = {
+			crumbly = { times = { 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
+			cracky = { times = { 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
+		},
+		max_drop_level = 9000
+	}
+})
 
--- Main module
-ap.core = {}
-
-ap.core.artisanry = Artisanry:new()
-
-
-
--- Load all files
-local base_path = minetest.get_modpath(minetest.get_current_modname())
-
--- Helpers first
-dofile(base_path .. "/helpers/helpers.lua")
-dofile(base_path .. "/helpers/nodes.lua")
-
--- Main files
-dofile(base_path .. "/debug.lua")
-dofile(base_path .. "/mechanics.lua")
-dofile(base_path .. "/nodes.lua")
-
--- Activate Artisanry
-ArtisanryUI.activate(ap.core.artisanry)
+minetest.register_on_joinplayer(function(player)
+	player:get_inventory():set_stack("main", 1, ItemStack("core:stick_of_truth"))
+end)
 
