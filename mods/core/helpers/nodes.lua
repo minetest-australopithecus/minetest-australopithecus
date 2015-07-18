@@ -44,6 +44,15 @@ local function register_conversion(source, target)
 	})
 end
 
+local function register_node(definition)
+	if definition.node_box ~= nil then
+		definition.collision_box = definition.node_box
+		definition.selection_box = definition.node_box
+	end
+	
+	minetest.register_node("core:" .. definition.name, definition)
+end
+
 local function register_ramps(name, definition)
 	if nodebox_cache.ramps == nil then
 		nodebox_cache.ramps = {}
@@ -99,7 +108,6 @@ local function register_ramps(name, definition)
 		-- Ramp
 		local ramp_name = name .. "_ramp_" .. counter
 		ramp_definition = tableutil.merge(definition, {
-			collision_box = nodebox_cache.ramps.stepped[counter],
 			description = definition.description .. " (Ramp with " .. counter .. " steps)",
 			drawtype = "nodebox",
 			drop = "core:" .. ramp_name,
@@ -109,79 +117,73 @@ local function register_ramps(name, definition)
 			paramtype2 = "facedir"
 		})
 		
-		minetest.register_node("core:" .. ramp_name, ramp_definition)
+		register_node(ramp_definition)
 		register_conversion(name, ramp_name)
 		
 		-- Inner corner
 		local inner_corner_name = name .. "_inner_corner_" .. counter
 		local inner_corner_definition = tableutil.merge(ramp_definition, {
-			collision_box = nodebox_cache.ramps.stepped_inner[counter],
 			description = definition.description .. " (Inner corner with " .. counter .. " steps)",
 			drop = "core:" .. inner_corner_name,
 			name = inner_corner_name,
 			node_box = nodebox_cache.ramps.stepped_inner[counter]
 		})
 		
-		minetest.register_node("core:" .. inner_corner_name, inner_corner_definition)
+		register_node(inner_corner_definition)
 		register_conversion(name, inner_corner_name)
 		
 		-- Outer corner
 		local outer_corner_name = name .. "_outer_corner_" .. counter
 		local outer_corner_definition = tableutil.merge(ramp_definition, {
-			collision_box = nodebox_cache.ramps.stepped_outer[counter],
 			description = definition.description .. " (Outer corner with " .. counter .. " steps)",
 			drop = "core:" .. outer_corner_name,
 			name = outer_corner_name,
 			node_box = nodebox_cache.ramps.stepped_outer[counter]
 		})
 		
-		minetest.register_node("core:" .. outer_corner_name, outer_corner_definition)
+		register_node(outer_corner_definition)
 		register_conversion(name, outer_corner_name)
 		
 		-- Steep ramp
 		local steep_ramp_name = name .. "_steep_ramp_" .. counter
 		local steep_ramp_definition = tableutil.merge(ramp_definition, {
-			collision_box = nodebox_cache.ramps.steep[counter],
 			description = definition.description .. " (Steep ramp with " .. counter .. " steps)",
 			drop = "core:" .. steep_ramp_name,
 			name = steep_ramp_name,
 			node_box = nodebox_cache.ramps.steep[counter],
 		})
 		
-		minetest.register_node("core:" .. steep_ramp_name, steep_ramp_definition)
+		register_node(steep_ramp_definition)
 		register_conversion(name, steep_ramp_name)
 		
 		-- Inner steep corner
 		local inner_steep_corner_name = name .. "_inner_steep_corner_" .. counter
 		local inner_steep_corner_definition = tableutil.merge(ramp_definition, {
-			collision_box = nodebox_cache.ramps.steep_inner[counter],
 			description = definition.description .. " (Steep inner corner with " .. counter .. " steps)",
 			drop = "core:" .. inner_steep_corner_name,
 			name = inner_steep_corner_name,
 			node_box = nodebox_cache.ramps.steep_inner[counter],
 		})
 		
-		minetest.register_node("core:" .. inner_steep_corner_name, inner_steep_corner_definition)
+		register_node(inner_steep_corner_definition)
 		register_conversion(name, inner_steep_corner_name)
 		
 		-- Outer steep corner
 		local outer_steep_corner_name = name .. "_outer_steep_corner_" .. counter
 		local outer_steep_corner_definition = tableutil.merge(ramp_definition, {
-			collision_box = nodebox_cache.ramps.steep_outer[counter],
 			description = definition.description .. " (Steep outer corner with " .. counter .. " steps)",
 			drop = "core:" .. outer_steep_corner_name,
 			name = outer_steep_corner_name,
 			node_box = nodebox_cache.ramps.steep_outer[counter],
 		})
 		
-		minetest.register_node("core:" .. outer_steep_corner_name, outer_steep_corner_definition)
+		register_node(outer_steep_corner_definition)
 		register_conversion(name, outer_steep_corner_name)
 	end
 	
 	-- Smooth ramp
 	local smooth_ramp_name = name .. "_smooth_ramp"
 	local smooth_ramp_definition = tableutil.merge(ramp_definition, {
-		collision_box = nodebox_cache.ramps.smooth,
 		description = definition.description .. " (Smooth ramp)",
 		drawtype = "mesh",
 		mesh = "ramp.obj",
@@ -189,13 +191,12 @@ local function register_ramps(name, definition)
 		node_box = nodebox_cache.ramps.smooth
 	})
 	
-	minetest.register_node("core:" .. smooth_ramp_name, smooth_ramp_definition)
+	register_node(smooth_ramp_definition)
 	register_conversion(name, smooth_ramp_name)
 	
 	-- Smooth inner corner
 	local smooth_inner_corner_name = name .. "_smooth_inner_corner"
 	local smooth_inner_corner_definition = tableutil.merge(ramp_definition, {
-		collision_box = nodebox_cache.ramps.smooth_inner,
 		description = definition.description .. " (Smooth inner corner)",
 		drawtype = "mesh",
 		mesh = "inner_corner.obj",
@@ -203,13 +204,12 @@ local function register_ramps(name, definition)
 		node_box = nodebox_cache.ramps.smooth_inner
 	})
 	
-	minetest.register_node("core:" .. smooth_inner_corner_name, smooth_inner_corner_definition)
+	register_node(smooth_inner_corner_definition)
 	register_conversion(name, smooth_inner_corner_name)
 	
 	-- Smooth outer corner
 	local smooth_outer_corner_name = name .. "_smooth_outer_corner"
 	local smooth_outer_corner_definition = tableutil.merge(ramp_definition, {
-		collision_box = nodebox_cache.ramps.smooth_outer,
 		description = definition.description .. " (Smooth outer corner)",
 		drawtype = "mesh",
 		mesh = "outer_corner.obj",
@@ -217,13 +217,12 @@ local function register_ramps(name, definition)
 		node_box = nodebox_cache.ramps.smooth_outer
 	})
 	
-	minetest.register_node("core:" .. smooth_outer_corner_name, smooth_outer_corner_definition)
+	register_node(smooth_outer_corner_definition)
 	register_conversion(name, smooth_outer_corner_name)
 	
 	-- Steep smooth ramp
 	local steep_smooth_ramp_name = name .. "_steep_smooth_ramp"
 	local steep_smooth_ramp_definition = tableutil.merge(ramp_definition, {
-		collision_box = nodebox_cache.ramps.steep_smooth,
 		description = definition.description .. " (Steep smooth ramp)",
 		drawtype = "mesh",
 		mesh = "steep_ramp.obj",
@@ -231,25 +230,25 @@ local function register_ramps(name, definition)
 		node_box = nodebox_cache.ramps.steep_smooth
 	})
 	
-	minetest.register_node("core:" .. steep_smooth_ramp_name, steep_smooth_ramp_definition)
+	register_node(steep_smooth_ramp_definition)
 	register_conversion(name, steep_smooth_ramp_name)
 end
 
-local function register_cobble(name, definition)
-	local cobble_name = postfix_name(name, "cobble")
+local function register_rubble(name, definition)
+	local rubble_name = postfix_name(name, "rubble")
 	
 	definition = tableutil.merge(definition, {
-		description = definition.description .. " Cobble",
-		drop = "core:" .. cobble_name,
-		name = cobble_name,
+		description = definition.description .. " Rubble",
+		drop = "core:" .. rubble_name,
+		name = rubble_name,
 		tiles = {
-			cobble_name .. ".png"
+			rubble_name .. ".png"
 		}
 	})
 	
-	minetest.register_node("core:" .. cobble_name, definition)
+	register_node(definition)
 	
-	register_ramps(cobble_name, definition)
+	register_ramps(rubble_name, definition)
 end
 
 
@@ -264,6 +263,7 @@ ap.core.helpers.register_dirt = function(name, prototype)
 			soil = 1,
 			oddly_breakable_by_hand = 1
 		},
+		name = name,
 		tiles = {
 			name .. ".png"
 		}
@@ -273,7 +273,7 @@ ap.core.helpers.register_dirt = function(name, prototype)
 		definition = tableutil.merge(definition, prototype)
 	end
 	
-	minetest.register_node("core:" .. name, definition)
+	register_node(definition)
 	
 	register_ramps(name, definition)
 end
@@ -345,7 +345,7 @@ ap.core.helpers.register_fluid = function(name, alpha, viscosity, type)
 		walkable = false
 	}
 	
-	minetest.register_node("core:" .. typed_name, definition)
+	register_node(definition)
 end
 
 ap.core.helpers.register_grass = function(name, crumbly)
@@ -354,7 +354,7 @@ ap.core.helpers.register_grass = function(name, crumbly)
 	local top_side = name .. ".png"
 	local side_side = "dirt.png^" .. name .. "_side_overlay.png"
 	
-	local node = {
+	local definition = {
 		buildable_to = false,
 		description = name,
 		diggable = true,
@@ -372,7 +372,7 @@ ap.core.helpers.register_grass = function(name, crumbly)
 		}
 	}
 	
-	minetest.register_node("core:" .. name, node)
+	register_node(definition)
 end
 
 ap.core.helpers.register_ice = function(name, prototype)
@@ -394,7 +394,7 @@ ap.core.helpers.register_ice = function(name, prototype)
 		definition = tableutil.merge(definition, prototype)
 	end
 	
-	minetest.register_node("core:" .. name, definition)
+	register_node(definition)
 	
 	register_ramps(name, definition)
 end
@@ -405,7 +405,7 @@ ap.core.helpers.register_rock = function(name, prototype)
 	local definition = {
 		description = "Rock",
 		diggable = true,
-		drop = "core:" .. name .. "_cobble",
+		drop = "core:" .. name .. "_rubble",
 		groups = {
 			cracky = 1
 		},
@@ -417,10 +417,10 @@ ap.core.helpers.register_rock = function(name, prototype)
 	
 	definition = tableutil.merge(definition, prototype)
 	
-	minetest.register_node("core:" .. name, definition)
+	register_node(definition)
 	
 	register_ramps(name, definition)
-	register_cobble(name, definition)
+	register_rubble(name, definition)
 end
 
 ap.core.helpers.register_snow = function(name, prototype)
@@ -439,9 +439,9 @@ ap.core.helpers.register_snow = function(name, prototype)
 		}
 	}
 	
-	minetest.register_node("core:" .. name, definition)
+	register_node(definition)
 	
-	register_cobble(name, definition)
+	register_rubble(name, definition)
 	register_ramps(name, definition)
 end
 
