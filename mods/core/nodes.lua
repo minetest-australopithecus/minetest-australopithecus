@@ -25,23 +25,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
-ap.core.helpers.register_fluid("water", 160, 1)
-
-ap.core.helpers.register_grass("chaparral", 2)
-ap.core.helpers.register_grass("deciduous_forest", 2)
-ap.core.helpers.register_grass("grassland", 2)
-ap.core.helpers.register_grass("rainforest", 2)
-ap.core.helpers.register_grass("savannah", 2)
-ap.core.helpers.register_grass("seasonal_rainforest", 2)
-ap.core.helpers.register_grass("seasonal_shrubland", 2)
-ap.core.helpers.register_grass("swamp", 2)
-ap.core.helpers.register_grass("taiga", 1)
-ap.core.helpers.register_grass("tropical_seasonal_rainforest", 2)
-ap.core.helpers.register_grass("tundra", 1)
-
-ap.core.helpers.register_rock()
-ap.core.helpers.register_rock("red")
-
 ap.core.helpers.register_dirt()
 ap.core.helpers.register_dirt("snowy_tundra", {
 	drop = "core:dirt",
@@ -56,6 +39,20 @@ ap.core.helpers.register_dirt("snowy_tundra", {
 })
 ap.core.helpers.register_dirt("wasteland")
 
+ap.core.helpers.register_fluid("water", 160, 1)
+
+ap.core.helpers.register_grass("chaparral", 2)
+ap.core.helpers.register_grass("deciduous_forest", 2)
+ap.core.helpers.register_grass("grassland", 2)
+ap.core.helpers.register_grass("rainforest", 2)
+ap.core.helpers.register_grass("savannah", 2)
+ap.core.helpers.register_grass("seasonal_rainforest", 2)
+ap.core.helpers.register_grass("seasonal_shrubland", 2)
+ap.core.helpers.register_grass("swamp", 2)
+ap.core.helpers.register_grass("taiga", 1)
+ap.core.helpers.register_grass("tropical_seasonal_rainforest", 2)
+ap.core.helpers.register_grass("tundra", 1)
+
 ap.core.helpers.register_ice()
 ap.core.helpers.register_ice("glacial", {
 	groups = {
@@ -63,7 +60,14 @@ ap.core.helpers.register_ice("glacial", {
 	}
 })
 
+ap.core.helpers.register_rock()
+ap.core.helpers.register_rock("red")
+
+ap.core.helpers.register_sand()
+
 ap.core.helpers.register_snow()
+
+ap.core.helpers.register_stone("sand")
 
 minetest.register_node("core:gravel", {
 	diggable = true,
@@ -73,27 +77,6 @@ minetest.register_node("core:gravel", {
 	},
 	tiles = {
 		"gravel.png"
-	}
-})
-
-minetest.register_node("core:sand", {
-	diggable = true,
-	groups = {
-		crumbly = 2,
-		oddly_breakable_by_hand = 1
-	},
-	tiles = {
-		"sand.png"
-	}
-})
-
-minetest.register_node("core:sand_stone", {
-	diggable = true,
-	groups = {
-		cracky = 2
-	},
-	tiles = {
-		"sand_stone.png"
 	}
 })
 

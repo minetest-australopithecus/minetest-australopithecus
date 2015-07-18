@@ -27,12 +27,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 local nodebox_cache = {}
 
+
+local function make_description(name)
+	-- First char to upper.
+	name = string.upper(string.sub(name, 1, 1)) .. string.sub(name, 2)
+	-- All other chars to upper.
+	name = string.gsub(name, "_[a-z]", string.upper)
+	-- Replace underscores.
+	name = string.gsub(name, "_", " ")
+	
+	return name
+end
+
 local function postfix_name(name, postfix)
-	if name == nil or name == "" then
-		return postfix
-	else
+	if name ~= nil and name ~= "" then
 		return name .. "_" .. postfix
 	end
+	
+	return postfix
 end
 
 local function register_conversion(source, target)
@@ -256,6 +268,7 @@ ap.core.helpers.register_dirt = function(name, prototype)
 	name = postfix_name(name, "dirt")
 	
 	local definition = {
+		description = make_description(name),
 		diggable = true,
 		drop = "core:" .. name,
 		groups = {
@@ -355,8 +368,7 @@ ap.core.helpers.register_grass = function(name, crumbly)
 	local side_side = "dirt.png^" .. name .. "_side_overlay.png"
 	
 	local definition = {
-		buildable_to = false,
-		description = name,
+		description = make_description(name),
 		diggable = true,
 		drop = "core:dirt",
 		groups = {
@@ -379,8 +391,9 @@ ap.core.helpers.register_ice = function(name, prototype)
 	name = postfix_name(name, "ice")
 	
 	local definition = {
+		description = make_description(name),
 		diggable = true,
-		drop = "core:" .. name,
+		drop = "core:" .. name .. "_rubble",
 		groups = {
 			cracky = 2,
 		},
@@ -397,13 +410,14 @@ ap.core.helpers.register_ice = function(name, prototype)
 	register_node(definition)
 	
 	register_ramps(name, definition)
+	register_rubble(name, definition)
 end
 
 ap.core.helpers.register_rock = function(name, prototype)
 	name = postfix_name(name, "rock")
 	
 	local definition = {
-		description = "Rock",
+		description = make_description(name),
 		diggable = true,
 		drop = "core:" .. name .. "_rubble",
 		groups = {
@@ -423,11 +437,31 @@ ap.core.helpers.register_rock = function(name, prototype)
 	register_rubble(name, definition)
 end
 
+ap.core.helpers.register_sand = function(name, prototype)
+	name = postfix_name(name, "sand")
+	
+	local definition = {
+		description = make_description(name),
+		diggable = true,
+		drop = "core:" .. name,
+		groups = {
+			crumbly = 2,
+			oddly_breakable_by_hand = 1
+		},
+		name = name,
+		tiles = {
+			name .. ".png"
+		}
+	}
+	
+	register_node(definition)
+end
+
 ap.core.helpers.register_snow = function(name, prototype)
 	name = postfix_name(name, "snow")
 	
 	local definition = {
-		description = "Snow",
+		description = make_description(name),
 		diggable = true,
 		groups = {
 			crumbly = 3,
@@ -439,9 +473,34 @@ ap.core.helpers.register_snow = function(name, prototype)
 		}
 	}
 	
+	definition = tableutil.merge(definition, prototype)
+	
 	register_node(definition)
 	
 	register_rubble(name, definition)
+	register_ramps(name, definition)
+end
+
+ap.core.helpers.register_stone = function(name, prototype)
+	name = postfix_name(name, "stone")
+	
+	local definition = {
+		description = make_description(name),
+		diggable = true,
+		drop = "core:" .. name,
+		groups = {
+			cracky = 1
+		},
+		name = name,
+		tiles = {
+			name .. ".png"
+		}
+	}
+	
+	definition = tableutil.merge(definition, prototype)
+	
+	register_node(definition)
+	
 	register_ramps(name, definition)
 end
 
