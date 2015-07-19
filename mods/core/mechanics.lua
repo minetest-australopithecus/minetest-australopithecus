@@ -62,7 +62,7 @@ end
 
 -- The ABM that turns dirt into grass.
 minetest.register_abm({
-	chance = 20,
+	chance = 64,
 	interval = 30.0,
 	neighbors = {
 		"core:dirt",
