@@ -115,6 +115,31 @@ local function register_node(definition)
 	minetest.register_node("core:" .. definition.name, definition)
 end
 
+local function register_plates(name, definition)
+	for thickness = 1, 9, 1 do
+		local plate_name = name .. "_plate_" .. thickness
+		local plate_definition = tableutil.merge(definition, {
+			description = definition.description .. " (Plate, " .. thickness .. "/10)",
+			drawtype = "nodebox",
+			drop = "core:" .. plate_name,
+			name = plate_name,
+			node_box = {
+				type = "fixed",
+				fixed = {
+					-0.5, -0.5, -0.5,
+					0.5, thickness * 0.1 - 0.5, 0.5
+				}
+			},
+			paramtype = "light",
+			paramtype2 = "facedir"
+		})
+		
+		register_node(plate_definition)
+		
+		register_conversion(name, plate_name .. " " .. math.floor(10 / thickness))
+	end
+end
+
 local function register_ramps(name, definition)
 	if nodebox_cache.stairs == nil then
 		init_nodebox_cache()
@@ -165,18 +190,18 @@ local function register_ramps(name, definition)
 	register_conversion(name, ramp_outer_corner_name)
 	
 	-- Steep ramp
-	local steep_ramp_ramp_name = name .. "_steep_ramp_ramp"
-	local steep_ramp_ramp_definition = tableutil.merge(ramp_definition, {
+	local steep_ramp_name = name .. "_steep_ramp"
+	local steep_ramp_definition = tableutil.merge(ramp_definition, {
 		description = definition.description .. " (Steep smooth ramp)",
 		drawtype = "mesh",
-		drop = "core:" .. steep_ramp_ramp_name,
+		drop = "core:" .. steep_ramp_name,
 		mesh = "steep_ramp.obj",
-		name = steep_ramp_ramp_name,
+		name = steep_ramp_name,
 		node_box = nodebox_cache.ramps.steep_smooth
 	})
 	
-	register_node(steep_ramp_ramp_definition)
-	register_conversion(name, steep_ramp_ramp_name)
+	register_node(steep_ramp_definition)
+	register_conversion(name, steep_ramp_name)
 end
 
 local function register_stairs(name, definition)
@@ -276,7 +301,8 @@ local function register_rubble(name, definition)
 	
 	register_node(definition)
 	
-	register_ramps(name, definition)
+	register_plates(rubble_name, definition)
+	register_ramps(rubble_name, definition)
 	register_stairs(rubble_name, definition)
 end
 
@@ -305,6 +331,7 @@ ap.core.helpers.register_dirt = function(name, prototype)
 	
 	register_node(definition)
 	
+	register_plates(name, definition)
 	register_ramps(name, definition)
 	register_stairs(name, definition)
 end
@@ -428,6 +455,7 @@ ap.core.helpers.register_ice = function(name, prototype)
 	
 	register_node(definition)
 	
+	register_plates(name, definition)
 	register_ramps(name, definition)
 	register_rubble(name, definition)
 	register_stairs(name, definition)
@@ -453,6 +481,7 @@ ap.core.helpers.register_rock = function(name, prototype)
 	
 	register_node(definition)
 	
+	register_plates(name, definition)
 	register_ramps(name, definition)
 	register_rubble(name, definition)
 	register_stairs(name, definition)
@@ -498,6 +527,7 @@ ap.core.helpers.register_snow = function(name, prototype)
 	
 	register_node(definition)
 	
+	register_plates(name, definition)
 	register_ramps(name, definition)
 	register_stairs(name, definition)
 end
@@ -522,6 +552,7 @@ ap.core.helpers.register_stone = function(name, prototype)
 	
 	register_node(definition)
 	
+	register_plates(name, definition)
 	register_ramps(name, definition)
 	register_stairs(name, definition)
 end
