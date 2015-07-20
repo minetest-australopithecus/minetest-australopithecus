@@ -60,12 +60,15 @@ end)
 
 worldgen:register("Crust - Baking (3D Transform)", function(constructor)
 	constructor:add_param("fade", 0.2)
+	constructor:add_param("mask_threshold_max", 1.0)
+	constructor:add_param("mask_threshold_min", 0.15)
 	constructor:add_param("max_depth", 47)
 	constructor:add_param("threshold_max", 0.75)
 	constructor:add_param("threshold_min", 0.25)
 	
 	constructor:require_noise3d("fade", 4, 0.8, 1, 1500)
 	constructor:require_noise3d("main", 4, 0.6, 1, 150, 200, 150)
+	constructor:require_noise3d("mask", 5, 0.7, 1, 2200)
 	
 	constructor:set_condition(function(module, metadata, minp, maxp)
 		for x = minp.x, maxp.x, 1 do
@@ -81,8 +84,11 @@ worldgen:register("Crust - Baking (3D Transform)", function(constructor)
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
 		if y >= (metadata.heightmap[x][z] - module.params.max_depth) then
 			local value = module.noises.main[x][z][y]
+			local mask_value = module.noises.mask[x][z][y]
 			
-			if mathutil.in_range(value, module.params.threshold_min, module.params.threshold_max) then
+			if mathutil.in_range(value, module.params.threshold_min, module.params.threshold_max)
+				and mathutil.in_range(mask_value, module.params.mask_threshold_min, module.params.mask_threshold_max) then
+				
 				local fade_value = module.noises.main[x][z][y]
 				local fade_threshold = transform.cosine(
 					metadata.heightmap[x][z] - y,
