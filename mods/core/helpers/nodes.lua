@@ -27,6 +27,56 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 local nodebox_cache = {}
 
+local function init_nodebox_cache()
+	if nodebox_cache.stairs == nil then
+		nodebox_cache.stairs = {}
+		nodebox_cache.stairs.stepped = {}
+		nodebox_cache.stairs.stepped_inner = {}
+		nodebox_cache.stairs.stepped_outer = {}
+		nodebox_cache.stairs.steep = {}
+		nodebox_cache.stairs.steep_inner = {}
+		nodebox_cache.stairs.steep_outer = {}
+		
+		for counter = 2, 9, 1 do
+			nodebox_cache.stairs.stepped[counter] = {
+				type = "fixed",
+				fixed = ramputil.create_ramp_nodebox(counter)
+			}
+			nodebox_cache.stairs.stepped_inner[counter] = {
+				type = "fixed",
+				fixed = ramputil.create_inner_corner_nodebox(counter)
+			}
+			nodebox_cache.stairs.stepped_outer[counter] = {
+				type = "fixed",
+				fixed = ramputil.create_outer_corner_nodebox(counter)
+			}
+			
+			nodebox_cache.stairs.steep[counter] = {
+				type = "fixed",
+				fixed = ramputil.create_steep_ramp_nodebox(counter)
+			}
+			
+			nodebox_cache.stairs.steep_inner[counter] = {
+				type = "fixed",
+				fixed = ramputil.create_inner_steep_corner_nodebox(counter)
+			}
+			
+			nodebox_cache.stairs.steep_outer[counter] = {
+				type = "fixed",
+				fixed = ramputil.create_outer_steep_corner_nodebox(counter)
+			}
+		end
+		
+		nodebox_cache.ramps = {}
+		nodebox_cache.ramps.smooth = nodebox_cache.stairs.stepped[9]
+		nodebox_cache.ramps.smooth_inner = nodebox_cache.stairs.stepped_inner[9]
+		nodebox_cache.ramps.smooth_outer = nodebox_cache.stairs.stepped_outer[9]
+		
+		nodebox_cache.ramps.steep_smooth = nodebox_cache.stairs.steep[9]
+		nodebox_cache.ramps.steep_smooth_inner = nodebox_cache.stairs.steep_inner[9]
+		nodebox_cache.ramps.steep_smooth_outer = nodebox_cache.stairs.steep_outer[9]
+	end
+end
 
 local function make_description(name)
 	-- First char to upper.
@@ -66,188 +116,150 @@ local function register_node(definition)
 end
 
 local function register_ramps(name, definition)
-	if nodebox_cache.ramps == nil then
-		nodebox_cache.ramps = {}
-		nodebox_cache.ramps.stepped = {}
-		nodebox_cache.ramps.stepped_inner = {}
-		nodebox_cache.ramps.stepped_outer = {}
-		nodebox_cache.ramps.steep = {}
-		nodebox_cache.ramps.steep_inner = {}
-		nodebox_cache.ramps.steep_outer = {}
-		
-		for counter = 2, 9, 1 do
-			nodebox_cache.ramps.stepped[counter] = {
-				type = "fixed",
-				fixed = ramputil.create_ramp_nodebox(counter)
-			}
-			nodebox_cache.ramps.stepped_inner[counter] = {
-				type = "fixed",
-				fixed = ramputil.create_inner_corner_nodebox(counter)
-			}
-			nodebox_cache.ramps.stepped_outer[counter] = {
-				type = "fixed",
-				fixed = ramputil.create_outer_corner_nodebox(counter)
-			}
-			
-			nodebox_cache.ramps.steep[counter] = {
-				type = "fixed",
-				fixed = ramputil.create_steep_ramp_nodebox(counter)
-			}
-			
-			nodebox_cache.ramps.steep_inner[counter] = {
-				type = "fixed",
-				fixed = ramputil.create_inner_steep_corner_nodebox(counter)
-			}
-			
-			nodebox_cache.ramps.steep_outer[counter] = {
-				type = "fixed",
-				fixed = ramputil.create_outer_steep_corner_nodebox(counter)
-			}
-		end
-		
-		nodebox_cache.ramps.smooth = nodebox_cache.ramps.stepped[9]
-		nodebox_cache.ramps.smooth_inner = nodebox_cache.ramps.stepped_inner[9]
-		nodebox_cache.ramps.smooth_outer = nodebox_cache.ramps.stepped_outer[9]
-		
-		nodebox_cache.ramps.steep_smooth = nodebox_cache.ramps.steep[9]
-		nodebox_cache.ramps.steep_smooth_inner = nodebox_cache.ramps.steep_inner[9]
-		nodebox_cache.ramps.steep_smooth_outer = nodebox_cache.ramps.steep_outer[9]
+	if nodebox_cache.stairs == nil then
+		init_nodebox_cache()
 	end
 	
-	local ramp_definition = nil
+	-- Ramp
+	local ramp_name = name .. "_ramp"
+	local ramp_definition = tableutil.merge(definition, {
+		description = definition.description .. " (Ramp)",
+		drawtype = "mesh",
+		drop = "core:" .. ramp_name,
+		mesh = "ramp.obj",
+		name = ramp_name,
+		node_box = nodebox_cache.ramps.smooth,
+		paramtype = "light",
+		paramtype2 = "facedir"
+	})
+	
+	register_node(ramp_definition)
+	register_conversion(name, ramp_name)
+	
+	-- Inner corner
+	local ramp_inner_corner_name = name .. "_ramp_inner_corner"
+	local ramp_inner_corner_definition = tableutil.merge(ramp_definition, {
+		description = definition.description .. " (Ramp inner corner)",
+		drawtype = "mesh",
+		drop = "core:" .. ramp_inner_corner_name,
+		mesh = "inner_corner_ramp.obj",
+		name = ramp_inner_corner_name,
+		node_box = nodebox_cache.ramps.smooth_inner
+	})
+	
+	register_node(ramp_inner_corner_definition)
+	register_conversion(name, ramp_inner_corner_name)
+	
+	-- Outer corner
+	local ramp_outer_corner_name = name .. "_ramp_outer_corner"
+	local ramp_outer_corner_definition = tableutil.merge(ramp_definition, {
+		description = definition.description .. " (Ramp outer corner)",
+		drawtype = "mesh",
+		drop = "core:" .. ramp_outer_corner_name,
+		mesh = "outer_corner_ramp.obj",
+		name = ramp_outer_corner_name,
+		node_box = nodebox_cache.ramps.smooth_outer
+	})
+	
+	register_node(ramp_outer_corner_definition)
+	register_conversion(name, ramp_outer_corner_name)
+	
+	-- Steep ramp
+	local steep_ramp_ramp_name = name .. "_steep_ramp_ramp"
+	local steep_ramp_ramp_definition = tableutil.merge(ramp_definition, {
+		description = definition.description .. " (Steep smooth ramp)",
+		drawtype = "mesh",
+		drop = "core:" .. steep_ramp_ramp_name,
+		mesh = "steep_ramp.obj",
+		name = steep_ramp_ramp_name,
+		node_box = nodebox_cache.ramps.steep_smooth
+	})
+	
+	register_node(steep_ramp_ramp_definition)
+	register_conversion(name, steep_ramp_ramp_name)
+end
+
+local function register_stairs(name, definition)
+	if nodebox_cache.stairs == nil then
+		init_nodebox_cache()
+	end
 	
 	for counter = 2, 9, 1 do
-		-- Ramp
-		local ramp_name = name .. "_ramp_" .. counter
-		ramp_definition = tableutil.merge(definition, {
-			description = definition.description .. " (Ramp with " .. counter .. " steps)",
+		-- Stair
+		local stair_name = name .. "_stair_" .. counter
+		local stair_definition = tableutil.merge(definition, {
+			description = definition.description .. " (Stair with " .. counter .. " steps)",
 			drawtype = "nodebox",
-			drop = "core:" .. ramp_name,
-			name = ramp_name,
-			node_box = nodebox_cache.ramps.stepped[counter],
+			drop = "core:" .. stair_name,
+			name = stair_name,
+			node_box = nodebox_cache.stairs.stepped[counter],
 			paramtype = "light",
 			paramtype2 = "facedir"
 		})
 		
-		register_node(ramp_definition)
-		register_conversion(name, ramp_name)
+		register_node(stair_definition)
+		register_conversion(name, stair_name)
 		
 		-- Inner corner
-		local inner_corner_name = name .. "_inner_corner_" .. counter
-		local inner_corner_definition = tableutil.merge(ramp_definition, {
-			description = definition.description .. " (Inner corner with " .. counter .. " steps)",
+		local inner_corner_name = name .. "_stair_inner_corner_" .. counter
+		local inner_corner_definition = tableutil.merge(stair_definition, {
+			description = definition.description .. " (Stair inner corner with " .. counter .. " steps)",
 			drop = "core:" .. inner_corner_name,
 			name = inner_corner_name,
-			node_box = nodebox_cache.ramps.stepped_inner[counter]
+			node_box = nodebox_cache.stairs.stepped_inner[counter]
 		})
 		
 		register_node(inner_corner_definition)
 		register_conversion(name, inner_corner_name)
 		
 		-- Outer corner
-		local outer_corner_name = name .. "_outer_corner_" .. counter
-		local outer_corner_definition = tableutil.merge(ramp_definition, {
-			description = definition.description .. " (Outer corner with " .. counter .. " steps)",
+		local outer_corner_name = name .. "_stair_outer_corner_" .. counter
+		local outer_corner_definition = tableutil.merge(stair_definition, {
+			description = definition.description .. " (Stair outer corner with " .. counter .. " steps)",
 			drop = "core:" .. outer_corner_name,
 			name = outer_corner_name,
-			node_box = nodebox_cache.ramps.stepped_outer[counter]
+			node_box = nodebox_cache.stairs.stepped_outer[counter]
 		})
 		
 		register_node(outer_corner_definition)
 		register_conversion(name, outer_corner_name)
 		
-		-- Steep ramp
-		local steep_ramp_name = name .. "_steep_ramp_" .. counter
-		local steep_ramp_definition = tableutil.merge(ramp_definition, {
-			description = definition.description .. " (Steep ramp with " .. counter .. " steps)",
-			drop = "core:" .. steep_ramp_name,
-			name = steep_ramp_name,
-			node_box = nodebox_cache.ramps.steep[counter],
+		-- Steep stair
+		local steep_stair_name = name .. "_steep_stair_" .. counter
+		local steep_stair_definition = tableutil.merge(stair_definition, {
+			description = definition.description .. " (Steep stair with " .. counter .. " steps)",
+			drop = "core:" .. steep_stair_name,
+			name = steep_stair_name,
+			node_box = nodebox_cache.stairs.steep[counter],
 		})
 		
-		register_node(steep_ramp_definition)
-		register_conversion(name, steep_ramp_name)
+		register_node(steep_stair_definition)
+		register_conversion(name, steep_stair_name)
 		
 		-- Inner steep corner
-		local inner_steep_corner_name = name .. "_inner_steep_corner_" .. counter
-		local inner_steep_corner_definition = tableutil.merge(ramp_definition, {
-			description = definition.description .. " (Steep inner corner with " .. counter .. " steps)",
+		local inner_steep_corner_name = name .. "_steep_stair_inner_corner_" .. counter
+		local inner_steep_corner_definition = tableutil.merge(stair_definition, {
+			description = definition.description .. " (Steep stair inner corner with " .. counter .. " steps)",
 			drop = "core:" .. inner_steep_corner_name,
 			name = inner_steep_corner_name,
-			node_box = nodebox_cache.ramps.steep_inner[counter],
+			node_box = nodebox_cache.stairs.steep_inner[counter],
 		})
 		
 		register_node(inner_steep_corner_definition)
 		register_conversion(name, inner_steep_corner_name)
 		
 		-- Outer steep corner
-		local outer_steep_corner_name = name .. "_outer_steep_corner_" .. counter
-		local outer_steep_corner_definition = tableutil.merge(ramp_definition, {
-			description = definition.description .. " (Steep outer corner with " .. counter .. " steps)",
+		local outer_steep_corner_name = name .. "_steep_stair_outer_corner_" .. counter
+		local outer_steep_corner_definition = tableutil.merge(stair_definition, {
+			description = definition.description .. " (Steep stair outer corner with " .. counter .. " steps)",
 			drop = "core:" .. outer_steep_corner_name,
 			name = outer_steep_corner_name,
-			node_box = nodebox_cache.ramps.steep_outer[counter],
+			node_box = nodebox_cache.stairs.steep_outer[counter],
 		})
 		
 		register_node(outer_steep_corner_definition)
 		register_conversion(name, outer_steep_corner_name)
 	end
-	
-	-- Smooth ramp
-	local smooth_ramp_name = name .. "_smooth_ramp"
-	local smooth_ramp_definition = tableutil.merge(ramp_definition, {
-		description = definition.description .. " (Smooth ramp)",
-		drawtype = "mesh",
-		drop = "core:" .. smooth_ramp_name,
-		mesh = "ramp.obj",
-		name = smooth_ramp_name,
-		node_box = nodebox_cache.ramps.smooth
-	})
-	
-	register_node(smooth_ramp_definition)
-	register_conversion(name, smooth_ramp_name)
-	
-	-- Smooth inner corner
-	local smooth_inner_corner_name = name .. "_smooth_inner_corner"
-	local smooth_inner_corner_definition = tableutil.merge(ramp_definition, {
-		description = definition.description .. " (Smooth inner corner)",
-		drawtype = "mesh",
-		drop = "core:" .. smooth_inner_corner_name,
-		mesh = "inner_corner_ramp.obj",
-		name = smooth_inner_corner_name,
-		node_box = nodebox_cache.ramps.smooth_inner
-	})
-	
-	register_node(smooth_inner_corner_definition)
-	register_conversion(name, smooth_inner_corner_name)
-	
-	-- Smooth outer corner
-	local smooth_outer_corner_name = name .. "_smooth_outer_corner"
-	local smooth_outer_corner_definition = tableutil.merge(ramp_definition, {
-		description = definition.description .. " (Smooth outer corner)",
-		drawtype = "mesh",
-		drop = "core:" .. smooth_outer_corner_name,
-		mesh = "outer_corner_ramp.obj",
-		name = smooth_outer_corner_name,
-		node_box = nodebox_cache.ramps.smooth_outer
-	})
-	
-	register_node(smooth_outer_corner_definition)
-	register_conversion(name, smooth_outer_corner_name)
-	
-	-- Steep smooth ramp
-	local steep_smooth_ramp_name = name .. "_steep_smooth_ramp"
-	local steep_smooth_ramp_definition = tableutil.merge(ramp_definition, {
-		description = definition.description .. " (Steep smooth ramp)",
-		drawtype = "mesh",
-		drop = "core:" .. steep_smooth_ramp_name,
-		mesh = "steep_ramp.obj",
-		name = steep_smooth_ramp_name,
-		node_box = nodebox_cache.ramps.steep_smooth
-	})
-	
-	register_node(steep_smooth_ramp_definition)
-	register_conversion(name, steep_smooth_ramp_name)
 end
 
 local function register_rubble(name, definition)
@@ -264,7 +276,8 @@ local function register_rubble(name, definition)
 	
 	register_node(definition)
 	
-	register_ramps(rubble_name, definition)
+	register_ramps(name, definition)
+	register_stairs(rubble_name, definition)
 end
 
 
@@ -293,6 +306,7 @@ ap.core.helpers.register_dirt = function(name, prototype)
 	register_node(definition)
 	
 	register_ramps(name, definition)
+	register_stairs(name, definition)
 end
 
 ap.core.helpers.register_fluid = function(name, alpha, viscosity, type)
@@ -416,6 +430,7 @@ ap.core.helpers.register_ice = function(name, prototype)
 	
 	register_ramps(name, definition)
 	register_rubble(name, definition)
+	register_stairs(name, definition)
 end
 
 ap.core.helpers.register_rock = function(name, prototype)
@@ -440,6 +455,7 @@ ap.core.helpers.register_rock = function(name, prototype)
 	
 	register_ramps(name, definition)
 	register_rubble(name, definition)
+	register_stairs(name, definition)
 end
 
 ap.core.helpers.register_sand = function(name, prototype)
@@ -483,6 +499,7 @@ ap.core.helpers.register_snow = function(name, prototype)
 	register_node(definition)
 	
 	register_ramps(name, definition)
+	register_stairs(name, definition)
 end
 
 ap.core.helpers.register_stone = function(name, prototype)
@@ -506,5 +523,6 @@ ap.core.helpers.register_stone = function(name, prototype)
 	register_node(definition)
 	
 	register_ramps(name, definition)
+	register_stairs(name, definition)
 end
 
