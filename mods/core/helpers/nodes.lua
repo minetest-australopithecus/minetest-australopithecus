@@ -418,9 +418,10 @@ ap.core.helpers.register_grass = function(name, crumbly)
 		drop = "core:dirt",
 		groups = {
 			crumbly = crumbly or 3,
-			grass = 1,
+			grass = NodeGroup.DUMMY,
 			soil = 1,
-			oddly_breakable_by_hand = 1
+			oddly_breakable_by_hand = 1,
+			becomes_dirt = NodeGroup.DUMMY,
 		},
 		name = name,
 		tiles = {

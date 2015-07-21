@@ -110,9 +110,8 @@ minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack
 	
 	local node = minetest.get_node(pos_underneath)
 	
-	-- TODO Testing the name isn't the best thing, maybe we can attach additional information to the node.
 	-- TODO This removes the grass for everything, some nodes might not want to replace grass.
-	if stringutil.endswith(node.name, "grass") then
+	if minetest.get_item_group(node.name, "becomes_dirt") > 0 then
 		minetest.set_node(pos_underneath, dirt)
 	end
 end)

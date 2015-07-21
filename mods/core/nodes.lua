@@ -30,6 +30,7 @@ ap.core.helpers.register_dirt("snowy_tundra", {
 	drop = "core:dirt",
 	groups = {
 		crumbly = 1,
+		becomes_dirt = NodeGroup.DUMMY
 	},
 	tiles = {
 		"snow.png", "dirt.png",
