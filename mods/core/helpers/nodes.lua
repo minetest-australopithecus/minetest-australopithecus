@@ -386,7 +386,7 @@ ap.core.helpers.register_fluid = function(name, alpha, viscosity, type)
 					length = 3.0,
 					type = "vertical_frames"
 				},
-				backface_culling = true
+				backface_culling = false
 			}
 		},
 		tiles = {
