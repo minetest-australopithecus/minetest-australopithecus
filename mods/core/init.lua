@@ -52,3 +52,6 @@ dofile(base_path .. "/nodes.lua")
 -- Activate Artisanry
 ArtisanryUI.activate(ap.core.artisanry)
 
+-- Activate Spawn Usher
+spawnusher.activate()
+
