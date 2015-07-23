@@ -1,5 +1,6 @@
 utils
+artisanry
+spawn_usher
 worldgen_utils
 worldgen
-artisanry
 debug?
