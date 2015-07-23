@@ -422,6 +422,7 @@ ap.core.helpers.register_grass = function(name, crumbly)
 			soil = 1,
 			oddly_breakable_by_hand = 1,
 			becomes_dirt = NodeGroup.DUMMY,
+			spreads_on_dirt = NodeGroup.DUMMY
 		},
 		name = name,
 		tiles = {

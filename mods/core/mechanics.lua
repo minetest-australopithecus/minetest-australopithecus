@@ -29,7 +29,7 @@ local dirt = {
 	name = "core:dirt"
 }
 
-local function grow_grass(pos, grass_node)
+local function spread(pos, node)
 	for x = pos.x - 1, pos.x + 1, 1 do
 		for z = pos.z - 1, pos.z + 1, 1 do
 			local current_pos = {
@@ -48,7 +48,7 @@ local function grow_grass(pos, grass_node)
 				})
 				
 				if node_above.name == "air" then
-					minetest.set_node(current_pos, grass_node)
+					minetest.set_node(current_pos, node)
 					
 					return true
 				end
@@ -60,7 +60,7 @@ local function grow_grass(pos, grass_node)
 end
 
 
--- The ABM that turns dirt into grass.
+-- The ABM that turns dirt into grass/snow.
 minetest.register_abm({
 	chance = 64,
 	interval = 30.0,
@@ -69,11 +69,11 @@ minetest.register_abm({
 		"air"
 	},
 	nodenames = {
-		"group:grass"
+		"group:spreads_on_dirt"
 	},
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		-- Same height first.
-		if grow_grass(pos, node) then
+		if spread(pos, node) then
 			return
 		end
 		
@@ -83,7 +83,7 @@ minetest.register_abm({
 			y = pos.y - 1,
 			z = pos.z
 		}
-		if grow_grass(pos_below, node) then
+		if spread(pos_below, node) then
 			return
 		end
 		
@@ -93,7 +93,7 @@ minetest.register_abm({
 			y = pos.y + 1,
 			z = pos.z
 		}
-		if grow_grass(pos_above, node) then
+		if spread(pos_above, node) then
 			return
 		end
 	end
