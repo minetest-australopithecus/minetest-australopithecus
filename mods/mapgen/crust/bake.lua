@@ -285,3 +285,32 @@ worldgen:register("Crust - Baking (Finalize)", function(constructor)
 	end)
 end)
 
+worldgen:register("Crust - Baking (Ramps)", function(constructor)
+	local rampplacer = RampPlacer:new()
+	
+	local register_ramp = function(name, ceiling, floor)
+		rampplacer:register_ramp(
+			"core:" .. name,
+			"core:" .. name .. "_ramp",
+			"core:" .. name .. "_ramp_inner_corner",
+			"core:" .. name .. "_ramp_outer_corner",
+			ceiling,
+			floor
+		)
+	end
+	
+	register_ramp("glacial_ice", true, true)
+	register_ramp("red_rock", true, true)
+	register_ramp("rock", true, true)
+	register_ramp("sand", true, false)
+	register_ramp("sand_stone", true, true)
+	register_ramp("snow", true, false)
+	register_ramp("wasteland_dirt", true, false)
+	
+	constructor:add_object("rampplacer", rampplacer)
+	
+	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
+		module.objects.rampplacer:run(manipulator, minp, maxp)
+	end)
+end)
+

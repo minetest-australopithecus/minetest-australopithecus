@@ -25,6 +25,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
+-- Register a dummy node which will get the ID 0, which makes debugging easier.
+minetest.register_node("core:dummy", {
+	drop = nil,
+	tiles = {
+		textureutil.dummy(tango.scarletred_1, tango.aluminium_1)
+	}
+})
+
 ap.core.helpers.register_dirt()
 ap.core.helpers.register_dirt("snowy_tundra", {
 	drop = "core:dirt",
