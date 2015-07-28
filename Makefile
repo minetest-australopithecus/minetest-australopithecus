@@ -19,6 +19,7 @@ release:
 	cp -R $(deps)/artisanry/mods/artisanry $(release)/australopithecus/mods/
 	cp -R $(deps)/spawn-usher/mods/spawn_usher $(release)/australopithecus/mods/
 	cp -R $(deps)/utils/utils $(release)/australopithecus/mods/
+	cp -R $(deps)/voice/mods/voice $(release)/australopithecus/mods/
 	cp -R $(deps)/worldgen/mods/worldgen $(release)/australopithecus/mods/
 	cp -R $(deps)/worldgen-utils/mods/worldgen_utils $(release)/australopithecus/mods/
 	
@@ -26,4 +27,5 @@ release:
 	cp -R $(mods)/mapgen $(release)/australopithecus/mods/
 	
 	tar -c --xz -C $(release) -f $(release)/australopithecus.tar.xz australopithecus/
+	tar -c --gz -C $(release) -f $(release)/australopithecus.tar.gz australopithecus/
 	
