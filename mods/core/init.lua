@@ -53,5 +53,11 @@ dofile(base_path .. "/nodes.lua")
 ArtisanryUI.activate(ap.core.artisanry)
 
 -- Activate Spawn Usher
-spawnusher.activate()
+spawnusher.activate(
+	80, -- Spread the players really far.
+	7 -- Let's try to avoid *most* cave spawns.
+)
+
+-- Activate Voice.
+voice.activate()
 
