@@ -25,41 +25,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
--- Main setup
-australopithecus = {}
-ap = australopithecus
+--- Callback for if a player joins, sets up the basic stuff.
+minetest.register_on_joinplayer(function(player)
+	player:hud_set_flags({
+		crosshair = false
+	})
+end)
 
--- Main module
-ap.core = {}
-
-ap.core.artisanry = Artisanry:new()
-
-
-
--- Load all files
-local base_path = minetest.get_modpath(minetest.get_current_modname())
-
--- Helpers first
-dofile(base_path .. "/helpers/helpers.lua")
-dofile(base_path .. "/helpers/nodes.lua")
-
--- Main files
-dofile(base_path .. "/debug.lua")
-dofile(base_path .. "/nodegroup.lua")
-dofile(base_path .. "/mechanics.lua")
-dofile(base_path .. "/nodes.lua")
-dofile(base_path .. "/setup.lua")
-
-
--- Activate Artisanry
-ArtisanryUI.activate(ap.core.artisanry)
-
--- Activate Spawn Usher
-spawnusher.activate(
-	80, -- Spread the players really far.
-	7 -- Let's try to avoid *most* cave spawns.
-)
-
--- Activate Voice.
-voice.activate()
+spawnusher.register_after_spawn_callback(function(player)
+	player:set_physics_override({
+		gravity = 1,
+		jump = 1,
+		sneak = true,
+		sneak_glitch = false,
+		speed = 1
+	})
+end)
 
