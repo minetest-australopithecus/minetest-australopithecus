@@ -3,4 +3,5 @@ artisanry
 spawn_usher
 worldgen_utils
 worldgen
+voice
 debug?
