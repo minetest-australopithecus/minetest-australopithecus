@@ -112,12 +112,18 @@ local function register_node(definition)
 		definition.selection_box = definition.node_box
 	end
 	
-	minetest.register_node("core:" .. definition.name, definition)
+	local name = definition.name
+	
+	if not stringutil.startswith(name, "core:") then
+		name = "core:" .. name
+	end
+	
+	minetest.register_node(name, definition)
 end
 
-local function register_plates(name, definition)
+local function register_plates(definition)
 	for thickness = 1, 9, 1 do
-		local plate_name = name .. "_plate_" .. thickness
+		local plate_name = definition.name .. "_plate_" .. thickness
 		local plate_definition = tableutil.merge(definition, {
 			description = definition.description .. " (Plate, " .. thickness .. "/10)",
 			drawtype = "nodebox",
@@ -136,17 +142,17 @@ local function register_plates(name, definition)
 		
 		register_node(plate_definition)
 		
-		register_conversion(name, plate_name .. " " .. math.floor(10 / thickness))
+		register_conversion(definition.name, plate_name .. " " .. math.floor(10 / thickness))
 	end
 end
 
-local function register_ramps(name, definition)
+local function register_ramps(definition)
 	if nodebox_cache.stairs == nil then
 		init_nodebox_cache()
 	end
 	
 	-- Ramp
-	local ramp_name = name .. "_ramp"
+	local ramp_name = definition.name .. "_ramp"
 	local ramp_definition = tableutil.merge(definition, {
 		description = definition.description .. " (Ramp)",
 		drawtype = "mesh",
@@ -159,10 +165,10 @@ local function register_ramps(name, definition)
 	})
 	
 	register_node(ramp_definition)
-	register_conversion(name, ramp_name)
+	register_conversion(definition.name, ramp_name)
 	
 	-- Inner corner
-	local ramp_inner_corner_name = name .. "_ramp_inner_corner"
+	local ramp_inner_corner_name = definition.name .. "_ramp_inner_corner"
 	local ramp_inner_corner_definition = tableutil.merge(ramp_definition, {
 		description = definition.description .. " (Ramp inner corner)",
 		drawtype = "mesh",
@@ -173,10 +179,10 @@ local function register_ramps(name, definition)
 	})
 	
 	register_node(ramp_inner_corner_definition)
-	register_conversion(name, ramp_inner_corner_name)
+	register_conversion(definition.name, ramp_inner_corner_name)
 	
 	-- Outer corner
-	local ramp_outer_corner_name = name .. "_ramp_outer_corner"
+	local ramp_outer_corner_name = definition.name .. "_ramp_outer_corner"
 	local ramp_outer_corner_definition = tableutil.merge(ramp_definition, {
 		description = definition.description .. " (Ramp outer corner)",
 		drawtype = "mesh",
@@ -187,10 +193,10 @@ local function register_ramps(name, definition)
 	})
 	
 	register_node(ramp_outer_corner_definition)
-	register_conversion(name, ramp_outer_corner_name)
+	register_conversion(definition.name, ramp_outer_corner_name)
 	
 	-- Steep ramp
-	local steep_ramp_name = name .. "_steep_ramp"
+	local steep_ramp_name = definition.name .. "_steep_ramp"
 	local steep_ramp_definition = tableutil.merge(ramp_definition, {
 		description = definition.description .. " (Steep smooth ramp)",
 		drawtype = "mesh",
@@ -201,17 +207,17 @@ local function register_ramps(name, definition)
 	})
 	
 	register_node(steep_ramp_definition)
-	register_conversion(name, steep_ramp_name)
+	register_conversion(definition.name, steep_ramp_name)
 end
 
-local function register_stairs(name, definition)
+local function register_stairs(definition)
 	if nodebox_cache.stairs == nil then
 		init_nodebox_cache()
 	end
 	
 	for counter = 2, 9, 1 do
 		-- Stair
-		local stair_name = name .. "_stair_" .. counter
+		local stair_name = definition.name .. "_stair_" .. counter
 		local stair_definition = tableutil.merge(definition, {
 			description = definition.description .. " (Stair with " .. counter .. " steps)",
 			drawtype = "nodebox",
@@ -223,10 +229,10 @@ local function register_stairs(name, definition)
 		})
 		
 		register_node(stair_definition)
-		register_conversion(name, stair_name)
+		register_conversion(definition.name, stair_name)
 		
 		-- Inner corner
-		local inner_corner_name = name .. "_stair_inner_corner_" .. counter
+		local inner_corner_name = definition.name .. "_stair_inner_corner_" .. counter
 		local inner_corner_definition = tableutil.merge(stair_definition, {
 			description = definition.description .. " (Stair inner corner with " .. counter .. " steps)",
 			drop = "core:" .. inner_corner_name,
@@ -235,10 +241,10 @@ local function register_stairs(name, definition)
 		})
 		
 		register_node(inner_corner_definition)
-		register_conversion(name, inner_corner_name)
+		register_conversion(definition.name, inner_corner_name)
 		
 		-- Outer corner
-		local outer_corner_name = name .. "_stair_outer_corner_" .. counter
+		local outer_corner_name = definition.name .. "_stair_outer_corner_" .. counter
 		local outer_corner_definition = tableutil.merge(stair_definition, {
 			description = definition.description .. " (Stair outer corner with " .. counter .. " steps)",
 			drop = "core:" .. outer_corner_name,
@@ -247,10 +253,10 @@ local function register_stairs(name, definition)
 		})
 		
 		register_node(outer_corner_definition)
-		register_conversion(name, outer_corner_name)
+		register_conversion(definition.name, outer_corner_name)
 		
 		-- Steep stair
-		local steep_stair_name = name .. "_steep_stair_" .. counter
+		local steep_stair_name = definition.name .. "_steep_stair_" .. counter
 		local steep_stair_definition = tableutil.merge(stair_definition, {
 			description = definition.description .. " (Steep stair with " .. counter .. " steps)",
 			drop = "core:" .. steep_stair_name,
@@ -259,10 +265,10 @@ local function register_stairs(name, definition)
 		})
 		
 		register_node(steep_stair_definition)
-		register_conversion(name, steep_stair_name)
+		register_conversion(definition.name, steep_stair_name)
 		
 		-- Inner steep corner
-		local inner_steep_corner_name = name .. "_steep_stair_inner_corner_" .. counter
+		local inner_steep_corner_name = definition.name .. "_steep_stair_inner_corner_" .. counter
 		local inner_steep_corner_definition = tableutil.merge(stair_definition, {
 			description = definition.description .. " (Steep stair inner corner with " .. counter .. " steps)",
 			drop = "core:" .. inner_steep_corner_name,
@@ -271,10 +277,10 @@ local function register_stairs(name, definition)
 		})
 		
 		register_node(inner_steep_corner_definition)
-		register_conversion(name, inner_steep_corner_name)
+		register_conversion(definition.name, inner_steep_corner_name)
 		
 		-- Outer steep corner
-		local outer_steep_corner_name = name .. "_steep_stair_outer_corner_" .. counter
+		local outer_steep_corner_name = definition.name .. "_steep_stair_outer_corner_" .. counter
 		local outer_steep_corner_definition = tableutil.merge(stair_definition, {
 			description = definition.description .. " (Steep stair outer corner with " .. counter .. " steps)",
 			drop = "core:" .. outer_steep_corner_name,
@@ -283,12 +289,12 @@ local function register_stairs(name, definition)
 		})
 		
 		register_node(outer_steep_corner_definition)
-		register_conversion(name, outer_steep_corner_name)
+		register_conversion(definition.name, outer_steep_corner_name)
 	end
 end
 
-local function register_rubble(name, definition)
-	local rubble_name = postfix_name(name, "rubble")
+local function register_rubble(definition)
+	local rubble_name = postfix_name(definition.name, "rubble")
 	
 	definition = tableutil.merge(definition, {
 		description = definition.description .. " Rubble",
@@ -301,9 +307,9 @@ local function register_rubble(name, definition)
 	
 	register_node(definition)
 	
-	register_plates(rubble_name, definition)
-	register_ramps(rubble_name, definition)
-	register_stairs(rubble_name, definition)
+	register_plates(definition)
+	register_ramps(definition)
+	register_stairs(definition)
 end
 
 
@@ -331,9 +337,9 @@ ap.core.helpers.register_dirt = function(name, prototype)
 	
 	register_node(definition)
 	
-	register_plates(name, definition)
-	register_ramps(name, definition)
-	register_stairs(name, definition)
+	register_plates(definition)
+	register_ramps(definition)
+	register_stairs(definition)
 end
 
 ap.core.helpers.register_fluid = function(name, alpha, viscosity, type)
@@ -457,10 +463,10 @@ ap.core.helpers.register_ice = function(name, prototype)
 	
 	register_node(definition)
 	
-	register_plates(name, definition)
-	register_ramps(name, definition)
-	register_rubble(name, definition)
-	register_stairs(name, definition)
+	register_plates(definition)
+	register_ramps(definition)
+	register_rubble(definition)
+	register_stairs(definition)
 end
 
 ap.core.helpers.register_rock = function(name, prototype)
@@ -483,10 +489,10 @@ ap.core.helpers.register_rock = function(name, prototype)
 	
 	register_node(definition)
 	
-	register_plates(name, definition)
-	register_ramps(name, definition)
-	register_rubble(name, definition)
-	register_stairs(name, definition)
+	register_plates(definition)
+	register_ramps(definition)
+	register_rubble(definition)
+	register_stairs(definition)
 end
 
 ap.core.helpers.register_sand = function(name, prototype)
@@ -507,7 +513,7 @@ ap.core.helpers.register_sand = function(name, prototype)
 	}
 	
 	register_node(definition)
-	register_ramps(name, definition)
+	register_ramps(definition)
 end
 
 ap.core.helpers.register_snow = function(name, prototype)
@@ -530,9 +536,9 @@ ap.core.helpers.register_snow = function(name, prototype)
 	
 	register_node(definition)
 	
-	register_plates(name, definition)
-	register_ramps(name, definition)
-	register_stairs(name, definition)
+	register_plates(definition)
+	register_ramps(definition)
+	register_stairs(definition)
 end
 
 ap.core.helpers.register_stone = function(name, prototype)
@@ -555,8 +561,8 @@ ap.core.helpers.register_stone = function(name, prototype)
 	
 	register_node(definition)
 	
-	register_plates(name, definition)
-	register_ramps(name, definition)
-	register_stairs(name, definition)
+	register_plates(definition)
+	register_ramps(definition)
+	register_stairs(definition)
 end
 
