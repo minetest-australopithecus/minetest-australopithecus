@@ -63,6 +63,8 @@ ap.core.helpers.register_grass("taiga", 1)
 ap.core.helpers.register_grass("tropical_seasonal_rainforest", 2)
 ap.core.helpers.register_grass("tundra", 1)
 
+ap.core.helpers.register_gravel()
+
 ap.core.helpers.register_ice()
 ap.core.helpers.register_ice("glacial", {
 	groups = {
@@ -78,15 +80,4 @@ ap.core.helpers.register_sand()
 ap.core.helpers.register_snow()
 
 ap.core.helpers.register_stone("sand")
-
-minetest.register_node("core:gravel", {
-	diggable = true,
-	groups = {
-		crumbly = 2,
-		oddly_breakable_by_hand = 1
-	},
-	tiles = {
-		"gravel.png"
-	}
-})
 

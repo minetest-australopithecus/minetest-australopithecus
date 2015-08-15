@@ -441,6 +441,33 @@ ap.core.helpers.register_grass = function(name, crumbly)
 	register_node(definition)
 end
 
+ap.core.helpers.register_gravel = function(name, prototype)
+	name = postfix_name(name, "gravel")
+	
+	local definition = {
+		description = make_description(name),
+		diggable = true,
+		drop = "core:" .. name,
+		groups = {
+			crumbly = 2,
+			oddly_breakable_by_hand = 1
+		},
+		name = name,
+		tiles = {
+			name .. ".png"
+		}
+	}
+	
+	if prototype ~= nil then
+		definition = tableutil.merge(definition, prototype)
+	end
+	
+	register_node(definition)
+	
+	register_plates(definition)
+	register_ramps(definition)
+end
+
 ap.core.helpers.register_ice = function(name, prototype)
 	name = postfix_name(name, "ice")
 	

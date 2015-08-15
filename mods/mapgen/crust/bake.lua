@@ -300,6 +300,7 @@ worldgen:register("Crust - Baking (Ramps)", function(constructor)
 	end
 	
 	register_ramp("glacial_ice", true, true)
+	register_ramp("gravel", true, false)
 	register_ramp("red_rock", true, true)
 	register_ramp("rock", true, true)
 	register_ramp("sand", true, false)
