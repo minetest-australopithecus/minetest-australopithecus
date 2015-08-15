@@ -507,6 +507,7 @@ ap.core.helpers.register_sand = function(name, prototype)
 	}
 	
 	register_node(definition)
+	register_ramps(name, definition)
 end
 
 ap.core.helpers.register_snow = function(name, prototype)

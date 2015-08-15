@@ -16,3 +16,6 @@
 [submodule "deps/spawn-usher"]
 	path = deps/spawn-usher
 	url = https://github.com/RobertZenz/minetest-australopithecus-spawn-usher.git
+[submodule "deps/voice"]
+	path = deps/voice
+	url = https://github.com/RobertZenz/minetest-australopithecus-voice.git

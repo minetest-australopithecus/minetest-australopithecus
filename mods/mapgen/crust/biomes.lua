@@ -110,6 +110,7 @@ biomes:register("Rainforest", function(constructor)
 	constructor:require_node("subsurface", "core:dirt")
 	constructor:require_node("surface", "core:rainforest_grass")
 	constructor:require_node("water_surface", "core:water_source")
+	constructor:require_node("water_subsurface", "core:water_source")
 	constructor:set_fits(biomesfunctions.default())
 end)
 
