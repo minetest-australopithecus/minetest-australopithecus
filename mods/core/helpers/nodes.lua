@@ -118,7 +118,7 @@ local function register_node(definition)
 		name = "core:" .. name
 	end
 	
-	minetest.register_node(name, definition)
+	minetest.register_node(name, tableutil.clone(definition))
 end
 
 local function register_plates(definition)
@@ -483,6 +483,7 @@ ap.core.helpers.register_ice = function(name, prototype)
 			name .. ".png"
 		}
 	}
+print(definition.name)
 	
 	if prototype ~= nil then
 		definition = tableutil.merge(definition, prototype)
