@@ -229,6 +229,8 @@ worldgen:register("Crust - Baking (Finalize)", function(constructor)
 				or (y < elevation and prototype[y] == PrototypeNode.SURFACE) then
 				if elevation_info.ocean then
 					manipulator:set_node(x, z, y, biome.nodes.shore_surface)
+				elseif y < module.params.ocean_level then
+					manipulator:set_node(x, z, y, biome.nodes.bedrock)
 				else
 					manipulator:set_node(x, z, y, biome.nodes.surface)
 				end
