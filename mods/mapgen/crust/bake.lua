@@ -299,6 +299,7 @@ worldgen:register("Crust - Baking (Ramps)", function(constructor)
 		)
 	end
 	
+	register_ramp("dirt", true, true)
 	register_ramp("glacial_ice", true, true)
 	register_ramp("gravel", true, false)
 	register_ramp("red_rock", true, true)
@@ -306,7 +307,7 @@ worldgen:register("Crust - Baking (Ramps)", function(constructor)
 	register_ramp("sand", true, false)
 	register_ramp("sand_stone", true, true)
 	register_ramp("snow", true, false)
-	register_ramp("wasteland_dirt", true, false)
+	register_ramp("wasteland_dirt", true, true)
 	
 	constructor:add_object("rampplacer", rampplacer)
 	
