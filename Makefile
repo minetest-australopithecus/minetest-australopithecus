@@ -32,3 +32,5 @@ release:
 	tar -c --xz -C $(release) -f $(release)/australopithecus.tar.xz australopithecus/
 	tar -c --gz -C $(release) -f $(release)/australopithecus.tar.gz australopithecus/
 	
+	cd release; zip -r -9 australopithecus.zip australopithecus; cd -
+	
