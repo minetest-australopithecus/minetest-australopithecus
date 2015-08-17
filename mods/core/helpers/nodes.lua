@@ -118,7 +118,21 @@ local function register_node(definition)
 		name = "core:" .. name
 	end
 	
-	minetest.register_node(name, tableutil.clone(definition))
+	-- TODO #3073
+	local cloned_definition = tableutil.clone(definition)
+	local tileable_textures = {}
+	
+	for index, texture in ipairs(cloned_definition.tiles) do
+		tileable_textures[index] = {
+			name = texture,
+			tileable_horizontal = true,
+			tileable_vertical = true
+		}
+	end
+	
+	cloned_definition.tiles = tileable_textures
+	
+	minetest.register_node(name, cloned_definition)
 end
 
 local function register_plates(definition)
