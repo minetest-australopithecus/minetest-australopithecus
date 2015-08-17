@@ -118,7 +118,8 @@ local function register_node(definition)
 		name = "core:" .. name
 	end
 	
-	-- TODO #3073
+	-- TODO #3073 Setting tileability to false will kill the performance.
+	-- Set this to false when the bug is fixed.
 	local cloned_definition = tableutil.clone(definition)
 	local tileable_textures = {}
 	
