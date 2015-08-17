@@ -483,7 +483,6 @@ ap.core.helpers.register_ice = function(name, prototype)
 			name .. ".png"
 		}
 	}
-print(definition.name)
 	
 	if prototype ~= nil then
 		definition = tableutil.merge(definition, prototype)
