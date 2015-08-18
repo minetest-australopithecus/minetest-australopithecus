@@ -105,7 +105,7 @@ worldgen:register("Crust - Baking (3D Transform)", function(constructor)
 	end)
 end)
 
-worldgen:register("Crust - Baking (Caves)", function(constructor)
+worldgen:register("Crust - Baking (Caves/Tunnels)", function(constructor)
 	constructor:add_param("fade_limit", 33)
 	constructor:add_param("threshold_mask_max", 0.9)
 	constructor:add_param("threshold_mask_min", 0.2)
@@ -140,6 +140,22 @@ worldgen:register("Crust - Baking (Caves)", function(constructor)
 					metadata.crust_prototype[x][z][y] = PrototypeNode.CAVE
 				end
 			end
+		end
+	end)
+end)
+
+worldgen:register("Crust - Baking (Caves/Blobs)", function(constructor)
+	constructor:add_param("threshold_max", -0.8)
+	constructor:add_param("threshold_min", -1.0)
+	
+	constructor:require_noise3d("main", 4, 0.7, 1, 620, 600, 620)
+	
+	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
+		local value = module.noises.main[x][z][y]
+		value = mathutil.clamp(value, -1, 1)
+		
+		if mathutil.in_range(value, module.params.threshold_min, module.params.threshold_max) then
+			metadata.crust_prototype[x][z][y] = PrototypeNode.AIR
 		end
 	end)
 end)
@@ -289,6 +305,9 @@ end)
 
 worldgen:register("Crust - Baking (Ramps)", function(constructor)
 	local rampplacer = RampPlacer:new()
+	
+	rampplacer:register_air_like("core:water_source")
+	rampplacer:register_air_like("core:water_flowing")
 	
 	local register_ramp = function(name, ceiling, floor)
 		rampplacer:register_ramp(
