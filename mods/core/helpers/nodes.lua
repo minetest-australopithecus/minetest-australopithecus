@@ -121,7 +121,7 @@ local function register_node(definition)
 	-- TODO #3073 Setting tileability to false will kill the performance.
 	-- Set this to false when the bug is fixed.
 	local cloned_definition = tableutil.clone(definition)
-	local tileable_textures = {}
+	--[[ local tileable_textures = {}
 	
 	for index, texture in ipairs(cloned_definition.tiles) do
 		tileable_textures[index] = {
@@ -132,6 +132,7 @@ local function register_node(definition)
 	end
 	
 	cloned_definition.tiles = tileable_textures
+	--]]
 	
 	minetest.register_node(name, cloned_definition)
 end

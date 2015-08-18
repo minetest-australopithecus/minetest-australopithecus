@@ -144,6 +144,7 @@ worldgen:register("Crust - Baking (Caves/Tunnels)", function(constructor)
 	end)
 end)
 
+--[[
 worldgen:register("Crust - Baking (Caves/Blobs)", function(constructor)
 	constructor:add_param("threshold_max", -0.8)
 	constructor:add_param("threshold_min", -1.0)
@@ -159,6 +160,7 @@ worldgen:register("Crust - Baking (Caves/Blobs)", function(constructor)
 		end
 	end)
 end)
+--]]
 
 worldgen:register("Crust - Baking (Surface Detection)", function(constructor)
 	constructor:add_param("max_depth", 47 + 3)
