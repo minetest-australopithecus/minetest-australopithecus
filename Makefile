@@ -24,6 +24,7 @@ release:
 	
 	cp LICENSE $(release)/australopithecus/
 	cp LICENSE.textures $(release)/australopithecus/
+	cp README $(release)/australopithecus/
 	
 	cp -R $(deps)/artisanry/mods/artisanry $(release)/australopithecus/mods/
 	cp -R $(deps)/spawn-usher/mods/spawn_usher $(release)/australopithecus/mods/
