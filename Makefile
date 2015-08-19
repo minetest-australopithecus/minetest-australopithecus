@@ -7,6 +7,12 @@ all: release
 clean:
 	$(RM) -R $(release)
 
+.PHONY: update-deps
+update-deps:
+	git submodule foreach git pull origin master
+	git add deps/
+	git commit -m "Updated dependencies."
+
 .PHONY: release
 release:
 	mkdir -p $(release)/australopithecus/
