@@ -1,5 +1,64 @@
 Minetest - Autralopithecus
 ==========================
 
-A sub game.
+A sub game for [Minetest][minetest].
+
+The long term goal of Australopithecus is to provide a vast, fun to explore
+world that is hard to survive in. The player should be dumped into wild world
+that does not forgive any mistakes, leaving the camp and going into
+the wilderness should always be an adventure.
+
+The main sources of inspiration are [Minecraft][minecraft],
+[Dwarf Fortress][dwarf-fortress], [Don't Starve][dont-starve],
+[Diggles][diggles] and similar games.
+
+[Australopithecus][australopithecus-wiki] is an extinct genius of hominids that
+lived 4 to 2 billion years ago.
+
+
+Features
+========
+
+ * Custom mapgen with vast biomes, high mountains and deep oceans.
+ * Grass spreads slowly.
+ * Ramps are placed in the whole world.
+
+
+Textures
+========
+
+Textures are from the awesome [Summerfields][summerfields] texture pack.
+
+
+Mods
+====
+
+ * core - The core of the game.
+ * mapgen - The mapgen.
+
+
+Mods (external)
+===============
+
+ * [artisanry][artisanry], a replacement for the default build system.
+ * [utils][utils], a util collection for Minetest mods.
+ * [spawn-usher][spawn-usher], a system to place the player on spawns.
+ * [voice][voice], a system that makes the chat behave more like a voice.
+ * [worldgen][worldgen], a system for creating mapgens.
+ * [worldgen-utils][worldgen-utils], a util collection for mapgens.
+
+
+ [artisanry]: https://github.com/RobertZenz/minetest-australopithecus-artisanry
+ [australopithecus-wiki]: https://en.wikipedia.org/wiki/Australopithecus
+ [diggles]: https://en.wikipedia.org/wiki/Diggles:_The_Myth_of_Fenris
+ [dont-starve]: https://www.kleientertainment.com/games/dont-starve
+ [dwarf-fortress]: http://www.bay12games.com/dwarves/
+ [minecraft]: https://minecraft.net/
+ [minetest]: http://www.minetest.net/
+ [summerfields]: https://github.com/SummerFields/SummerFields
+ [utils]: https://github.com/RobertZenz/minetest-australopithecus-worldgen-utils
+ [spawn-usher]: https://github.com/RobertZenz/minetest-australopithecus-spawn-usher
+ [voice]: https://github.com/RobertZenz/minetest-australopithecus-voice
+ [worldgen]: https://github.com/RobertZenz/minetest-australopithecus-worldgen
+ [worldgen-utils]: https://github.com/RobertZenz/minetest-australopithecus-worldgen-utils
 
