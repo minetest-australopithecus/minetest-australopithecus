@@ -102,6 +102,10 @@ minetest.register_abm({
 
 -- Replace grass with dirt if a node is placed on it.
 minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing)
+	if minetest.get_item_group(newnode.name, "preserves_grass") > 0 then
+		return
+	end
+	
 	local pos_underneath = {
 		x = pos.x,
 		y = pos.y - 1,
