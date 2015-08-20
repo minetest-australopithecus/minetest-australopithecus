@@ -25,23 +25,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
-minetest.register_tool("core:stick_of_truth", {
-	description = "A mighty stick.",
-	inventory_image = "stick_of_truth.png",
-	range = 5.0,
-	tool_capabilities = {
-		full_punch_interval = 0.5,
-		groupcaps = {
-			crumbly = { times = { 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			cracky = { times = { 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			simple_building = { times = { 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
-		},
-		max_drop_level = 9000
-	}
-})
+-- Load the files.
+local base_path = minetest.get_modpath(minetest.get_current_modname())
 
-minetest.register_on_joinplayer(function(player)
-	player:get_inventory():set_stack("main", 1, ItemStack("core:stick_of_truth"))
-	player:get_inventory():set_stack("main", 2, ItemStack("torch:torch_burning 64"))
-end)
+dofile(base_path .. "/torch.lua")
 
