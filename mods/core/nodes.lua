@@ -43,8 +43,8 @@ ap.core.helpers.register_dirt("snowy_tundra", {
 	},
 	tiles = {
 		"snow.png", "dirt.png",
-		"snow_side.png", "snow_side.png",
-		"snow_side.png", "snow_side.png",
+		textureutil.tileable("snow_side.png", true, false), textureutil.tileable("snow_side.png", true, false),
+		textureutil.tileable("snow_side.png", true, false), textureutil.tileable("snow_side.png", true, false)
 	}
 })
 ap.core.helpers.register_dirt("wasteland")

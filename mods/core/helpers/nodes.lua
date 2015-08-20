@@ -118,23 +118,7 @@ local function register_node(definition)
 		name = "core:" .. name
 	end
 	
-	-- TODO #3073 Setting tileability to false will kill the performance.
-	-- Set this to false when the bug is fixed.
-	local cloned_definition = tableutil.clone(definition)
-	--[[ local tileable_textures = {}
-	
-	for index, texture in ipairs(cloned_definition.tiles) do
-		tileable_textures[index] = {
-			name = texture,
-			tileable_horizontal = true,
-			tileable_vertical = true
-		}
-	end
-	
-	cloned_definition.tiles = tileable_textures
-	--]]
-	
-	minetest.register_node(name, cloned_definition)
+	minetest.register_node(name, tableutil.clone(definition))
 end
 
 local function register_plates(definition)
@@ -432,7 +416,7 @@ ap.core.helpers.register_grass = function(name, crumbly)
 	name = postfix_name(name, "grass")
 	
 	local top_side = name .. ".png"
-	local side_side = "dirt.png^" .. name .. "_side_overlay.png"
+	local side_side = textureutil.tileable("dirt.png^" .. name .. "_side_overlay.png", true, false)
 	
 	local definition = {
 		description = make_description(name),
