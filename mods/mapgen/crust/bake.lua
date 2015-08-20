@@ -144,12 +144,13 @@ worldgen:register("Crust - Baking (Caves/Tunnels)", function(constructor)
 	end)
 end)
 
+-- TODO This cavegen should take over after a certain depth.
 --[[
 worldgen:register("Crust - Baking (Caves/Blobs)", function(constructor)
-	constructor:add_param("threshold_max", -0.8)
-	constructor:add_param("threshold_min", -1.0)
+	constructor:add_param("threshold_max", 1.0)
+	constructor:add_param("threshold_min", 0.8)
 	
-	constructor:require_noise3d("main", 4, 0.7, 1, 620, 600, 620)
+	constructor:require_noise3d("main", 7, 0.9, 0.5, 462, 460, 462)	
 	
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
 		local value = module.noises.main[x][z][y]
