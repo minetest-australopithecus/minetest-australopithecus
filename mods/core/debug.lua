@@ -45,3 +45,14 @@ minetest.register_on_joinplayer(function(player)
 	player:get_inventory():set_stack("main", 2, ItemStack("torch:torch_burning 64"))
 end)
 
+minetest.register_chatcommand("get-torches", {
+	description = "Gets you some torches.",
+	params = "",
+	func = function(name, params)
+		local player = minetest.get_player_by_name(name)
+		player:get_inventory():set_stack("main", 2, ItemStack("torch:torch_burning 64"))
+		
+		return true, "Done"
+	end
+})
+
