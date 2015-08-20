@@ -35,6 +35,7 @@ Mods
 
  * core - The core of the game.
  * mapgen - The mapgen.
+ * torch - Torches.
 
 
 Mods (external)
