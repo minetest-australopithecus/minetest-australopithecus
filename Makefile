@@ -35,6 +35,7 @@ release:
 	
 	cp -R $(mods)/core $(release)/australopithecus/mods/
 	cp -R $(mods)/mapgen $(release)/australopithecus/mods/
+	cp -R $(mods)/torch $(release)/australopithecus/mods/
 	
 	tar -c --xz -C $(release) -f $(release)/australopithecus.tar.xz australopithecus/
 	tar -c --gz -C $(release) -f $(release)/australopithecus.tar.gz australopithecus/
