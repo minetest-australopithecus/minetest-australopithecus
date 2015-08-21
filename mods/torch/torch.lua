@@ -137,7 +137,7 @@ local torch_wall_prototype = tableutil.merge(torch_prototype, {
 })
 
 local torch_burning_wall_definition = tableutil.merge(torch_burning_definition, torch_wall_prototype, {
-	description = "A burning torch (nounted on a wall).",
+	description = "A burning torch (mounted on a wall).",
 	drop = "torch:torch_burning",
 	name = "torch_burning_wall",
 	after_place_node = nil,
@@ -152,7 +152,7 @@ local torch_burning_wall_definition = tableutil.merge(torch_burning_definition, 
 minetest.register_node("torch:torch_burning_wall", tableutil.clone(torch_burning_wall_definition))
 
 local torch_wall_definition = tableutil.merge(torch_definition, torch_wall_prototype, {
-	description = "A torch (nounted on a wall).",
+	description = "A torch (mounted on a wall).",
 	drop = "torch:torch",
 	light_source = 0,
 	name = "torch_wall",
