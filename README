@@ -49,6 +49,53 @@ Mods (external)
  * [worldgen-utils][worldgen-utils], a util collection for mapgens.
 
 
+Next up
+=======
+
+The next few things that I plan to implement:
+
+ * drop mod, everything that is mined should be dropped and then automatically
+   picked up. This does provide valuable visual feedback to what's going on.
+ * Torches should be dropped if the attached walls are removed. This can be
+   easily done with a new node group (attached_to_facedir and
+   attached_to_wallmounted) and a new logic in the mechanics file.
+ * Remove the mapgen prototype. Currently the mapgen is using a prototype table
+   to model the surface and work on that. Turns out that this does not seem to
+   improve performance but hinders if you want to get rid of that chunk border
+   glitch. So the prototype thingy should be removed and the mapgen should work
+   directly on the manipulator.
+ * The visual glitch on chunk borders (no grass is placed there, only stone)
+   can be easily fixed by "overshooting" the boundaries by one node.
+ * Particle effects for torches are needed to make them not look like
+   lightbulbs.
+ * The commented out blobby caves node needs to be activated. The blobby caves
+   should start at a certain depth, like -1500, and should overlap for some
+   time with the tunnel caves, say 300 nodes. After that the tunnel caves
+   should fade and only the blobby caves should remain.
+
+
+Debug commands
+==============
+
+For the time being there are multiple commands available, mostly for debugging
+purposes.
+
+ * `/delete-map`, deletes the current map chunk which is automatically
+   regenerated from scratch.
+ * `/get-torches`, gives you a fresh set of torches.
+ * `/reload-mapgen`, reloads the mapgen system. Only useful if you plan to test
+   changes to the mapgen on the fly.
+ * `/update-map`, updates the liquids and lighting in the current map chunk.
+
+
+Feedback
+========
+
+I' open for any feedback, or if you have any questions, either drop an issue
+here, post in the [forum thread][minetest-forum-topic] or over IRC, I'm idling
+most of the time in #minetest, #minetest-dev and #minetest-mod channels.
+
+
  [artisanry]: https://github.com/RobertZenz/minetest-australopithecus-artisanry
  [australopithecus-wiki]: https://en.wikipedia.org/wiki/Australopithecus
  [diggles]: https://en.wikipedia.org/wiki/Diggles:_The_Myth_of_Fenris
@@ -56,6 +103,7 @@ Mods (external)
  [dwarf-fortress]: http://www.bay12games.com/dwarves/
  [minecraft]: https://minecraft.net/
  [minetest]: http://www.minetest.net/
+ [minetest-forum-topic]: https://forum.minetest.net/viewtopic.php?f=50&t=12889
  [summerfields]: https://github.com/SummerFields/SummerFields
  [utils]: https://github.com/RobertZenz/minetest-australopithecus-worldgen-utils
  [spawn-usher]: https://github.com/RobertZenz/minetest-australopithecus-spawn-usher
