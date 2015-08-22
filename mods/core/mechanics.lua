@@ -99,6 +99,16 @@ minetest.register_abm({
 	end
 })
 
+-- Drop nodes that are attached to the dug node.
+minetest.register_on_dignode(function(pos, oldnode, digger)
+	nodeutil.surroundings(pos, -1, 1, -1, 1, 0, 0, function(pos, node)
+		if nodeutil.has_group(node, "attached_to_facedir") then
+			-- TODO Drop the node here.
+		elseif nodeutil.has_group(node, "attach_to_wallmounted") then
+			-- TODO Drop the node here.
+		end
+	end)
+end)
 
 -- Replace grass with dirt if a node is placed on it.
 minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing)
