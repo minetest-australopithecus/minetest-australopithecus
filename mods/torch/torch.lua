@@ -52,9 +52,9 @@ local torch_prototype = {
 	diggable = true,
 	drawtype = "mesh",
 	groups = {
-		oddly_breakable_by_hand = 1,
-		preserves_grass = 1,
-		simple_building = 1
+		oddly_breakable_by_hand = NodeGroup.VERY_FAST,
+		preserves_grass = NodeGroup.DUMMY,
+		simple_building = NodeGroup.VERY_FAST
 	},
 	light_source = 11,
 	paramtype = "light",
@@ -130,6 +130,12 @@ minetest.register_node("torch:torch", tableutil.clone(torch_definition))
 
 local torch_wall_prototype = tableutil.merge(torch_prototype, {
 	collision_box = wallmounted_torch_box,
+	groups = {
+		attached_to_facedir = NodeGroup.DUMMY,
+		oddly_breakable_by_hand = NodeGroup.VERY_FAST,
+		preserves_grass = NodeGroup.DUMMY,
+		simple_building = NodeGroup.VERY_FAST
+	},
 	mesh = "torch_wall.obj",
 	node_box = wallmounted_torch_box,
 	paramtype2 = "facedir",
