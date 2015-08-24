@@ -56,6 +56,7 @@ The next few things that I plan to implement:
 
  * drop mod, everything that is mined should be dropped and then automatically
    picked up. This does provide valuable visual feedback to what's going on.
+   This kinda depends on [#3107][3107].
  * Torches should be dropped if the attached walls are removed. This can be
    easily done with a new node group (attached_to_facedir and
    attached_to_wallmounted) and a new logic in the mechanics file.
@@ -72,6 +73,10 @@ The next few things that I plan to implement:
    should start at a certain depth, like -1500, and should overlap for some
    time with the tunnel caves, say 300 nodes. After that the tunnel caves
    should fade and only the blobby caves should remain.
+ * Once [#3095][3095] is implemented that torch can be simplified and the
+   `torch_wall*` variants can be removed.
+ * Debug tools should be implmented (pickaxe, axe, shovel, hammer and chisel).
+ * Most debug commands should be limited to admins.
 
 
 Debug commands
@@ -96,6 +101,8 @@ here, post in the [forum thread][minetest-forum-topic] or over IRC, I'm idling
 most of the time in #minetest, #minetest-dev and #minetest-mod channels.
 
 
+ [3095]: https://github.com/minetest/minetest/issues/3095
+ [3107]: https://github.com/minetest/minetest/issues/3107
  [artisanry]: https://github.com/RobertZenz/minetest-australopithecus-artisanry
  [australopithecus-wiki]: https://en.wikipedia.org/wiki/Australopithecus
  [diggles]: https://en.wikipedia.org/wiki/Diggles:_The_Myth_of_Fenris
