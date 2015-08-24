@@ -71,15 +71,7 @@ worldgen:register("Crust - Baking (3D Transform)", function(constructor)
 	constructor:require_noise3d("mask", 5, 0.7, 1, 2200)
 	
 	constructor:set_condition(function(module, metadata, minp, maxp)
-		for x = minp.x, maxp.x, 1 do
-			for z = minp.z, maxp.z, 1 do
-				if (metadata.heightmap[x][z] - module.params.max_depth) <= maxp.y then
-					return true
-				end
-			end
-		end
-		
-		return false
+		return (metadata.heightmap_range.min - module.params.max_depth) <= maxp.y
 	end)
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
 		if y >= (metadata.heightmap[x][z] - module.params.max_depth) then
@@ -168,15 +160,7 @@ worldgen:register("Crust - Baking (Surface Detection)", function(constructor)
 	constructor:add_param("overlap", 3)
 	
 	constructor:set_condition(function(module, metadata, minp, maxp)
-		for x = minp.x, maxp.x, 1 do
-			for z = minp.z, maxp.z, 1 do
-				if (metadata.heightmap[x][z] - module.params.max_depth) <= maxp.y then
-					return true
-				end
-			end
-		end
-		
-		return false
+		return (metadata.heightmap_range.min - module.params.max_depth) <= maxp.y
 	end)
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
 		for y = metadata.maxp.y, metadata.minp.y, -1 do

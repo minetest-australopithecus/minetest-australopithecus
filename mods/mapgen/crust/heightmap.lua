@@ -32,12 +32,17 @@ worldgen:register("Crust - Heightmap - Init", function(constructor)
 		if metadata.cache.heightmap == nil then
 			metadata.cache.heightmap = arrayutil.create2d(minp.x, minp.z, maxp.x, maxp.z, module.params.base_value)
 			metadata.cache.heightmap_info = arrayutil.create2d(minp.x, minp.z, maxp.x, maxp.z, {})
+			metadata.cache.heightmap_range = {
+				max = 0,
+				min = 0
+			}
 			
 			metadata.generate_heightmap = true
 		end
 		
 		metadata.heightmap = metadata.cache.heightmap
 		metadata.heightmap_info = metadata.cache.heightmap_info
+		metadata.heightmap_range = metadata.cache.heightmap_range
 	end)
 end)
 
@@ -322,6 +327,16 @@ worldgen:register("Crust - Heightmap - Round", function(constructor)
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
 		metadata.heightmap[x][z] = mathutil.round(metadata.heightmap[x][z])
+	end)
+end)
+
+worldgen:register("Crust - Heightmap - Finalization", function(constructor)
+	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
+	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
+		local value = metadata.heightmap[x][z]
+		
+		metadata.heightmap_range.max = math.max(metadata.heightmap_range.max, value)
+		metadata.heightmap_range.min = math.max(metadata.heightmap_range.min, value)
 	end)
 end)
 
