@@ -25,9 +25,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
--- Load all files
-local base_path = minetest.get_modpath(minetest.get_current_modname())
-
-dofile(base_path .. "/nodegroup.lua")
-dofile(base_path .. "/nodes.lua")
+-- Register a dummy node which will get the ID 0, which makes debugging easier.
+minetest.register_node("base:dummy", {
+	drop = nil,
+	tiles = {
+		textureutil.dummy(tango.scarletred_1, tango.aluminium_1)
+	}
+})
 
