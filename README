@@ -69,6 +69,7 @@ The next few things that I plan to implement:
  * Directly after the mapgen there are lighting issues.
  * Oceans are missing from thte mapgen rewrite currently.
 
+
 Debug commands
 ==============
 
