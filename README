@@ -77,6 +77,7 @@ The next few things that I plan to implement:
    `torch_wall*` variants can be removed.
  * Debug tools should be implmented (pickaxe, axe, shovel, hammer and chisel).
  * Most debug commands should be limited to admins.
+ * Directly after the mapgen there are lighting issues.
 
 
 Debug commands
