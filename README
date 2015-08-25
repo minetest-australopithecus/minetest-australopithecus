@@ -60,25 +60,14 @@ The next few things that I plan to implement:
  * Torches should be dropped if the attached walls are removed. This can be
    easily done with a new node group (attached_to_facedir and
    attached_to_wallmounted) and a new logic in the mechanics file.
- * Remove the mapgen prototype. Currently the mapgen is using a prototype table
-   to model the surface and work on that. Turns out that this does not seem to
-   improve performance but hinders if you want to get rid of that chunk border
-   glitch. So the prototype thingy should be removed and the mapgen should work
-   directly on the manipulator.
- * The visual glitch on chunk borders (no grass is placed there, only stone)
-   can be easily fixed by "overshooting" the boundaries by one node.
  * Particle effects for torches are needed to make them not look like
    lightbulbs.
- * The commented out blobby caves node needs to be activated. The blobby caves
-   should start at a certain depth, like -1500, and should overlap for some
-   time with the tunnel caves, say 300 nodes. After that the tunnel caves
-   should fade and only the blobby caves should remain.
  * Once [#3095][3095] is implemented that torch can be simplified and the
    `torch_wall*` variants can be removed.
  * Debug tools should be implmented (pickaxe, axe, shovel, hammer and chisel).
  * Most debug commands should be limited to admins.
  * Directly after the mapgen there are lighting issues.
-
+ * Oceans are missing from thte mapgen rewrite currently.
 
 Debug commands
 ==============

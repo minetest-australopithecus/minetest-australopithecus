@@ -25,46 +25,69 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
-local PrototypeNode = {
-	AIR = 0,
-	TRANSFORM = 1,
-	CAVE = 2,
-	ROCK = 3,
-	WATER = 4,
-	SURFACE = 5
-}
-
-local function is_air(prototypeNode)
-	return prototypeNode == PrototypeNode.AIR
-		or prototypeNode == PrototypeNode.TRANSFORM
-		or prototypeNode == PrototypeNode.CAVE
-end
-
-
-worldgen:register("Crust - Baking (Init)", function(constructor)
+worldgen:register("Crust - Baking - Init", function(constructor)
 	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
-		metadata.crust_prototype = arrayutil.create3d(
-			minp.x, minp.z, minp.y,
-			maxp.x, maxp.z, maxp.y,
-			PrototypeNode.AIR)
+		metadata.crust = {}
 	end)
 end)
 
-worldgen:register("Crust - Baking (Heightmap)", function(constructor)
+worldgen:register("Crust - Baking - Heightmap", function(constructor)
+	constructor:add_param("bedrock_max", 84)
+	constructor:add_param("bedrock_min", 24)
+	constructor:add_param("subsurface_max", 29)
+	constructor:add_param("subsurface_min", 1)
+	
+	constructor:require_node("air", "air")
+	constructor:require_node("rock", "core:rock")
+	
+	constructor:require_noise2d("bedrock", 4, 0.3, 1, 680)
+	constructor:require_noise2d("subsurface", 4, 0.3, 1, 680)
+	
+	constructor:set_condition(function(module, metadata, minp, maxp)
+		return metadata.heightmap_range.max >= minp.y
+	end)
+	constructor:set_run_2d(function(module, metadata, manipulator, x, z, y)
+		metadata.crust.biome = metadata.biomes[x][z]
+		metadata.crust.height = metadata.heightmap[x][z]
+		metadata.crust.bedrock_depth = transform.linear(
+			module.noises.bedrock[x][z],
+			-1,
+			1,
+			module.params.bedrock_min,
+			module.params.bedrock_max)
+		metadata.crust.subsurface_depth = transform.linear(
+			module.noises.subsurface[x][z],
+			-1,
+			1,
+			module.params.subsurface_min,
+			module.params.subsurface_max)
+	end)
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
-		if y <= metadata.heightmap[x][z] then
-			metadata.crust_prototype[x][z][y] = PrototypeNode.ROCK
+		if y > metadata.crust.height then
+			manipulator:set_node(x, z, y, module.nodes.air)
+		elseif y == metadata.crust.height then
+			manipulator:set_node(x, z, y, metadata.crust.biome.nodes.surface)
+		elseif y < metadata.crust.height
+			and y >= (metadata.crust.height - metadata.crust.subsurface_depth) then
+			manipulator:set_node(x, z, y, metadata.crust.biome.nodes.subsurface)
+		elseif y < (metadata.crust.height - metadata.crust.subsurface_depth)
+			and y >= (metadata.crust.height - metadata.crust.subsurface_depth - metadata.crust.bedrock_depth)then
+			manipulator:set_node(x, z, y, metadata.crust.biome.nodes.bedrock)
+		else
+			manipulator:set_node(x, z, y, module.nodes.rock)
 		end
 	end)
 end)
 
-worldgen:register("Crust - Baking (3D Transform)", function(constructor)
+worldgen:register("Crust - Baking - 3D Transform", function(constructor)
 	constructor:add_param("fade", 0.2)
 	constructor:add_param("mask_threshold_max", 1.0)
 	constructor:add_param("mask_threshold_min", 0.15)
 	constructor:add_param("max_depth", 47)
 	constructor:add_param("threshold_max", 0.75)
 	constructor:add_param("threshold_min", 0.25)
+	
+	constructor:require_node("air", "air")
 	
 	constructor:require_noise3d("fade", 4, 0.8, 1, 1500)
 	constructor:require_noise3d("main", 4, 0.6, 1, 150, 200, 150)
@@ -79,7 +102,7 @@ worldgen:register("Crust - Baking (3D Transform)", function(constructor)
 			local mask_value = module.noises.mask[x][z][y]
 			
 			if mathutil.in_range(value, module.params.threshold_min, module.params.threshold_max)
-				and mathutil.in_range(mask_value, module.params.mask_threshold_min, module.params.mask_threshold_max) then
+				then --and mathutil.in_range(mask_value, module.params.mask_threshold_min, module.params.mask_threshold_max) then
 				
 				local fade_value = module.noises.main[x][z][y]
 				local fade_threshold = transform.cosine(
@@ -90,93 +113,125 @@ worldgen:register("Crust - Baking (3D Transform)", function(constructor)
 					1)
 				
 				if fade_value >= fade_threshold then
-					metadata.crust_prototype[x][z][y] = PrototypeNode.TRANSFORM
+					manipulator:set_node(x, z, y, module.nodes.air)
 				end
 			end
 		end
 	end)
 end)
 
-worldgen:register("Crust - Baking (Caves/Tunnels)", function(constructor)
+worldgen:register("Crust - Baking - Upper Caves)", function(constructor)
+	constructor:add_param("depth_limit", -1600)
 	constructor:add_param("fade_limit", 33)
 	constructor:add_param("threshold_mask_max", 0.9)
 	constructor:add_param("threshold_mask_min", 0.2)
 	constructor:add_param("threshold_max", 0.1)
 	constructor:add_param("threshold_min", -0.1)
 	
+	constructor:require_node("air", "air")
+	
 	constructor:require_noise3d("a", 2, 0.6, 1, 50, 25, 50)
 	constructor:require_noise3d("b", 2, 0.6, 1, 50, 25, 50)
 	constructor:require_noise3d("fade", 4, 0.6, 1, 300, 600, 300)
 	
+	constructor:set_condition(function(module, metadata, minp, maxp)
+		return (metadata.heightmap_range.max >= minp.y)
+			and maxp.y >= module.params.depth_limit
+	end)
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
-		local value_a = module.noises.a[x][z][y]
-		local value_b = module.noises.b[x][z][y]
-		
-		if mathutil.in_range(value_a, module.params.threshold_min, module.params.threshold_max)
-			and mathutil.in_range(value_b, module.params.threshold_min, module.params.threshold_max) then
+		if y >= module.params.depth_limit then
+			local value_a = module.noises.a[x][z][y]
+			local value_b = module.noises.b[x][z][y]
 			
-			local below_elevation = metadata.heightmap[x][z] - y
-			
-			if below_elevation > module.params.fade_limit then
-				metadata.crust_prototype[x][z][y] = PrototypeNode.CAVE
-			else
-				local fade_value = module.noises.fade[x][z][y]
-				local fade_threshold = transform.linear(
-					below_elevation,
-					0,
-					module.params.fade_limit,
-					0.8,
-					-1)
-					
-				if fade_value >= fade_threshold then
-					metadata.crust_prototype[x][z][y] = PrototypeNode.CAVE
+			if mathutil.in_range(value_a, module.params.threshold_min, module.params.threshold_max)
+				and mathutil.in_range(value_b, module.params.threshold_min, module.params.threshold_max) then
+				
+				local below_elevation = metadata.heightmap[x][z] - y
+				
+				if below_elevation > module.params.fade_limit then
+					if y >= module.params.depth_limit then
+						manipulator:set_node(x, z, y, module.nodes.air)
+					end
+				else
+					local fade_value = module.noises.fade[x][z][y]
+					local fade_threshold = transform.linear(
+						below_elevation,
+						0,
+						module.params.fade_limit,
+						0.8,
+						-1)
+						
+					if fade_value >= fade_threshold then
+						manipulator:set_node(x, z, y, module.nodes.air)
+					end
 				end
 			end
 		end
 	end)
 end)
 
--- TODO This cavegen should take over after a certain depth.
---[[
-worldgen:register("Crust - Baking (Caves/Blobs)", function(constructor)
+worldgen:register("Crust - Baking - Lower Caves)", function(constructor)
+	constructor:add_param("depth_end", -2800)
+	constructor:add_param("depth_flooded", -2600)
+	constructor:add_param("depth_start", -1400)
 	constructor:add_param("threshold_max", 1.0)
-	constructor:add_param("threshold_min", 0.8)
+	constructor:add_param("threshold_min", 0.7)
 	
-	constructor:require_noise3d("main", 7, 0.9, 0.5, 462, 460, 462)	
+	constructor:require_node("air", "air")
+	constructor:require_node("water", "core:water_source")
 	
+	constructor:require_noise3d("main", 7, 0.9, 0.5, 462, 460, 462)
+	
+	constructor:set_condition(function(module, metadata, minp, maxp)
+		return (metadata.heightmap_range.max >= minp.y)
+			and maxp.y <= module.params.depth_start
+			and minp.y >= module.params.depth_end
+	end)
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
-		local value = module.noises.main[x][z][y]
-		value = mathutil.clamp(value, -1, 1)
-		
-		if mathutil.in_range(value, module.params.threshold_min, module.params.threshold_max) then
-			metadata.crust_prototype[x][z][y] = PrototypeNode.AIR
+		if y <= module.params.depth_start
+			and y >= module.params.depth_end then
+			
+			local value = module.noises.main[x][z][y]
+			value = mathutil.clamp(value, -1, 1)
+			
+			if mathutil.in_range(value, module.params.threshold_min, module.params.threshold_max) then
+				if y >= module.params.depth_flooded then
+					manipulator:set_node(x, z, y, module.nodes.air)
+				else
+					manipulator:set_node(x, z, y, module.nodes.water)
+				end
+			end
 		end
 	end)
 end)
---]]
 
-worldgen:register("Crust - Baking (Surface Detection)", function(constructor)
+worldgen:register("Crust - Baking - Surface Detection", function(constructor)
 	constructor:add_param("max_depth", 47 + 3)
 	constructor:add_param("overlap", 3)
+	
+	constructor:require_node("air", "air")
 	
 	constructor:set_condition(function(module, metadata, minp, maxp)
 		return (metadata.heightmap_range.min - module.params.max_depth) <= maxp.y
 	end)
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
-		for y = metadata.maxp.y, metadata.minp.y, -1 do
-			if metadata.crust_prototype[x][z][y] == PrototypeNode.ROCK then
+		-- The +1 -1 is for overshooting our range, this fixes that the surface
+		-- is not correctly detected on block borders.
+		for y = metadata.maxp.y + 1, metadata.minp.y - 1, -1 do
+			if manipulator:get_node(x, z, y) ~= module.nodes.air then
 				local overlap = module.params.overlap
 				
 				for x2 = x - overlap, x + overlap, 1 do
 					for z2 = z - overlap, z + overlap, 1 do
-						local current = metadata.crust_prototype[x2]
-						
-						if current ~= nil then
-							current = current[z2]
+						if manipulator:get_node(x2, z2, y + 1) == module.nodes.air
+							and manipulator:get_node(x2, z2, y) ~= module.nodes.air then
 							
-							if current ~= nil then
-								if is_air(current[y + 1]) and current[y] == PrototypeNode.ROCK then
-									current[y] = PrototypeNode.SURFACE
+							local biome = metadata.biomes[x2]
+							if biome ~= nil then
+								biome = biome[z2]
+								
+								if biome ~= nil then
+									manipulator:set_node(x2, z2, y, biome.nodes.surface)
 								end
 							end
 						end
@@ -189,6 +244,48 @@ worldgen:register("Crust - Baking (Surface Detection)", function(constructor)
 	end)
 end)
 
+worldgen:register("Crust - Baking (Ramps)", function(constructor)
+	local rampplacer = RampPlacer:new()
+	
+	rampplacer:register_air_like("core:water_source")
+	rampplacer:register_air_like("core:water_flowing")
+	
+	local register_ramp = function(name, ceiling, floor)
+		rampplacer:register_ramp(
+			"core:" .. name,
+			"core:" .. name .. "_ramp",
+			"core:" .. name .. "_ramp_inner_corner",
+			"core:" .. name .. "_ramp_outer_corner",
+			ceiling,
+			floor
+		)
+	end
+	
+	register_ramp("dirt", true, true)
+	register_ramp("glacial_ice", true, true)
+	register_ramp("gravel", true, false)
+	register_ramp("red_rock", true, true)
+	register_ramp("rock", true, true)
+	register_ramp("sand", true, false)
+	register_ramp("sand_stone", true, true)
+	register_ramp("snow", true, false)
+	register_ramp("wasteland_dirt", true, true)
+	
+	constructor:add_object("rampplacer", rampplacer)
+	
+	constructor:set_condition(function(module, metadata, minp, maxp)
+		return metadata.heightmap_range.max >= minp.y
+	end)
+	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
+		module.objects.rampplacer:run(manipulator, minp, maxp)
+	end)
+end)
+
+
+
+--[[
+--
+--
 worldgen:register("Crust - Baking (Finalize)", function(constructor)
 	constructor:add_param("bedrock_max", 84)
 	constructor:add_param("bedrock_min", 24)
@@ -290,37 +387,5 @@ worldgen:register("Crust - Baking (Finalize)", function(constructor)
 	end)
 end)
 
-worldgen:register("Crust - Baking (Ramps)", function(constructor)
-	local rampplacer = RampPlacer:new()
-	
-	rampplacer:register_air_like("core:water_source")
-	rampplacer:register_air_like("core:water_flowing")
-	
-	local register_ramp = function(name, ceiling, floor)
-		rampplacer:register_ramp(
-			"core:" .. name,
-			"core:" .. name .. "_ramp",
-			"core:" .. name .. "_ramp_inner_corner",
-			"core:" .. name .. "_ramp_outer_corner",
-			ceiling,
-			floor
-		)
-	end
-	
-	register_ramp("dirt", true, true)
-	register_ramp("glacial_ice", true, true)
-	register_ramp("gravel", true, false)
-	register_ramp("red_rock", true, true)
-	register_ramp("rock", true, true)
-	register_ramp("sand", true, false)
-	register_ramp("sand_stone", true, true)
-	register_ramp("snow", true, false)
-	register_ramp("wasteland_dirt", true, true)
-	
-	constructor:add_object("rampplacer", rampplacer)
-	
-	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
-		module.objects.rampplacer:run(manipulator, minp, maxp)
-	end)
-end)
+--]]
 
