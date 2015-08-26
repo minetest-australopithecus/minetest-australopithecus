@@ -210,6 +210,7 @@ worldgen:register("Crust - Baking - Surface Detection", function(constructor)
 	constructor:add_param("overlap", 3)
 	
 	constructor:require_node("air", "air")
+	constructor:require_node("ignore", "ignore")
 	
 	constructor:set_condition(function(module, metadata, minp, maxp)
 		return (metadata.heightmap_range.min - module.params.max_depth) <= maxp.y
@@ -218,7 +219,9 @@ worldgen:register("Crust - Baking - Surface Detection", function(constructor)
 		-- The +1 -1 is for overshooting our range, this fixes that the surface
 		-- is not correctly detected on block borders.
 		for y = metadata.maxp.y + 1, metadata.minp.y - 1, -1 do
-			if manipulator:get_node(x, z, y) ~= module.nodes.air then
+			if manipulator:get_node(x, z, y) ~= module.nodes.air
+				and manipulator:get_node(x, z, y) ~= module.nodes.ignore then
+				
 				local overlap = module.params.overlap
 				
 				for x2 = x - overlap, x + overlap, 1 do
