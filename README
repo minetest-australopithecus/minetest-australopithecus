@@ -4,7 +4,7 @@ Minetest - Autralopithecus
 A sub game for [Minetest][minetest].
 
 The long term goal of Australopithecus is to provide a vast, fun to explore
-world that is hard to survive in. The player should be dumped into wild world
+world that is hard to survive in. The player should be dumped into a wild world
 that does not forgive any mistakes, leaving the camp and going into
 the wilderness should always be an adventure.
 
@@ -58,16 +58,15 @@ The next few things that I plan to implement:
    picked up. This does provide valuable visual feedback to what's going on.
    This kinda depends on [#3107][3107].
  * Torches should be dropped if the attached walls are removed. This can be
-   easily done with a new node group (attached_to_facedir and
-   attached_to_wallmounted) and a new logic in the mechanics file.
+   easily done with a new node group (`attached_to_facedir` and
+   `attached_to_wallmounted`) and a new logic in the mechanics file.
  * Particle effects for torches are needed to make them not look like
    lightbulbs.
  * Once [#3095][3095] is implemented that torch can be simplified and the
    `torch_wall*` variants can be removed.
- * Debug tools should be implmented (pickaxe, axe, shovel, hammer and chisel).
+ * Debug tools should be implemented (pickaxe, axe, shovel, hammer and chisel).
  * Most debug commands should be limited to admins.
  * Directly after the mapgen there are lighting issues.
- * Oceans are missing from thte mapgen rewrite currently.
 
 
 Debug commands

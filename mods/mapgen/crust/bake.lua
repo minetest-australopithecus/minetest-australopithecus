@@ -31,6 +31,32 @@ worldgen:register("Crust - Baking - Init", function(constructor)
 	end)
 end)
 
+worldgen:register("Crust - Baking - Shore", function(constructor)
+	constructor:add_param("ocean_level", -58)
+	constructor:add_param("shore_max", 6)
+	constructor:add_param("shore_min", 2)
+	
+	constructor:require_noise2d("shore", 4, 0.5, 1, 840)
+	
+	constructor:set_condition(function(module, metadata, minp, maxp)
+		return metadata.heightmap_range.max >= minp.y
+	end)
+	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
+		metadata.crust.shore = arrayutil.create2d(minp.x, minp.z, maxp.x, maxp.z, nil)
+	end)
+	constructor:set_run_2d(function(module, metadata, manipulator, x, z, y)
+		local shore_height = module.noises.shore[x][z]
+		shore_height = transform.linear(
+			shore_height,
+			-1,
+			1,
+			module.params.shore_min,
+			module.params.shore_max)
+		
+		metadata.crust.shore[x][z] = (metadata.heightmap[x][z] <= (module.params.ocean_level + shore_height))
+	end)
+end)
+
 worldgen:register("Crust - Baking - Heightmap", function(constructor)
 	constructor:add_param("bedrock_max", 84)
 	constructor:add_param("bedrock_min", 24)
@@ -49,6 +75,7 @@ worldgen:register("Crust - Baking - Heightmap", function(constructor)
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z, y)
 		metadata.crust.biome = metadata.biomes[x][z]
 		metadata.crust.height = metadata.heightmap[x][z]
+		metadata.crust.is_shore = metadata.crust.shore[x][z]
 		metadata.crust.bedrock_depth = transform.linear(
 			module.noises.bedrock[x][z],
 			-1,
@@ -66,10 +93,18 @@ worldgen:register("Crust - Baking - Heightmap", function(constructor)
 		if y > metadata.crust.height then
 			manipulator:set_node(x, z, y, module.nodes.air)
 		elseif y == metadata.crust.height then
-			manipulator:set_node(x, z, y, metadata.crust.biome.nodes.surface)
+			if metadata.crust.is_shore then
+				manipulator:set_node(x, z, y, metadata.crust.biome.nodes.shore_surface)
+			else
+				manipulator:set_node(x, z, y, metadata.crust.biome.nodes.surface)
+			end
 		elseif y < metadata.crust.height
 			and y >= (metadata.crust.height - metadata.crust.subsurface_depth) then
-			manipulator:set_node(x, z, y, metadata.crust.biome.nodes.subsurface)
+			if metadata.crust.is_shore then
+				manipulator:set_node(x, z, y, metadata.crust.biome.nodes.shore_subsurface)
+			else
+				manipulator:set_node(x, z, y, metadata.crust.biome.nodes.subsurface)
+			end
 		elseif y < (metadata.crust.height - metadata.crust.subsurface_depth)
 			and y >= (metadata.crust.height - metadata.crust.subsurface_depth - metadata.crust.bedrock_depth)then
 			manipulator:set_node(x, z, y, metadata.crust.biome.nodes.bedrock)
@@ -94,7 +129,8 @@ worldgen:register("Crust - Baking - 3D Transform", function(constructor)
 	constructor:require_noise3d("mask", 5, 0.7, 1, 2200)
 	
 	constructor:set_condition(function(module, metadata, minp, maxp)
-		return (metadata.heightmap_range.min - module.params.max_depth) <= maxp.y
+		return ((metadata.heightmap_range.min - module.params.max_depth) <= maxp.y)
+			~= (metadata.heightmap_range.max >= minp.y)
 	end)
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
 		if y >= (metadata.heightmap[x][z] - module.params.max_depth) then
@@ -206,22 +242,26 @@ worldgen:register("Crust - Baking - Lower Caves)", function(constructor)
 end)
 
 worldgen:register("Crust - Baking - Surface Detection", function(constructor)
-	constructor:add_param("max_depth", 47 + 3)
+	constructor:add_param("max_depth", 47 + 10)
+	constructor:add_param("ocean_level", -58)
 	constructor:add_param("overlap", 3)
 	
 	constructor:require_node("air", "air")
 	constructor:require_node("ignore", "ignore")
 	
 	constructor:set_condition(function(module, metadata, minp, maxp)
-		return (metadata.heightmap_range.min - module.params.max_depth) <= maxp.y
+		return metadata.heightmap_range.max >= minp.y
+			and maxp.y >= module.params.ocean_level
 	end)
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
 		-- The +1 -1 is for overshooting our range, this fixes that the surface
 		-- is not correctly detected on block borders.
-		for y = metadata.maxp.y + 1, metadata.minp.y - 1, -1 do
-			if manipulator:get_node(x, z, y) ~= module.nodes.air
-				and manipulator:get_node(x, z, y) ~= module.nodes.ignore then
-				
+		for y = metadata.maxp.y + 1, math.max(metadata.minp.y - 1, module.params.ocean_level), -1 do
+			local current_node = manipulator:get_node(x, z, y)
+			
+			if current_node == module.nodes.ignore then
+				-- Do nothing, continue on.
+			elseif current_node ~= module.nodes.air then
 				local overlap = module.params.overlap
 				
 				for x2 = x - overlap, x + overlap, 1 do
@@ -234,7 +274,11 @@ worldgen:register("Crust - Baking - Surface Detection", function(constructor)
 								biome = biome[z2]
 								
 								if biome ~= nil then
-									manipulator:set_node(x2, z2, y, biome.nodes.surface)
+									if metadata.crust.shore[x2][z2] then
+										manipulator:set_node(x2, z2, y, biome.nodes.shore_surface)
+									else
+										manipulator:set_node(x2, z2, y, biome.nodes.surface)
+									end
 								end
 							end
 						end
@@ -247,7 +291,31 @@ worldgen:register("Crust - Baking - Surface Detection", function(constructor)
 	end)
 end)
 
-worldgen:register("Crust - Baking (Ramps)", function(constructor)
+worldgen:register("Crust - Baking - Ocean", function(constructor)
+	constructor:add_param("max_depth", 47 + 3)
+	constructor:add_param("ocean_level", -58)
+	
+	constructor:require_node("air", "air")
+	
+	constructor:set_condition(function(module, metadata, minp, maxp)
+		return minp.y <= module.params.ocean_level
+	end)
+	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
+		local biome = metadata.biomes[x][z]
+		
+		for y = metadata.maxp.y, metadata.minp.y, -1 do
+			if manipulator:get_node(x, z, y) == module.nodes.air then
+				if y == module.params.ocean_level then
+					manipulator:set_node(x, z, y, biome.nodes.water_surface)
+				elseif y <= module.params.ocean_level then
+					manipulator:set_node(x, z, y, biome.nodes.water_subsurface)
+				end
+			end
+		end
+	end)
+end)
+
+worldgen:register("Crust - Baking - Ramps", function(constructor)
 	local rampplacer = RampPlacer:new()
 	
 	rampplacer:register_air_like("core:water_source")
@@ -283,112 +351,4 @@ worldgen:register("Crust - Baking (Ramps)", function(constructor)
 		module.objects.rampplacer:run(manipulator, minp, maxp)
 	end)
 end)
-
-
-
---[[
---
---
-worldgen:register("Crust - Baking (Finalize)", function(constructor)
-	constructor:add_param("bedrock_max", 84)
-	constructor:add_param("bedrock_min", 24)
-	constructor:add_param("cave_flood_depth", 8)
-	constructor:add_param("ocean_level", -58)
-	constructor:add_param("shore_max", 6)
-	constructor:add_param("shore_min", 2)
-	constructor:add_param("subsurface_max", 29)
-	constructor:add_param("subsurface_min", 1)
-	
-	constructor:require_node("rock", "core:rock")
-	
-	constructor:require_noise2d("bedrock", 4, 0.3, 1, 680)
-	constructor:require_noise2d("shore", 4, 0.5, 1, 840)
-	constructor:require_noise2d("subsurface", 4, 0.3, 1, 680)
-	
-	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
-		local shore_value = module.noises.shore[x][z]
-		shore_value = mathutil.clamp(shore_value, -1, 1)
-		shore_value = transform.linear(
-			shore_value,
-			-1,
-			1,
-			module.params.shore_min,
-			module.params.shore_max)
-		
-		if metadata.heightmap[x][z] <= (module.params.ocean_level + shore_value) then
-			metadata.heightmap_info[x][z].ocean = true
-		end
-	end)
-	
-	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
-		local prototype = metadata.crust_prototype[x][z]
-		
-		local biome = metadata.biomes[x][z]
-		local elevation = metadata.heightmap[x][z]
-		local elevation_info = metadata.heightmap_info[x][z]
-		
-		if biome ~= nil then
-			if (y == elevation and not is_air(prototype[y]))
-				or (y < elevation and prototype[y] == PrototypeNode.SURFACE) then
-				if elevation_info.ocean then
-					manipulator:set_node(x, z, y, biome.nodes.shore_surface)
-				elseif y < module.params.ocean_level then
-					manipulator:set_node(x, z, y, biome.nodes.bedrock)
-				else
-					manipulator:set_node(x, z, y, biome.nodes.surface)
-				end
-			elseif y < elevation and not is_air(prototype[y]) then
-				local subsurface_value = module.noises.subsurface[x][z]
-				subsurface_value = mathutil.clamp(subsurface_value, -1, 1)
-				subsurface_value = transform.linear(
-					subsurface_value,
-					-1,
-					1,
-					module.params.subsurface_min,
-					module.params.subsurface_max)
-				
-				if y >= elevation - subsurface_value then
-					if elevation_info.cliffs or elevation_info.peaks then
-						manipulator:set_node(x, z, y, biome.nodes.bedrock)
-					else
-						if elevation_info.ocean then
-							manipulator:set_node(x, z, y, biome.nodes.shore_subsurface)
-						else
-							manipulator:set_node(x, z, y, biome.nodes.subsurface)
-						end
-					end
-				else
-					local bedrock_value = module.noises.bedrock[x][z]
-					bedrock_value = mathutil.clamp(bedrock_value, -1, 1)
-					bedrock_value = transform.linear(
-						bedrock_value,
-						-1,
-						1,
-						module.params.bedrock_min,
-						module.params.bedrock_max)
-					
-					if y >= elevation - bedrock_value then
-						manipulator:set_node(x, z, y, biome.nodes.bedrock)
-					else
-						manipulator:set_node(x, z, y, module.nodes.rock)
-					end
-				end
-			elseif y <= module.params.ocean_level then
-				if prototype[y] == PrototypeNode.AIR
-					or prototype[y] == PrototypeNode.TRANSFORM
-					or (prototype[y] == PrototypeNode.CAVE
-						and elevation < module.params.ocean_level
-						and y >= (elevation - module.params.cave_flood_depth)) then
-					if y == module.params.ocean_level then
-						manipulator:set_node(x, z, y, biome.nodes.water_surface)
-					elseif y < module.params.ocean_level then
-						manipulator:set_node(x, z, y, biome.nodes.water_subsurface)
-					end
-				end
-			end
-		end
-	end)
-end)
-
---]]
 
