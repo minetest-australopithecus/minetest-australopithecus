@@ -102,7 +102,7 @@ worldgen:register("Crust - Baking - 3D Transform", function(constructor)
 			local mask_value = module.noises.mask[x][z][y]
 			
 			if mathutil.in_range(value, module.params.threshold_min, module.params.threshold_max)
-				then --and mathutil.in_range(mask_value, module.params.mask_threshold_min, module.params.mask_threshold_max) then
+				and mathutil.in_range(mask_value, module.params.mask_threshold_min, module.params.mask_threshold_max) then
 				
 				local fade_value = module.noises.main[x][z][y]
 				local fade_threshold = transform.cosine(
