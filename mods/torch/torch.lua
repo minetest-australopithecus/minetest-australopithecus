@@ -51,11 +51,6 @@ end
 local torch_prototype = {
 	diggable = true,
 	drawtype = "mesh",
-	groups = {
-		oddly_breakable_by_hand = NodeGroup.VERY_FAST,
-		preserves_grass = NodeGroup.DUMMY,
-		simple_building = NodeGroup.VERY_FAST
-	},
 	light_source = 11,
 	paramtype = "light",
 	tiles = {
@@ -75,6 +70,12 @@ local torch_burning_definition = tableutil.merge(torch_prototype, {
 	collision_box = torch_box,
 	description = "A burning torch.",
 	drop = "torch:torch_burning",
+	groups = {
+		attached_to_wallmounted = NodeGroup.DUMMY,
+		building = NodeGroup.VERY_FAST,
+		oddly_breakable_by_hand = NodeGroup.VERY_FAST,
+		preserves_grass = NodeGroup.DUMMY,
+	},
 	mesh = "torch.obj",
 	node_box = torch_box,
 	name = "torch_burning",
@@ -135,9 +136,9 @@ local torch_wall_prototype = tableutil.merge(torch_prototype, {
 	collision_box = wallmounted_torch_box,
 	groups = {
 		attached_to_facedir = NodeGroup.DUMMY,
+		building = NodeGroup.VERY_FAST,
 		oddly_breakable_by_hand = NodeGroup.VERY_FAST,
 		preserves_grass = NodeGroup.DUMMY,
-		simple_building = NodeGroup.VERY_FAST
 	},
 	mesh = "torch_wall.obj",
 	node_box = wallmounted_torch_box,
