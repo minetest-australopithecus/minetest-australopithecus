@@ -25,6 +25,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
+local dirt = {
+	name = "core:dirt"
+}
+
 -- Replace grass with dirt if a node is placed on it.
 minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing)
 	if minetest.get_item_group(newnode.name, "preserves_grass") > 0 then
