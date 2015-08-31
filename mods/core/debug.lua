@@ -44,7 +44,10 @@ minetest.register_tool("core:iron_hammer", {
 	tool_capabilities = {
 		full_punch_interval = 1.0,
 		groupcaps = {
-			building = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
+			building = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
+			ice = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
+			rock = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
+			stone = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
 		},
 		max_drop_level = 9000
 	}

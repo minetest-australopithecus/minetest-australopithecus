@@ -97,15 +97,6 @@ local function postfix_name(name, postfix)
 	return postfix
 end
 
-local function register_conversion(source, target)
-	ap.core.artisanry:register("core:" .. target, {
-		{ "core:" .. source }
-	})
-	ap.core.artisanry:register("core:" .. source, {
-		{ "core:" .. target }
-	})
-end
-
 local function register_node(definition)
 	if definition.node_box ~= nil then
 		definition.collision_box = definition.node_box
@@ -120,6 +111,16 @@ local function register_node(definition)
 	
 	minetest.register_node(name, tableutil.clone(definition))
 end
+
+local function register_conversion(source, target)
+	ap.core.artisanry:register("core:" .. target, {
+		{ "core:" .. source }
+	})
+	ap.core.artisanry:register("core:" .. source, {
+		{ "core:" .. target }
+	})
+end
+
 
 local function register_plates(definition)
 	for thickness = 1, 9, 1 do
@@ -291,6 +292,75 @@ local function register_stairs(definition)
 		register_node(outer_steep_corner_definition)
 		register_conversion(definition.name, outer_steep_corner_name)
 	end
+end
+
+
+local function register_bricks(definition)
+	local name = postfix_name(definition.name, "bricks")
+	
+	ap.core.artisanry:register("core:" .. postfix_name(definition.name, "cobble"), {
+		{ "core:" .. name }
+	})
+	
+	definition = tableutil.merge(definition, {
+		description = definition.description .. " Bricks",
+		drop = {
+			items = {
+				{
+					items = { "core:" .. name },
+					tools = { "~hammer" }
+				},
+				{
+					items = { "core:" .. postfix_name(definition.name, "rubble") },
+					tools = { "~pickaxe" }
+				}
+			}
+		},
+		name = name,
+		tiles = {
+			name .. ".png"
+		}
+	})
+	
+	register_node(definition)
+	
+	register_plates(definition)
+	register_ramps(definition)
+	register_stairs(definition)
+end
+
+local function register_cobble(definition)
+	local name = postfix_name(definition.name, "cobble")
+	
+	ap.core.artisanry:register("core:" .. postfix_name(definition.name, "rubble"), {
+		{ "core:" .. name }
+	})
+	
+	definition = tableutil.merge(definition, {
+		description = definition.description .. " Cobble",
+		drop = {
+			items = {
+				{
+					items = { "core:" .. name },
+					tools = { "~hammer" }
+				},
+				{
+					items = { "core:" .. postfix_name(definition.name, "rubble") },
+					tools = { "~pickaxe" }
+				}
+			}
+		},
+		name = name,
+		tiles = {
+			name .. ".png"
+		}
+	})
+	
+	register_node(definition)
+	
+	register_plates(definition)
+	register_ramps(definition)
+	register_stairs(definition)
 end
 
 local function register_rubble(definition)
@@ -471,7 +541,18 @@ ap.core.helpers.register_ice = function(name, prototype)
 	local definition = {
 		description = make_description(name),
 		diggable = true,
-		drop = "core:" .. name .. "_rubble",
+		drop = {
+			items = {
+				{
+					items = { "core:" .. name .. "_bricks" },
+					tools = { "~hammer" }
+				},
+				{
+					items = { "core:" .. name .. "_rubble" },
+					tools = { "~pickaxe" }
+				}
+			}
+		},
 		groups = {
 			ice = NodeGroup.NORMAL,
 		},
@@ -489,8 +570,11 @@ ap.core.helpers.register_ice = function(name, prototype)
 	
 	register_plates(definition)
 	register_ramps(definition)
-	register_rubble(definition)
 	register_stairs(definition)
+	
+	register_bricks(definition)
+	register_cobble(definition)
+	register_rubble(definition)
 end
 
 ap.core.helpers.register_rock = function(name, prototype)
@@ -499,7 +583,18 @@ ap.core.helpers.register_rock = function(name, prototype)
 	local definition = {
 		description = make_description(name),
 		diggable = true,
-		drop = "core:" .. name .. "_rubble",
+		drop = {
+			items = {
+				{
+					items = { "core:" .. name .. "_bricks" },
+					tools = { "~hammer" }
+				},
+				{
+					items = { "core:" .. name .. "_rubble" },
+					tools = { "~pickaxe" }
+				}
+			}
+		},
 		groups = {
 			rock = NodeGroup.NORMAL,
 		},
@@ -515,8 +610,11 @@ ap.core.helpers.register_rock = function(name, prototype)
 	
 	register_plates(definition)
 	register_ramps(definition)
-	register_rubble(definition)
 	register_stairs(definition)
+	
+	register_bricks(definition)
+	register_cobble(definition)
+	register_rubble(definition)
 end
 
 ap.core.helpers.register_sand = function(name, prototype)
