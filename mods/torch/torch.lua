@@ -80,6 +80,7 @@ local torch_burning_definition = tableutil.merge(torch_prototype, {
 	name = "torch_burning",
 	paramtype2 = "wallmounted",
 	selection_box = torch_box,
+	walkable = false,
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		local placed_torch = minetest.get_node(pos)
 		
