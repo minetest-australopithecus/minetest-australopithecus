@@ -321,9 +321,8 @@ ap.core.helpers.register_dirt = function(name, prototype)
 		diggable = true,
 		drop = "core:" .. name,
 		groups = {
-			crumbly = 2,
-			soil = 1,
-			oddly_breakable_by_hand = 1
+			dirt = NodeGroup.NORMAL,
+			oddly_breakable_by_hand = 2
 		},
 		name = name,
 		tiles = {
@@ -423,11 +422,9 @@ ap.core.helpers.register_grass = function(name, crumbly)
 		diggable = true,
 		drop = "core:dirt",
 		groups = {
-			crumbly = crumbly or 3,
-			grass = NodeGroup.DUMMY,
-			soil = 1,
-			oddly_breakable_by_hand = 1,
 			becomes_dirt = NodeGroup.DUMMY,
+			dirt = NodeGroup.NORMAL,
+			oddly_breakable_by_hand = 2,
 			spreads_on_dirt = NodeGroup.DUMMY
 		},
 		name = name,
@@ -449,8 +446,8 @@ ap.core.helpers.register_gravel = function(name, prototype)
 		diggable = true,
 		drop = "core:" .. name,
 		groups = {
-			crumbly = 2,
-			oddly_breakable_by_hand = 1
+			gravel = NodeGroup.NORMAL,
+			oddly_breakable_by_hand = 2
 		},
 		name = name,
 		tiles = {
@@ -476,7 +473,7 @@ ap.core.helpers.register_ice = function(name, prototype)
 		diggable = true,
 		drop = "core:" .. name .. "_rubble",
 		groups = {
-			cracky = 2,
+			ice = NodeGroup.NORMAL,
 		},
 		name = name,
 		tiles = {
@@ -504,7 +501,7 @@ ap.core.helpers.register_rock = function(name, prototype)
 		diggable = true,
 		drop = "core:" .. name .. "_rubble",
 		groups = {
-			cracky = 1
+			rock = NodeGroup.NORMAL,
 		},
 		name = name,
 		tiles = {
@@ -530,8 +527,8 @@ ap.core.helpers.register_sand = function(name, prototype)
 		diggable = true,
 		drop = "core:" .. name,
 		groups = {
-			crumbly = 2,
-			oddly_breakable_by_hand = 1
+			sand = NodeGroup.NORMAL,
+			oddly_breakable_by_hand = 2
 		},
 		name = name,
 		tiles = {
@@ -550,8 +547,8 @@ ap.core.helpers.register_snow = function(name, prototype)
 		description = make_description(name),
 		diggable = true,
 		groups = {
-			crumbly = 3,
-			oddly_breakable_by_hand = 1
+			snow = NodeGroup.NORMAL,
+			oddly_breakable_by_hand = 2
 		},
 		name = name,
 		tiles = {
@@ -576,7 +573,7 @@ ap.core.helpers.register_stone = function(name, prototype)
 		diggable = true,
 		drop = "core:" .. name,
 		groups = {
-			cracky = 1
+			stone = NodeGroup.NORMAL
 		},
 		name = name,
 		tiles = {

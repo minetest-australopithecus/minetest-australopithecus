@@ -25,24 +25,69 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
-minetest.register_tool("core:stick_of_truth", {
-	description = "A mighty stick.",
-	inventory_image = "stick_of_truth.png",
+minetest.register_tool("core:iron_axe", {
+	description = "A mighty axe.",
+	inventory_image = "iron_axe.png",
 	range = 5.0,
 	tool_capabilities = {
-		full_punch_interval = 0.5,
+		full_punch_interval = 1.0,
 		groupcaps = {
-			crumbly = { times = { 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			cracky = { times = { 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			simple_building = { times = { 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
+			wood = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
+		},
+		max_drop_level = 9000
+	}
+})
+minetest.register_tool("core:iron_hammer", {
+	description = "A mighty hammer.",
+	inventory_image = "iron_hammer.png",
+	range = 5.0,
+	tool_capabilities = {
+		full_punch_interval = 1.0,
+		groupcaps = {
+			building = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
+		},
+		max_drop_level = 9000
+	}
+})
+minetest.register_tool("core:iron_pick", {
+	description = "A mighty pick.",
+	inventory_image = "iron_pick.png",
+	range = 5.0,
+	tool_capabilities = {
+		full_punch_interval = 1.0,
+		groupcaps = {
+			dirt = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
+			ice = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
+			gravel = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
+			rock = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
+			snow = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
+			stone = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
+		},
+		max_drop_level = 9000
+	}
+})
+minetest.register_tool("core:iron_shovel", {
+	description = "A mighty shovel.",
+	inventory_image = "iron_shovel.png",
+	range = 5.0,
+	tool_capabilities = {
+		full_punch_interval = 1.0,
+		groupcaps = {
+			dirt = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
+			gravel = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
+			sand = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
+			snow = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
 		},
 		max_drop_level = 9000
 	}
 })
 
 minetest.register_on_joinplayer(function(player)
-	player:get_inventory():set_stack("main", 1, ItemStack("core:stick_of_truth"))
-	player:get_inventory():set_stack("main", 2, ItemStack("torch:torch_burning 64"))
+	player:get_inventory():set_stack("main", 1, ItemStack("core:iron_pick"))
+	player:get_inventory():set_stack("main", 2, ItemStack("core:iron_shovel"))
+	player:get_inventory():set_stack("main", 3, ItemStack("core:iron_axe"))
+	player:get_inventory():set_stack("main", 4, ItemStack("core:iron_hammer"))
+	player:get_inventory():set_stack("main", 5, ItemStack("torch:torch_burning 64"))
 end)
 
 minetest.register_chatcommand("get-torches", {
