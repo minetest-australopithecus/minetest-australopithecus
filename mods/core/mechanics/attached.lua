@@ -25,13 +25,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
+local air = {
+	name = "air"
+}
+
 -- Drop nodes that are attached to the dug node.
 minetest.register_on_dignode(function(pos, oldnode, digger)
-	nodeutil.surroundings(pos, -1, 1, -1, 1, 0, 0, function(pos, node)
+	local tool = digger:get_wielded_item()
+	if tool ~= nil then
+		tool = tool:get_name()
+	end
+	
+	nodeutil.surroundings(pos, -1, 1, -1, 1, -1, 1, function(spos, node)
+		local drop = false
+		
 		if nodeutil.has_group(node, "attached_to_facedir") then
-			-- TODO Drop the node here.
-		elseif nodeutil.has_group(node, "attach_to_wallmounted") then
-			-- TODO Drop the node here.
+			drop = vector.equals(pos, vector.add(spos, facedirutil.get_vector(node.param2)))
+		elseif nodeutil.has_group(node, "attached_to_wallmounted") then
+			drop = vector.equals(pos, vector.add(spos, wallmountedutil.get_vector(node.param2)))
+		end
+		
+		if drop then
+			local dropped_items = minetest.get_node_drops(node.name, tool)
+			
+			for index, dropped_item in ipairs(dropped_items) do
+				local dropped_node = minetest.add_item(spos, dropped_item)
+			end
+			
+			minetest.set_node(spos, air)
 		end
 	end)
 end)
