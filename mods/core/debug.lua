@@ -49,9 +49,9 @@ minetest.register_tool("core:iron_hammer", {
 		max_drop_level = 9000
 	}
 })
-minetest.register_tool("core:iron_pick", {
-	description = "A mighty pick.",
-	inventory_image = "iron_pick.png",
+minetest.register_tool("core:iron_pickaxe", {
+	description = "A mighty pickaxe.",
+	inventory_image = "iron_pickaxe.png",
 	range = 5.0,
 	tool_capabilities = {
 		full_punch_interval = 1.0,
@@ -83,7 +83,7 @@ minetest.register_tool("core:iron_shovel", {
 })
 
 minetest.register_on_joinplayer(function(player)
-	player:get_inventory():set_stack("main", 1, ItemStack("core:iron_pick"))
+	player:get_inventory():set_stack("main", 1, ItemStack("core:iron_pickaxe"))
 	player:get_inventory():set_stack("main", 2, ItemStack("core:iron_shovel"))
 	player:get_inventory():set_stack("main", 3, ItemStack("core:iron_axe"))
 	player:get_inventory():set_stack("main", 4, ItemStack("core:iron_hammer"))
