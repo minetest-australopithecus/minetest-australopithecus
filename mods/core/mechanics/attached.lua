@@ -25,45 +25,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
--- Main setup
-australopithecus = {}
-ap = australopithecus
+-- Drop nodes that are attached to the dug node.
+minetest.register_on_dignode(function(pos, oldnode, digger)
+	nodeutil.surroundings(pos, -1, 1, -1, 1, 0, 0, function(pos, node)
+		if nodeutil.has_group(node, "attached_to_facedir") then
+			-- TODO Drop the node here.
+		elseif nodeutil.has_group(node, "attach_to_wallmounted") then
+			-- TODO Drop the node here.
+		end
+	end)
+end)
 
--- Main module
-ap.core = {}
-
-ap.core.artisanry = Artisanry:new()
-
-
-
--- Load all files
-local base_path = minetest.get_modpath(minetest.get_current_modname())
-
--- Helpers first
-dofile(base_path .. "/helpers/helpers.lua")
-dofile(base_path .. "/helpers/nodes.lua")
-
--- Main files
-dofile(base_path .. "/debug.lua")
-dofile(base_path .. "/nodegroup.lua")
-dofile(base_path .. "/nodes.lua")
-dofile(base_path .. "/setup.lua")
-
--- Mechanics.
-dofile(base_path .. "/mechanics/attached.lua")
-dofile(base_path .. "/mechanics/removetopping.lua")
-dofile(base_path .. "/mechanics/spread.lua")
-
-
--- Activate Artisanry
-ArtisanryUI.activate(ap.core.artisanry)
-
--- Activate Spawn Usher
-spawnusher.activate(
-	80, -- Spread the players really far.
-	7 -- Let's try to avoid *most* cave spawns.
-)
-
--- Activate Voice.
-voice.activate()
 

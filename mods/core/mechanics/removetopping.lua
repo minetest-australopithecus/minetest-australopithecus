@@ -25,91 +25,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
-local dirt = {
-	name = "core:dirt"
-}
-
-local function spread(pos, node)
-	for x = pos.x - 1, pos.x + 1, 1 do
-		for z = pos.z - 1, pos.z + 1, 1 do
-			local current_pos = {
-				x = x,
-				y = pos.y,
-				z = z
-			}
-			
-			local current_node = minetest.get_node(current_pos)
-			
-			if current_node.name == "core:dirt" then
-				local node_above = minetest.get_node({
-					x = x,
-					y = pos.y + 1,
-					z = z
-				})
-				
-				if node_above.name == "air" then
-					minetest.set_node(current_pos, node)
-					
-					return true
-				end
-			end
-		end
-	end
-	
-	return false
-end
-
-
--- The ABM that turns dirt into grass/snow.
-minetest.register_abm({
-	chance = 64,
-	interval = 30.0,
-	neighbors = {
-		"core:dirt",
-		"air"
-	},
-	nodenames = {
-		"group:spreads_on_dirt"
-	},
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		-- Same height first.
-		if spread(pos, node) then
-			return
-		end
-		
-		-- Now we check below.
-		local pos_below = {
-			x = pos.x,
-			y = pos.y - 1,
-			z = pos.z
-		}
-		if spread(pos_below, node) then
-			return
-		end
-		
-		-- New check above.
-		local pos_above = {
-			x = pos.x,
-			y = pos.y + 1,
-			z = pos.z
-		}
-		if spread(pos_above, node) then
-			return
-		end
-	end
-})
-
--- Drop nodes that are attached to the dug node.
-minetest.register_on_dignode(function(pos, oldnode, digger)
-	nodeutil.surroundings(pos, -1, 1, -1, 1, 0, 0, function(pos, node)
-		if nodeutil.has_group(node, "attached_to_facedir") then
-			-- TODO Drop the node here.
-		elseif nodeutil.has_group(node, "attach_to_wallmounted") then
-			-- TODO Drop the node here.
-		end
-	end)
-end)
-
 -- Replace grass with dirt if a node is placed on it.
 minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing)
 	if minetest.get_item_group(newnode.name, "preserves_grass") > 0 then
@@ -124,7 +39,6 @@ minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack
 	
 	local node = minetest.get_node(pos_underneath)
 	
-	-- TODO This removes the grass for everything, some nodes might not want to replace grass.
 	if minetest.get_item_group(node.name, "becomes_dirt") > 0 then
 		minetest.set_node(pos_underneath, dirt)
 	end

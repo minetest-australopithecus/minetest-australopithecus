@@ -25,45 +25,77 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
--- Main setup
-australopithecus = {}
-ap = australopithecus
+local dirt = {
+	name = "core:dirt"
+}
 
--- Main module
-ap.core = {}
+local function spread(pos, node)
+	for x = pos.x - 1, pos.x + 1, 1 do
+		for z = pos.z - 1, pos.z + 1, 1 do
+			local current_pos = {
+				x = x,
+				y = pos.y,
+				z = z
+			}
+			
+			local current_node = minetest.get_node(current_pos)
+			
+			if current_node.name == dirt.name then
+				local node_above = minetest.get_node({
+					x = x,
+					y = pos.y + 1,
+					z = z
+				})
+				
+				if node_above.name == "air" then
+					minetest.set_node(current_pos, node)
+					
+					return true
+				end
+			end
+		end
+	end
+	
+	return false
+end
 
-ap.core.artisanry = Artisanry:new()
 
-
-
--- Load all files
-local base_path = minetest.get_modpath(minetest.get_current_modname())
-
--- Helpers first
-dofile(base_path .. "/helpers/helpers.lua")
-dofile(base_path .. "/helpers/nodes.lua")
-
--- Main files
-dofile(base_path .. "/debug.lua")
-dofile(base_path .. "/nodegroup.lua")
-dofile(base_path .. "/nodes.lua")
-dofile(base_path .. "/setup.lua")
-
--- Mechanics.
-dofile(base_path .. "/mechanics/attached.lua")
-dofile(base_path .. "/mechanics/removetopping.lua")
-dofile(base_path .. "/mechanics/spread.lua")
-
-
--- Activate Artisanry
-ArtisanryUI.activate(ap.core.artisanry)
-
--- Activate Spawn Usher
-spawnusher.activate(
-	80, -- Spread the players really far.
-	7 -- Let's try to avoid *most* cave spawns.
-)
-
--- Activate Voice.
-voice.activate()
+-- The ABM that turns dirt into grass/snow.
+minetest.register_abm({
+	chance = 64,
+	interval = 30.0,
+	neighbors = {
+		dirt.name,
+		"air"
+	},
+	nodenames = {
+		"group:spreads_on_dirt"
+	},
+	action = function(pos, node, active_object_count, active_object_count_wider)
+		-- Same height first.
+		if spread(pos, node) then
+			return
+		end
+		
+		-- Now we check below.
+		local pos_below = {
+			x = pos.x,
+			y = pos.y - 1,
+			z = pos.z
+		}
+		if spread(pos_below, node) then
+			return
+		end
+		
+		-- New check above.
+		local pos_above = {
+			x = pos.x,
+			y = pos.y + 1,
+			z = pos.z
+		}
+		if spread(pos_above, node) then
+			return
+		end
+	end
+})
 
