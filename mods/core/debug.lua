@@ -98,7 +98,7 @@ minetest.register_chatcommand("get-torches", {
 	params = "",
 	func = function(name, params)
 		local player = minetest.get_player_by_name(name)
-		player:get_inventory():set_stack("main", 2, ItemStack("torch:torch_burning 64"))
+		player:get_inventory():set_stack("main", 5, ItemStack("torch:torch_burning 64"))
 		
 		return true, "Done"
 	end
