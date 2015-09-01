@@ -25,61 +25,76 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
+local function create_dig_group(dig_time)
+	return {
+		maxlevel = 1,
+		times = {
+			dig_time * 2,
+			dig_time * 1.5,
+			dig_time,
+			dig_time  / 2,
+			dig_time / 4
+		},
+		uses = 0
+	}
+end
+
 minetest.register_tool("core:iron_axe", {
-	description = "A mighty axe.",
+	description = "A mighty iron axe.",
 	inventory_image = "iron_axe.png",
 	range = 5.0,
 	tool_capabilities = {
 		full_punch_interval = 1.0,
 		groupcaps = {
-			wood = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
+			wood = create_dig_group(3)
 		},
 		max_drop_level = 9000
 	}
 })
 minetest.register_tool("core:iron_hammer", {
-	description = "A mighty hammer.",
+	description = "A mighty iron hammer.",
 	inventory_image = "iron_hammer.png",
 	range = 5.0,
 	tool_capabilities = {
 		full_punch_interval = 1.0,
 		groupcaps = {
-			building = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			ice = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			rock = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			stone = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
+			building = create_dig_group(2.0),
+			ice = create_dig_group(3.0),
+			rock = create_dig_group(3.0),
+			stone = create_dig_group(3.0)
 		},
 		max_drop_level = 9000
 	}
 })
 minetest.register_tool("core:iron_pickaxe", {
-	description = "A mighty pickaxe.",
+	description = "A mighty iron pickaxe.",
 	inventory_image = "iron_pickaxe.png",
 	range = 5.0,
 	tool_capabilities = {
 		full_punch_interval = 1.0,
 		groupcaps = {
-			dirt = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			ice = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			gravel = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			rock = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			snow = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			stone = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
+			dirt = create_dig_group(3.0),
+			ice = create_dig_group(2.0),
+			gravel = create_dig_group(3.0),
+			rock = create_dig_group(2.0),
+			sand = create_dig_group(4.0),
+			snow = create_dig_group(4.0),
+			stone = create_dig_group(2.0)
 		},
-		max_drop_level = 9000
+		max_drop_level = 0
 	}
 })
 minetest.register_tool("core:iron_shovel", {
-	description = "A mighty shovel.",
+	description = "A mighty iron shovel.",
 	inventory_image = "iron_shovel.png",
 	range = 5.0,
 	tool_capabilities = {
 		full_punch_interval = 1.0,
 		groupcaps = {
-			dirt = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			gravel = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			sand = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 },
-			snow = { times =  { 0.5, 0.5, 0.5, 0.5, 0.5 }, uses = 0, maxlevel = 9000 }
+			dirt = create_dig_group(2.0),
+			gravel = create_dig_group(3.0),
+			sand = create_dig_group(1.5),
+			snow = create_dig_group(1.5)
 		},
 		max_drop_level = 9000
 	}
