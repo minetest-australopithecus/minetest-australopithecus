@@ -29,7 +29,8 @@ ap.core.helpers.register_dirt()
 ap.core.helpers.register_dirt("snowy_tundra", {
 	drop = "core:dirt",
 	groups = {
-		crumbly = 1,
+		dirt = NodeGroup.SLOW,
+		oddly_breakable_by_hand = 2,
 		becomes_dirt = NodeGroup.DUMMY,
 		spreads_on_dirt = NodeGroup.DUMMY
 	},
@@ -43,24 +44,24 @@ ap.core.helpers.register_dirt("wasteland")
 
 ap.core.helpers.register_fluid("water", 160, 1)
 
-ap.core.helpers.register_grass("chaparral", 2)
-ap.core.helpers.register_grass("deciduous_forest", 2)
-ap.core.helpers.register_grass("grassland", 2)
-ap.core.helpers.register_grass("rainforest", 2)
-ap.core.helpers.register_grass("savannah", 2)
-ap.core.helpers.register_grass("seasonal_rainforest", 2)
-ap.core.helpers.register_grass("seasonal_shrubland", 2)
-ap.core.helpers.register_grass("swamp", 2)
-ap.core.helpers.register_grass("taiga", 1)
-ap.core.helpers.register_grass("tropical_seasonal_rainforest", 2)
-ap.core.helpers.register_grass("tundra", 1)
+ap.core.helpers.register_grass("chaparral")
+ap.core.helpers.register_grass("deciduous_forest")
+ap.core.helpers.register_grass("grassland")
+ap.core.helpers.register_grass("rainforest")
+ap.core.helpers.register_grass("savannah")
+ap.core.helpers.register_grass("seasonal_rainforest")
+ap.core.helpers.register_grass("seasonal_shrubland")
+ap.core.helpers.register_grass("swamp")
+ap.core.helpers.register_grass("taiga")
+ap.core.helpers.register_grass("tropical_seasonal_rainforest")
+ap.core.helpers.register_grass("tundra", NodeGroup.SLOW)
 
 ap.core.helpers.register_gravel()
 
 ap.core.helpers.register_ice()
 ap.core.helpers.register_ice("glacial", {
 	groups = {
-		cracky = 2
+		ice = NodeGroup.SLOW
 	}
 })
 
@@ -71,5 +72,9 @@ ap.core.helpers.register_sand()
 
 ap.core.helpers.register_snow()
 
-ap.core.helpers.register_stone("sand")
+ap.core.helpers.register_stone("sand", {
+	groups = {
+		stone = NodeGroup.FAST
+	}
+})
 

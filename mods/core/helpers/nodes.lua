@@ -481,7 +481,7 @@ ap.core.helpers.register_fluid = function(name, alpha, viscosity, type)
 	register_node(definition)
 end
 
-ap.core.helpers.register_grass = function(name, crumbly)
+ap.core.helpers.register_grass = function(name, dig_speed)
 	name = postfix_name(name, "grass")
 	
 	local top_side = name .. ".png"
@@ -493,7 +493,7 @@ ap.core.helpers.register_grass = function(name, crumbly)
 		drop = "core:dirt",
 		groups = {
 			becomes_dirt = NodeGroup.DUMMY,
-			dirt = NodeGroup.NORMAL,
+			dirt = dig_speed or NodeGroup.NORMAL,
 			oddly_breakable_by_hand = 2,
 			spreads_on_dirt = NodeGroup.DUMMY
 		},
