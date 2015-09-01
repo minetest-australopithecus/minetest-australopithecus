@@ -46,7 +46,7 @@ minetest.register_tool("core:iron_axe", {
 	tool_capabilities = {
 		full_punch_interval = 1.0,
 		groupcaps = {
-			wood = create_dig_group(3)
+			wood = create_dig_group(2.0)
 		},
 		max_drop_level = 9000
 	}
@@ -58,10 +58,10 @@ minetest.register_tool("core:iron_hammer", {
 	tool_capabilities = {
 		full_punch_interval = 1.0,
 		groupcaps = {
-			building = create_dig_group(2.0),
-			ice = create_dig_group(3.0),
-			rock = create_dig_group(3.0),
-			stone = create_dig_group(3.0)
+			building = create_dig_group(1.0),
+			ice = create_dig_group(2.0),
+			rock = create_dig_group(2.0),
+			stone = create_dig_group(2.0)
 		},
 		max_drop_level = 9000
 	}
@@ -73,13 +73,13 @@ minetest.register_tool("core:iron_pickaxe", {
 	tool_capabilities = {
 		full_punch_interval = 1.0,
 		groupcaps = {
-			dirt = create_dig_group(3.0),
-			ice = create_dig_group(2.0),
-			gravel = create_dig_group(3.0),
-			rock = create_dig_group(2.0),
-			sand = create_dig_group(4.0),
-			snow = create_dig_group(4.0),
-			stone = create_dig_group(2.0)
+			dirt = create_dig_group(2.0),
+			ice = create_dig_group(1.0),
+			gravel = create_dig_group(2.0),
+			rock = create_dig_group(1.0),
+			sand = create_dig_group(3.0),
+			snow = create_dig_group(3.0),
+			stone = create_dig_group(1.0)
 		},
 		max_drop_level = 0
 	}
@@ -91,10 +91,10 @@ minetest.register_tool("core:iron_shovel", {
 	tool_capabilities = {
 		full_punch_interval = 1.0,
 		groupcaps = {
-			dirt = create_dig_group(2.0),
-			gravel = create_dig_group(3.0),
-			sand = create_dig_group(1.5),
-			snow = create_dig_group(1.5)
+			dirt = create_dig_group(1.0),
+			gravel = create_dig_group(2.0),
+			sand = create_dig_group(0.5),
+			snow = create_dig_group(0.5)
 		},
 		max_drop_level = 9000
 	}
