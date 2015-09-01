@@ -67,3 +67,9 @@ spawnusher.activate(
 -- Activate Voice.
 voice.activate()
 
+
+-- Get rid of the warnings.
+minetest.register_alias("mapgen_stone", "core:rock");
+minetest.register_alias("mapgen_water_source", "core:water_source");
+minetest.register_alias("mapgen_river_water_source", "core:water_source");
+
