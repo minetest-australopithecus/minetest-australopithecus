@@ -117,25 +117,5 @@ minetest.register_on_generated(function(minp, maxp, block_seed)
 	worldgen:run(manipulator, minp, maxp)
 	
 	manipulator:set_data()
-	
-	-- Update the block underneath, if there is one.
-	local minp_underneath = {
-		x = minp.x,
-		y = minp.y - 80,
-		z = minp.z
-	}
-	local maxp_underneath = {
-		x = maxp.x,
-		y = maxp.y - 80,
-		z = maxp.z
-	}
-	
-	minetest.after(1, function()
-		if minetest.get_node_or_nil(minp_underneath) ~= nil then
-			local manipulator = MapManipulator:new(minp_underneath, maxp_underneath)
-			manipulator:get_data()
-			manipulator:set_data()
-		end
-	end)
 end)
 
