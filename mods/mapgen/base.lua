@@ -25,7 +25,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
-worldgen:register("Init", function(constructor)
+-- Adds a BlockedCache to the persistent metadata storage and does extract
+-- it into metadata.cache for simpler use.
+worldgen:register("init", function(constructor)
 	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
 		if metadata.persistent.cache == nil then
 			metadata.persistent.cache = BlockedCache:new()

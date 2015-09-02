@@ -25,7 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
-worldgen:register("Temperaturemap - Init", function(constructor)
+worldgen:register("crust.temperaturemap.init", function(constructor)
 	constructor:add_param("base_value", 0)
 	
 	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
@@ -39,7 +39,7 @@ worldgen:register("Temperaturemap - Init", function(constructor)
 	end)
 end)
 
-worldgen:register("Temperaturemap - Major", function(constructor)
+worldgen:register("crust.temperaturemap.major", function(constructor)
 	constructor:add_param("high", 75)
 	constructor:add_param("low", -25)
 	
@@ -49,7 +49,7 @@ worldgen:register("Temperaturemap - Major", function(constructor)
 	constructor:set_run_2d(worldgenfunctions.ranged_noise_2d("temperaturemap"))
 end)
 
-worldgen:register("Temperaturemap - Elevation", function(constructor)
+worldgen:register("crust.temperaturemap.elevation", function(constructor)
 	constructor:set_condition(worldgenfunctions.if_true("generate_temperaturemap"))
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
 		local elevation = metadata.heightmap[x][z]
@@ -75,7 +75,7 @@ worldgen:register("Temperaturemap - Elevation", function(constructor)
 	end)
 end)
 
-worldgen:register("Temperaturemap - Details", function(constructor)
+worldgen:register("crust.temperaturemap.details", function(constructor)
 	constructor:add_param("variation_max", 0.5)
 	constructor:add_param("variation_min", -0.5)
 	
