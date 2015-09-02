@@ -25,13 +25,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
-worldgen:register("crust.baking.init", function(constructor)
+ap.mapgen.worldgen:register("crust.baking.init", function(constructor)
 	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
 		metadata.crust = {}
 	end)
 end)
 
-worldgen:register("crust.baking.shore", function(constructor)
+ap.mapgen.worldgen:register("crust.baking.shore", function(constructor)
 	constructor:add_param("ocean_level", -58)
 	constructor:add_param("shore_max", 6)
 	constructor:add_param("shore_min", 2)
@@ -57,7 +57,7 @@ worldgen:register("crust.baking.shore", function(constructor)
 	end)
 end)
 
-worldgen:register("crust.baking.heightmap", function(constructor)
+ap.mapgen.worldgen:register("crust.baking.heightmap", function(constructor)
 	constructor:add_param("bedrock_max", 84)
 	constructor:add_param("bedrock_min", 24)
 	constructor:add_param("subsurface_max", 29)
@@ -114,7 +114,7 @@ worldgen:register("crust.baking.heightmap", function(constructor)
 	end)
 end)
 
-worldgen:register("crust.baking.transform", function(constructor)
+ap.mapgen.worldgen:register("crust.baking.transform", function(constructor)
 	constructor:add_param("fade", 0.2)
 	constructor:add_param("mask_threshold_max", 1.0)
 	constructor:add_param("mask_threshold_min", 0.15)
@@ -156,7 +156,7 @@ worldgen:register("crust.baking.transform", function(constructor)
 	end)
 end)
 
-worldgen:register("crust.baking.upper-caves)", function(constructor)
+ap.mapgen.worldgen:register("crust.baking.upper-caves)", function(constructor)
 	constructor:add_param("depth_limit", -1600)
 	constructor:add_param("fade_limit", 33)
 	constructor:add_param("threshold_mask_max", 0.9)
@@ -206,7 +206,7 @@ worldgen:register("crust.baking.upper-caves)", function(constructor)
 	end)
 end)
 
-worldgen:register("crust.baking.lower-caves)", function(constructor)
+ap.mapgen.worldgen:register("crust.baking.lower-caves)", function(constructor)
 	constructor:add_param("depth_end", -2800)
 	constructor:add_param("depth_flooded", -2600)
 	constructor:add_param("depth_start", -1400)
@@ -241,7 +241,7 @@ worldgen:register("crust.baking.lower-caves)", function(constructor)
 	end)
 end)
 
-worldgen:register("crust.baking.surface-detection", function(constructor)
+ap.mapgen.worldgen:register("crust.baking.surface-detection", function(constructor)
 	constructor:add_param("max_depth", 47 + 10)
 	constructor:add_param("ocean_level", -58)
 	constructor:add_param("overlap", 3)
@@ -291,7 +291,7 @@ worldgen:register("crust.baking.surface-detection", function(constructor)
 	end)
 end)
 
-worldgen:register("crust.baking.ocean", function(constructor)
+ap.mapgen.worldgen:register("crust.baking.ocean", function(constructor)
 	constructor:add_param("max_depth", 47 + 3)
 	constructor:add_param("ocean_level", -58)
 	
@@ -315,7 +315,7 @@ worldgen:register("crust.baking.ocean", function(constructor)
 	end)
 end)
 
-worldgen:register("crust.baking.ramps", function(constructor)
+ap.mapgen.worldgen:register("crust.baking.ramps", function(constructor)
 	local rampplacer = RampPlacer:new()
 	
 	rampplacer:register_air_like("core:water_source")

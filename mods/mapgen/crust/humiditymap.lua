@@ -25,7 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
-worldgen:register("crust.humiditymap.init", function(constructor)
+ap.mapgen.worldgen:register("crust.humiditymap.init", function(constructor)
 	constructor:add_param("base_value", 0)
 	
 	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
@@ -39,7 +39,7 @@ worldgen:register("crust.humiditymap.init", function(constructor)
 	end)
 end)
 
-worldgen:register("crust.humiditymap.major", function(constructor)
+ap.mapgen.worldgen:register("crust.humiditymap.major", function(constructor)
 	constructor:add_param("high", 100)
 	constructor:add_param("low", 0)
 	
@@ -49,7 +49,7 @@ worldgen:register("crust.humiditymap.major", function(constructor)
 	constructor:set_run_2d(worldgenfunctions.ranged_noise_2d("humiditymap"))
 end)
 
-worldgen:register("crust.humiditymap.details", function(constructor)
+ap.mapgen.worldgen:register("crust.humiditymap.details", function(constructor)
 	constructor:add_param("variation_max", 1)
 	constructor:add_param("variation_min", -1)
 	

@@ -24,6 +24,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
+local biomes = Biomes:new()
 
 biomes:register("Chaparral", function(constructor)
 	constructor:add_param("humidity", { min = 50, max = 75 })
@@ -250,7 +251,7 @@ biomes:register("Wasteland", function(constructor)
 end)
 
 
-worldgen:register("crust.biomes", function(constructor)
+ap.mapgen.worldgen:register("crust.biomes", function(constructor)
 	constructor:set_condition(function(module, metadata, minp, maxp)
 		if metadata.cache.biomes == nil then
 			metadata.cache.biomes = arrayutil.create2d(minp.x, minp.z, maxp.x, maxp.z, nil)

@@ -25,15 +25,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
+ap.mapgen = {}
+
 local base_path = minetest.get_modpath(minetest.get_current_modname())
 
-worldgen = nil
-biomes = nil
+ap.mapgen.worldgen = nil
 
 
 function reload_worldgen()
-	worldgen = WorldGen:new()
-	biomes = Biomes:new()
+	ap.mapgen.worldgen = WorldGen:new()
 	
 	-- Order is important.
 	
@@ -114,7 +114,7 @@ end)
 minetest.register_on_generated(function(minp, maxp, block_seed)
 	local manipulator = MapManipulator:new()
 	
-	worldgen:run(manipulator, minp, maxp)
+	ap.mapgen.worldgen:run(manipulator, minp, maxp)
 	
 	manipulator:set_data()
 end)

@@ -27,7 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -- We will fill everything with air that is still filled with "ignore".
 -- That removes odd lighting glitches that I've been seeing.
-worldgen:register("air", function(constructor)
+ap.mapgen.worldgen:register("air", function(constructor)
 	constructor:require_node("air", "air")
 	
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
