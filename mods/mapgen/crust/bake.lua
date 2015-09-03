@@ -299,6 +299,7 @@ ap.mapgen.worldgen:register("crust.baking.ocean", function(constructor)
 	
 	constructor:set_condition(function(module, metadata, minp, maxp)
 		return minp.y <= module.params.ocean_level
+			and maxp.y >= (metadata.heightmap_range.min - module.params.max_depth)
 	end)
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
 		local biome = metadata.biomes[x][z]
