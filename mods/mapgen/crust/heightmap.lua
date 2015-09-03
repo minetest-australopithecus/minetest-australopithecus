@@ -339,7 +339,7 @@ ap.mapgen.worldgen:register("crust.heightmap.finalization", function(constructor
 		local value = metadata.heightmap[x][z]
 		
 		metadata.heightmap_range.max = math.max(metadata.heightmap_range.max, value)
-		metadata.heightmap_range.min = math.max(metadata.heightmap_range.min, value)
+		metadata.heightmap_range.min = math.min(metadata.heightmap_range.min, value)
 	end)
 end)
 
