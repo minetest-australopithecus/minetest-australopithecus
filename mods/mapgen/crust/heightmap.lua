@@ -294,28 +294,31 @@ ap.mapgen.worldgen:register("crust.heightmap.terraces", function(constructor)
 	constructor:add_param("fade", 0.1)
 	constructor:add_param("terrace_height", 5)
 	constructor:add_param("threshold_mask_max", 1.0)
-	constructor:add_param("threshold_mask_min", 0.7)
+	constructor:add_param("threshold_mask_min", 0.75)
 	
 	constructor:require_noise2d("mask", 4, 0.7, 1, 1800)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
 		local mask_value = module.noises.mask[x][z]
+		mask_value = mathutil.clamp(mask_value, -1, 1)
 		
 		if mathutil.in_range(mask_value, module.params.threshold_mask_min, module.params.threshold_mask_max) then
 			local height = metadata.heightmap[x][z]
 			local terrace_height = module.params.terrace_height
 			
 			if mathutil.in_range(mask_value, module.params.threshold_mask_min, module.params.threshold_mask_min + module.params.fade) then
-				terrace_height = interpolate.cosine(
-					mask_value / (module.params.threshold_mask_min + module.params.fade),
+				terrace_height = transform.cosine(
+					mask_value,
+					module.params.threshold_mask_min,
+					module.params.threshold_mask_min + module.params.fade,
 					1,
 					terrace_height)
 				terrace_height = mathutil.round(terrace_height)
 			end
 			
 			height = height / terrace_height
-			height = mathutil.round(height)
+			height = math.ceil(height)
 			height = height * terrace_height
 			
 			metadata.heightmap[x][z] = height
