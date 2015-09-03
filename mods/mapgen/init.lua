@@ -55,13 +55,16 @@ reload_worldgen()
 
 minetest.register_chatcommand("delete-map", {
 	description = "Deletes the current map chunk.",
-	params = "",
-	func = function(name, params)
+	params = "<range>",
+	func = function(name, range)
+		range = tonumber(range) or 0
+		range = range * 80
+		
 		local player = minetest.get_player_by_name(name)
 		local position = player:getpos()
 		
-		local min = blockutil.get_begin_pos(position.x, position.y, position.z)
-		local max = blockutil.get_end_pos(position.x, position.y, position.z)
+		local min = blockutil.get_begin_pos(position.x - range, position.y - range, position.z - range)
+		local max = blockutil.get_end_pos(position.x + range, position.y + range, position.z + range)
 		
 		minetest.delete_area(min, max)
 		
@@ -115,7 +118,8 @@ minetest.register_on_generated(function(minp, maxp, block_seed)
 	local manipulator = MapManipulator:new()
 	
 	ap.mapgen.worldgen:run(manipulator, minp, maxp)
-	
+	stopwatch.start("data")
 	manipulator:set_data()
+	stopwatch.stop("data")
 end)
 
