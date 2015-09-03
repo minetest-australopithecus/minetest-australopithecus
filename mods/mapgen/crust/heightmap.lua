@@ -294,9 +294,9 @@ ap.mapgen.worldgen:register("crust.heightmap.terraces", function(constructor)
 	constructor:add_param("fade", 0.1)
 	constructor:add_param("terrace_height", 5)
 	constructor:add_param("threshold_mask_max", 1.0)
-	constructor:add_param("threshold_mask_min", 0.75)
+	constructor:add_param("threshold_mask_min", 0.8)
 	
-	constructor:require_noise2d("mask", 4, 0.7, 1, 1800)
+	constructor:require_noise2d("mask", 4, 0.7, 1, 1900)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
