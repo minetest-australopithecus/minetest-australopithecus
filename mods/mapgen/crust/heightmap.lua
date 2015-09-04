@@ -33,8 +33,8 @@ ap.mapgen.worldgen:register("crust.heightmap.init", function(constructor)
 			metadata.cache.heightmap = arrayutil.create2d(minp.x, minp.z, maxp.x, maxp.z, module.params.base_value)
 			metadata.cache.heightmap_info = arrayutil.create2d(minp.x, minp.z, maxp.x, maxp.z, {})
 			metadata.cache.heightmap_range = {
-				max = 0,
-				min = 0
+				max = -31000,
+				min = 31000
 			}
 			
 			metadata.generate_heightmap = true
