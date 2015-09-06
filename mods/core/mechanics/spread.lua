@@ -32,14 +32,15 @@ local dirt = {
 local function spread(source_pos, spreading_node, minimum_light, maximum_light)
 	return nodeutil.surroundings(source_pos, -1, 1, -1, 1, 0, 0, function(pos, node)
 		if node.name == dirt.name then
-			local node_above = minetest.get_node({
+			local pos_above = {
 				x = pos.x,
 				y = pos.y + 1,
 				z = pos.z
-			})
+			}
+			local node_above = minetest.get_node(pos_above)
 			
 			if node_above.name == "air" then
-				local node_light = minetest.get_node_light(pos)
+				local node_light = minetest.get_node_light(pos_above)
 				
 				if mathutil.in_range(node_light, minimum_light, maximum_light) then
 					minetest.set_node(pos, spreading_node)
@@ -53,8 +54,8 @@ end
 
 -- The ABM that turns dirt into grass/snow.
 minetest.register_abm({
-	chance = 64,
-	interval = 30.0,
+	chance = 1,
+	interval = 1.0,
 	neighbors = {
 		dirt.name,
 		"air"
