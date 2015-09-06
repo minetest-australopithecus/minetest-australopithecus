@@ -495,6 +495,7 @@ ap.core.helpers.register_grass = function(name, dig_speed)
 			becomes_dirt = NodeGroup.DUMMY,
 			dirt = dig_speed or NodeGroup.NORMAL,
 			oddly_breakable_by_hand = 2,
+			spread_minimum_light = 9,
 			spreads_on_dirt = NodeGroup.DUMMY
 		},
 		name = name,

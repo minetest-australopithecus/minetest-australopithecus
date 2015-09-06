@@ -29,34 +29,25 @@ local dirt = {
 	name = "core:dirt"
 }
 
-local function spread(pos, node)
-	for x = pos.x - 1, pos.x + 1, 1 do
-		for z = pos.z - 1, pos.z + 1, 1 do
-			local current_pos = {
-				x = x,
-				y = pos.y,
-				z = z
-			}
+local function spread(source_pos, spreading_node, minimum_light, maximum_light)
+	return nodeutil.surroundings(source_pos, -1, 1, -1, 1, 0, 0, function(pos, node)
+		if node.name == dirt.name then
+			local node_above = minetest.get_node({
+				x = pos.x,
+				y = pos.y + 1,
+				z = pos.z
+			})
 			
-			local current_node = minetest.get_node(current_pos)
-			
-			if current_node.name == dirt.name then
-				local node_above = minetest.get_node({
-					x = x,
-					y = pos.y + 1,
-					z = z
-				})
+			if node_above.name == "air" then
+				local node_light = minetest.get_node_light(pos)
 				
-				if node_above.name == "air" then
-					minetest.set_node(current_pos, node)
-					
+				if mathutil.in_range(node_light, minimum_light, maximum_light) then
+					minetest.set_node(pos, spreading_node)
 					return true
 				end
 			end
 		end
-	end
-	
-	return false
+	end)
 end
 
 
@@ -72,8 +63,18 @@ minetest.register_abm({
 		"group:spreads_on_dirt"
 	},
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		-- Get the required light values.
+		local minimum_light = minetest.get_item_group(node.name, "spread_minimum_light")
+		local maximum_light = minetest.get_item_group(node.name, "spread_maximum_light")
+		
+		-- Minimum can happily stay at zero, however we need to fix the maximum
+		-- value here.
+		if maximum_light == 0 then
+			maximum_light = 100
+		end
+		
 		-- Same height first.
-		if spread(pos, node) then
+		if spread(pos, node, minimum_light, maximum_light) then
 			return
 		end
 		
@@ -83,7 +84,7 @@ minetest.register_abm({
 			y = pos.y - 1,
 			z = pos.z
 		}
-		if spread(pos_below, node) then
+		if spread(pos_below, node, minimum_light, maximum_light) then
 			return
 		end
 		
@@ -93,7 +94,7 @@ minetest.register_abm({
 			y = pos.y + 1,
 			z = pos.z
 		}
-		if spread(pos_above, node) then
+		if spread(pos_above, node, minimum_light, maximum_light) then
 			return
 		end
 	end
