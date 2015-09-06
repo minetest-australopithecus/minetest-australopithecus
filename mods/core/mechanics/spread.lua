@@ -54,8 +54,8 @@ end
 
 -- The ABM that turns dirt into grass/snow.
 minetest.register_abm({
-	chance = 1,
-	interval = 1.0,
+	chance = 64,
+	interval = 30.0,
 	neighbors = {
 		dirt.name,
 		"air"
