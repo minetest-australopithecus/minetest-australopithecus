@@ -115,7 +115,6 @@ ap.mapgen.worldgen:register("crust.baking.heightmap", function(constructor)
 end)
 
 ap.mapgen.worldgen:register("crust.baking.transform", function(constructor)
-	constructor:add_param("fade", 0.2)
 	constructor:add_param("mask_threshold_max", 1.0)
 	constructor:add_param("mask_threshold_min", 0.65)
 	constructor:add_param("max_depth", 47)
@@ -124,7 +123,7 @@ ap.mapgen.worldgen:register("crust.baking.transform", function(constructor)
 	
 	constructor:require_node("air", "air")
 	
-	constructor:require_noise3d("fade", 4, 0.8, 1, 1500)
+	constructor:require_noise3d("fade", 6, 0.8, 0.8, 1500)
 	constructor:require_noise3d("main", 4, 0.6, 1, 150, 200, 150)
 	constructor:require_noise3d("mask", 5, 0.7, 0.9, 2400)
 	
