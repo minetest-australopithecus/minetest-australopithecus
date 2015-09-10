@@ -102,6 +102,9 @@ local function register_node(definition)
 		definition.collision_box = definition.node_box
 		definition.selection_box = definition.node_box
 	end
+	if definition.max_stack == nil then
+		definition.stack_max = 64
+	end
 	
 	local name = definition.name
 	

@@ -53,6 +53,7 @@ local torch_prototype = {
 	drawtype = "mesh",
 	light_source = 11,
 	paramtype = "light",
+	stack_max = 64,
 	tiles = {
 		{
 			name = "torch_on.png",
