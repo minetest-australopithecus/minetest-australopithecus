@@ -56,7 +56,7 @@ dofile(base_path .. "/mechanics/spread.lua")
 
 
 -- Activate Artisanry
-ArtisanryUI.activate(ap.core.artisanry)
+artisanryui.activate(ap.core.artisanry)
 
 -- Activate Spawn Usher
 spawnusher.activate(
