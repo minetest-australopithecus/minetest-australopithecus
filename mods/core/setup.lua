@@ -28,7 +28,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --- Callback for if a player joins, sets up the basic stuff.
 minetest.register_on_joinplayer(function(player)
 	player:hud_set_flags({
-		crosshair = false
+		crosshair = minetest.setting_getbool("ap_crosshair_visible"),
+		minimap = minetest.setting_getbool("ap_minimap_available")
 	})
 end)
 
@@ -37,7 +38,7 @@ spawnusher.register_after_spawn_callback(function(player)
 		gravity = 1,
 		jump = 1,
 		sneak = true,
-		sneak_glitch = false,
+		sneak_glitch = minetest.setting_getbool("ap_sneak_glitch_available"),
 		speed = 1
 	})
 end)
