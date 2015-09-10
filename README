@@ -62,7 +62,6 @@ The next few things that I plan to implement:
    lightbulbs.
  * Once [#3095][3095] is implemented that torch can be simplified and the
    `torch_wall*` variants can be removed.
- * Most debug commands should be limited to admins.
  * Directly after the mapgen there are lighting issues. This is checked in
    [#723][723].
 
