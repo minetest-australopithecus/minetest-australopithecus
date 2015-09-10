@@ -57,6 +57,10 @@ minetest.register_chatcommand("delete-map", {
 	description = "Deletes the current map chunk.",
 	params = "<range>",
 	func = function(name, range)
+		if not minetest.check_player_privs(name, { ap_mapgen = true }) then
+			return false, "No permission to execute this command."
+		end
+		
 		range = tonumber(range) or 0
 		range = range * 80
 		
@@ -79,6 +83,10 @@ minetest.register_chatcommand("reload-mapgen", {
 	description = "Reloads the world generator.",
 	params = "",
 	func = function(name, params)
+		if not minetest.check_player_privs(name, { ap_mapgen = true }) then
+			return false, "No permission to execute this command."
+		end
+		
 		reload_worldgen()
 		return true, "Done"
 	end
@@ -88,6 +96,10 @@ minetest.register_chatcommand("update-map", {
 	description = "Updates the current map chunk.",
 	params = "",
 	func = function(name, params)
+		if not minetest.check_player_privs(name, { ap_mapgen = true }) then
+			return false, "No permission to execute this command."
+		end
+		
 		local player = minetest.get_player_by_name(name)
 		local position = player:getpos()
 		
