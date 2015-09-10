@@ -74,10 +74,11 @@ For the time being there are multiple commands available, mostly for debugging
 purposes.
 
  * `/delete-map`, deletes the current map chunk which is automatically
-   regenerated from scratch.
+   regenerated from scratch. Needs the `ap_mapgen` privilege.
  * `/reload-mapgen`, reloads the mapgen system. Only useful if you plan to test
-   changes to the mapgen on the fly.
+   changes to the mapgen on the fly. Needs the `ap_mapgen` privilege.
  * `/update-map`, updates the liquids and lighting in the current map chunk.
+   Needs the `ap_mapgen` privilege.
 
 
 Feedback
