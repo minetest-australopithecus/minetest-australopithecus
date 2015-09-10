@@ -33,6 +33,7 @@ release:
 	cp -R $(deps)/worldgen/mods/worldgen $(release)/australopithecus/mods/
 	cp -R $(deps)/worldgen-utils/mods/worldgen_utils $(release)/australopithecus/mods/
 	
+	cp -R $(mods)/base $(release)/australopithecus/mods/
 	cp -R $(mods)/core $(release)/australopithecus/mods/
 	cp -R $(mods)/mapgen $(release)/australopithecus/mods/
 	cp -R $(mods)/torch $(release)/australopithecus/mods/
