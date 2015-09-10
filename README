@@ -75,7 +75,6 @@ purposes.
 
  * `/delete-map`, deletes the current map chunk which is automatically
    regenerated from scratch.
- * `/get-torches`, gives you a fresh set of torches.
  * `/reload-mapgen`, reloads the mapgen system. Only useful if you plan to test
    changes to the mapgen on the fly.
  * `/update-map`, updates the liquids and lighting in the current map chunk.

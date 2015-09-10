@@ -39,8 +39,8 @@ local function create_dig_group(dig_time)
 	}
 end
 
-minetest.register_tool("core:iron_axe", {
-	description = "A mighty iron axe.",
+minetest.register_tool("core:debug_axe", {
+	description = "A mighty debug axe.",
 	inventory_image = "iron_axe.png",
 	range = 5.0,
 	tool_capabilities = {
@@ -51,8 +51,8 @@ minetest.register_tool("core:iron_axe", {
 		max_drop_level = 9000
 	}
 })
-minetest.register_tool("core:iron_hammer", {
-	description = "A mighty iron hammer.",
+minetest.register_tool("core:debug_hammer", {
+	description = "A mighty debug hammer.",
 	inventory_image = "iron_hammer.png",
 	range = 5.0,
 	tool_capabilities = {
@@ -66,8 +66,8 @@ minetest.register_tool("core:iron_hammer", {
 		max_drop_level = 9000
 	}
 })
-minetest.register_tool("core:iron_pickaxe", {
-	description = "A mighty iron pickaxe.",
+minetest.register_tool("core:debug_pickaxe", {
+	description = "A mighty debug pickaxe.",
 	inventory_image = "iron_pickaxe.png",
 	range = 5.0,
 	tool_capabilities = {
@@ -84,8 +84,8 @@ minetest.register_tool("core:iron_pickaxe", {
 		max_drop_level = 0
 	}
 })
-minetest.register_tool("core:iron_shovel", {
-	description = "A mighty iron shovel.",
+minetest.register_tool("core:debug_shovel", {
+	description = "A mighty debug shovel.",
 	inventory_image = "iron_shovel.png",
 	range = 5.0,
 	tool_capabilities = {
@@ -100,22 +100,9 @@ minetest.register_tool("core:iron_shovel", {
 	}
 })
 
-minetest.register_on_joinplayer(function(player)
-	player:get_inventory():set_stack("main", 1, ItemStack("core:iron_pickaxe"))
-	player:get_inventory():set_stack("main", 2, ItemStack("core:iron_shovel"))
-	player:get_inventory():set_stack("main", 3, ItemStack("core:iron_axe"))
-	player:get_inventory():set_stack("main", 4, ItemStack("core:iron_hammer"))
-	player:get_inventory():set_stack("main", 5, ItemStack("torch:torch_burning 64"))
-end)
-
-minetest.register_chatcommand("get-torches", {
-	description = "Gets you some torches.",
-	params = "",
-	func = function(name, params)
-		local player = minetest.get_player_by_name(name)
-		player:get_inventory():set_stack("main", 5, ItemStack("torch:torch_burning 64"))
-		
-		return true, "Done"
-	end
-})
+ap.core.artisanry:register("core:debug_axe", {})
+ap.core.artisanry:register("core:debug_hammer", {})
+ap.core.artisanry:register("core:debug_pickaxe", {})
+ap.core.artisanry:register("core:debug_shovel", {})
+ap.core.artisanry:register("torch:torch_burning 64", {})
 
