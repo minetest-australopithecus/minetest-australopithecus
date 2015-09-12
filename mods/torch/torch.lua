@@ -95,8 +95,6 @@ local torch_burning_definition = tableutil.merge(torch_prototype, {
 		elseif placed_torch.param2 == 1 then
 			-- All cool, nothing to do.
 		else
-				print(placed_torch.param2);
-				print(wallmountedutil.to_facedir(placed_torch.param2));
 			minetest.set_node(pos, {
 				name = placed_torch.name .. "_wall",
 				param1 = placed_torch.param1,
