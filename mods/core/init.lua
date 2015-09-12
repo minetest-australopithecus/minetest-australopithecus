@@ -55,17 +55,10 @@ dofile(base_path .. "/mechanics/removetopping.lua")
 dofile(base_path .. "/mechanics/spread.lua")
 
 
+
 -- Activate Artisanry
 artisanryui.activate(ap.core.artisanry)
 
--- Activate Spawn Usher
-spawnusher.activate(
-	80, -- Spread the players really far.
-	7 -- Let's try to avoid *most* cave spawns.
-)
-
--- Activate Voice.
-voice.activate()
 
 
 -- Get rid of the warnings.
