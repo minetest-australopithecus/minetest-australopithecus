@@ -44,6 +44,7 @@ Mods (external)
 
  * [artisanry][artisanry], a replacement for the default build system.
  * [utils][utils], a util collection for Minetest mods.
+ * [sneak-cam][sneak-cam], a mod that lowers the viewpoints of sneaking players.
  * [spawn-usher][spawn-usher], a system to place the player on spawns.
  * [voice][voice], a system that makes the chat behave more like a voice.
  * [worldgen][worldgen], a system for creating mapgens.
@@ -101,6 +102,7 @@ most of the time in #minetest, #minetest-dev and #minetest-mod channels.
  [minetest-forum-topic]: https://forum.minetest.net/viewtopic.php?f=50&t=12889
  [summerfields]: https://github.com/SummerFields/SummerFields
  [utils]: https://github.com/RobertZenz/minetest-australopithecus-worldgen-utils
+ [sneak-cam]: https://github.com/RobertZenz/minetest-australopithecus-sneak-cam
  [spawn-usher]: https://github.com/RobertZenz/minetest-australopithecus-spawn-usher
  [voice]: https://github.com/RobertZenz/minetest-australopithecus-voice
  [worldgen]: https://github.com/RobertZenz/minetest-australopithecus-worldgen

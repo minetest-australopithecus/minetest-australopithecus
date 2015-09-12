@@ -19,3 +19,6 @@
 [submodule "deps/voice"]
 	path = deps/voice
 	url = https://github.com/RobertZenz/minetest-australopithecus-voice
+[submodule "deps/sneak-cam"]
+	path = deps/sneak-cam
+	url = https://github.com/RobertZenz/minetest-australopithecus-sneak-cam.git
