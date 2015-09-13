@@ -129,7 +129,7 @@ end)
 minetest.register_on_generated(function(minp, maxp, block_seed)
 	local manipulator = MapManipulator:new()
 	
-	ap.mapgen.worldgen:run(manipulator, minp, maxp)
+	ap.mapgen.worldgen:run(manipulator, minp, maxp, block_seed)
 	
 	manipulator:set_data()
 end)
