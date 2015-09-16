@@ -33,6 +33,13 @@ minetest.register_on_joinplayer(function(player)
 	hud_flags.minimap = settings.get_bool("ap_minimap_available", false)
 	
 	player:hud_set_flags(hud_flags)
+	
+	
+	local nametag_attributes = player:get_nametag_attributes()
+	
+	nametag_attributes.color = "00000000"
+	
+	player:set_nametag_attributes(nametag_attributes)
 end)
 
 spawnusher.register_after_spawn_callback(function(player)
