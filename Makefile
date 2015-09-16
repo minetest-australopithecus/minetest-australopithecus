@@ -27,6 +27,7 @@ release:
 	cp README $(release)/australopithecus/
 	
 	cp -R $(deps)/artisanry/mods/artisanry $(release)/australopithecus/mods/
+	cp -R $(deps)/player-model/mods/player_model $(release)/australopithecus/mods/
 	cp -R $(deps)/sneak-cam/mods/sneak_cam $(release)/australopithecus/mods/
 	cp -R $(deps)/spawn-usher/mods/spawn_usher $(release)/australopithecus/mods/
 	cp -R $(deps)/utils/utils $(release)/australopithecus/mods/
