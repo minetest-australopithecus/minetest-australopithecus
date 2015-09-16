@@ -27,19 +27,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --- Callback for if a player joins, sets up the basic stuff.
 minetest.register_on_joinplayer(function(player)
-	player:hud_set_flags({
-		crosshair = settings.get_bool("ap_crosshair_visible", false),
-		minimap = settings.get_bool("ap_minimap_available", false)
-	})
+	local hud_flags = player:hud_get_flags()
+	
+	hud_flags.crosshair = settings.get_bool("ap_crosshair_visible", false)
+	hud_flags.minimap = settings.get_bool("ap_minimap_available", false)
+	
+	player:hud_set_flags(hud_flags)
 end)
 
 spawnusher.register_after_spawn_callback(function(player)
-	player:set_physics_override({
-		gravity = 1,
-		jump = 1,
-		sneak = true,
-		sneak_glitch = settings.get_bool("ap_sneak_glitch_available", false),
-		speed = 1
-	})
+	local physics_override = player:get_physics_override()
+	
+	physics_override.sneak_glitch = settings.get_bool("ap_sneak_glitch_available", false),
+	
+	player:set_physics_override(physics_override)
 end)
 
