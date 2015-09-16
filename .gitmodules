@@ -22,3 +22,6 @@
 [submodule "deps/sneak-cam"]
 	path = deps/sneak-cam
 	url = https://github.com/RobertZenz/minetest-australopithecus-sneak-cam.git
+[submodule "deps/player-model"]
+	path = deps/player-model
+	url = https://github.com/RobertZenz/minetest-australopithecus-player-model.git
