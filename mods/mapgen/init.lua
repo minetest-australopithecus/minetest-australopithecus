@@ -118,19 +118,21 @@ minetest.register_chatcommand("update-map", {
 })
 
 
-minetest.register_on_mapgen_init(function(mapgen_params)
-	minetest.set_mapgen_params({
-		flags = "nolight",
-		mgname = "singlenode",
-		water_level = -31000
-	})
-end)
-
-minetest.register_on_generated(function(minp, maxp, block_seed)
-	local manipulator = MapManipulator:new()
+if settings.get_bool("ap_mapgen_activate", true) then
+	minetest.register_on_mapgen_init(function(mapgen_params)
+		minetest.set_mapgen_params({
+			flags = "nolight",
+			mgname = "singlenode",
+			water_level = -31000
+		})
+	end)
 	
-	ap.mapgen.worldgen:run(manipulator, minp, maxp, block_seed)
-	
-	manipulator:set_data()
-end)
+	minetest.register_on_generated(function(minp, maxp, block_seed)
+		local manipulator = MapManipulator:new()
+		
+		ap.mapgen.worldgen:run(manipulator, minp, maxp, block_seed)
+		
+		manipulator:set_data()
+	end)
+end
 
