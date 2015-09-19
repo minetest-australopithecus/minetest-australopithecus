@@ -51,22 +51,6 @@ Mods (external)
  * [worldgen-utils][worldgen-utils], a util collection for mapgens.
 
 
-Next up
-=======
-
-The next few things that I plan to implement:
-
- * drop mod, everything that is mined should be dropped and then automatically
-   picked up. This does provide valuable visual feedback to what's going on.
-   This kinda depends on [#3107][3107].
- * Particle effects for torches are needed to make them not look like
-   lightbulbs.
- * Once [#3095][3095] is implemented that torch can be simplified and the
-   `torch_wall*` variants can be removed.
- * Directly after the mapgen there are lighting issues. This is checked in
-   [#723][723].
-
-
 Debug commands
 ==============
 
@@ -89,9 +73,6 @@ here, post in the [forum thread][minetest-forum-topic] or over IRC, I'm idling
 most of the time in #minetest, #minetest-dev and #minetest-mod channels.
 
 
- [723]: https://github.com/minetest/minetest/issues/725
- [3095]: https://github.com/minetest/minetest/issues/3095
- [3107]: https://github.com/minetest/minetest/issues/3107
  [artisanry]: https://github.com/RobertZenz/minetest-australopithecus-artisanry
  [australopithecus-wiki]: https://en.wikipedia.org/wiki/Australopithecus
  [diggles]: https://en.wikipedia.org/wiki/Diggles:_The_Myth_of_Fenris
