@@ -156,7 +156,7 @@ ap.mapgen.worldgen:register("crust.baking.transform", function(constructor)
 	end)
 end)
 
-ap.mapgen.worldgen:register("crust.baking.upper-caves)", function(constructor)
+ap.mapgen.worldgen:register("crust.baking.upper-caves", function(constructor)
 	constructor:add_param("depth_limit", -1600)
 	constructor:add_param("fade_limit", 33)
 	constructor:add_param("threshold_mask_max", 0.9)
@@ -171,7 +171,7 @@ ap.mapgen.worldgen:register("crust.baking.upper-caves)", function(constructor)
 	constructor:require_noise3d("fade", 4, 0.6, 1, 300, 600, 300)
 	
 	constructor:set_condition(function(module, metadata, minp, maxp)
-		return (metadata.heightmap_range.max >= minp.y)
+		return metadata.heightmap_range.max >= minp.y
 			and maxp.y >= module.params.depth_limit
 	end)
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
@@ -206,7 +206,7 @@ ap.mapgen.worldgen:register("crust.baking.upper-caves)", function(constructor)
 	end)
 end)
 
-ap.mapgen.worldgen:register("crust.baking.lower-caves)", function(constructor)
+ap.mapgen.worldgen:register("crust.baking.lower-caves", function(constructor)
 	constructor:add_param("depth_end", -2800)
 	constructor:add_param("depth_flooded", -2600)
 	constructor:add_param("depth_start", -1400)
@@ -219,7 +219,7 @@ ap.mapgen.worldgen:register("crust.baking.lower-caves)", function(constructor)
 	constructor:require_noise3d("main", 7, 0.9, 0.5, 462, 460, 462)
 	
 	constructor:set_condition(function(module, metadata, minp, maxp)
-		return (metadata.heightmap_range.max >= minp.y)
+		return metadata.heightmap_range.max >= minp.y
 			and maxp.y <= module.params.depth_start
 			and minp.y >= module.params.depth_end
 	end)
