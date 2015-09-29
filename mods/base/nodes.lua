@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -- Register a dummy node which will get the ID 0, which makes debugging easier.
 minetest.register_node("base:dummy", {
 	drop = nil,
+	light_source = 14,
 	tiles = {
 		textureutil.dummy(tango.scarletred_1, tango.aluminium_1)
 	}
