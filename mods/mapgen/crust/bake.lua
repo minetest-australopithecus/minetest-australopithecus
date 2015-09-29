@@ -117,11 +117,14 @@ end)
 ap.mapgen.worldgen:register("crust.baking.transform", function(constructor)
 	constructor:add_param("mask_threshold_max", 1.0)
 	constructor:add_param("mask_threshold_min", 0.65)
-	constructor:add_param("max_depth", 47)
+	constructor:add_param("max_depth", 57)
+	constructor:add_param("min_depth", 41)
 	constructor:add_param("threshold_max", 0.75)
 	constructor:add_param("threshold_min", 0.25)
 	
 	constructor:require_node("air", "air")
+	
+	constructor:require_noise2d("depth", 4, 0.8, 1, 430)
 	
 	constructor:require_noise3d("fade", 6, 0.8, 0.8, 1500)
 	constructor:require_noise3d("main", 4, 0.6, 1, 150, 200, 150)
@@ -132,7 +135,15 @@ ap.mapgen.worldgen:register("crust.baking.transform", function(constructor)
 			and minp.y <= metadata.heightmap_range.max
 	end)
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
-		if y >= (metadata.heightmap[x][z] - module.params.max_depth) then
+		local depth = module.noises.depth[x][z]
+		depth = transform.cosine(
+			depth,
+			-1,
+			1,
+			module.params.min_depth,
+			module.params.max_depth)
+		
+		if y >= (metadata.heightmap[x][z] - depth) then
 			local value = module.noises.main[x][z][y]
 			local mask_value = module.noises.mask[x][z][y]
 			mask_value = mathutil.clamp(mask_value, -1, 1)
@@ -242,7 +253,7 @@ ap.mapgen.worldgen:register("crust.baking.lower-caves", function(constructor)
 end)
 
 ap.mapgen.worldgen:register("crust.baking.surface-detection", function(constructor)
-	constructor:add_param("max_depth", 47 + 10)
+	constructor:add_param("max_depth", 57 + 55555)
 	constructor:add_param("ocean_level", -58)
 	constructor:add_param("overlap", 3)
 	
