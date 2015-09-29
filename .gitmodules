@@ -1,27 +1,27 @@
 [submodule "deps/artisanry"]
 	path = deps/artisanry
-	url = https://github.com/RobertZenz/minetest-australopithecus-artisanry
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-artisanry
 [submodule "deps/utils"]
 	path = deps/utils
-	url = https://github.com/RobertZenz/minetest-australopithecus-utils
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-utils
 [submodule "deps/minetest-australopithecus-worldgen"]
 	path = deps/minetest-australopithecus-worldgen
-	url = https://github.com/RobertZenz/minetest-australopithecus-worldgen
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-worldgen
 [submodule "deps/worldgen-utils"]
 	path = deps/worldgen-utils
-	url = https://github.com/RobertZenz/minetest-australopithecus-worldgen-utils
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-worldgen-utils
 [submodule "deps/worldgen"]
 	path = deps/worldgen
-	url = https://github.com/RobertZenz/minetest-australopithecus-worldgen
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-worldgen
 [submodule "deps/spawn-usher"]
 	path = deps/spawn-usher
-	url = https://github.com/RobertZenz/minetest-australopithecus-spawn-usher
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-spawn-usher
 [submodule "deps/voice"]
 	path = deps/voice
-	url = https://github.com/RobertZenz/minetest-australopithecus-voice
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-voice
 [submodule "deps/sneak-cam"]
 	path = deps/sneak-cam
-	url = https://github.com/RobertZenz/minetest-australopithecus-sneak-cam.git
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-sneak-cam.git
 [submodule "deps/player-model"]
 	path = deps/player-model
-	url = https://github.com/RobertZenz/minetest-australopithecus-player-model.git
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-player-model.git
