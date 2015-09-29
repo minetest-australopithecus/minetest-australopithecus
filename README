@@ -51,6 +51,12 @@ Mods (external)
  * [worldgen-utils][worldgen-utils], a util collection for mapgens.
 
 
+Privileges
+==========
+
+ * `ap_mapgen`, allows to manipulate the mapgen and the map.
+
+
 Debug commands
 ==============
 
