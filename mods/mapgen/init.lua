@@ -26,11 +26,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 ap.mapgen = {}
-
-local base_path = minetest.get_modpath(minetest.get_current_modname())
-
 ap.mapgen.worldgen = nil
 
+
+local base_path = minetest.get_modpath(minetest.get_current_modname())
 
 function reload_worldgen()
 	ap.mapgen.worldgen = WorldGen:new()
@@ -49,18 +48,19 @@ function reload_worldgen()
 	dofile(base_path .. "/finish.lua")
 end
 
-
 reload_worldgen()
 
+
+minetest.register_privilege("ap_mapgen", {
+	description = "Privilege for modifying the mapgen and the map.",
+	give_to_singplayer = true
+})
 
 minetest.register_chatcommand("delete-map", {
 	description = "Deletes the current map chunk.",
 	params = "<range>",
+	prives = { ap_mapgen = true },
 	func = function(name, range)
-		if not minetest.check_player_privs(name, { ap_mapgen = true }) then
-			return false, "No permission to execute this command."
-		end
-		
 		range = tonumber(range) or 0
 		range = range * 80
 		
@@ -82,11 +82,8 @@ minetest.register_chatcommand("delete-map", {
 minetest.register_chatcommand("reload-mapgen", {
 	description = "Reloads the world generator.",
 	params = "",
+	prives = { ap_mapgen = true },
 	func = function(name, params)
-		if not minetest.check_player_privs(name, { ap_mapgen = true }) then
-			return false, "No permission to execute this command."
-		end
-		
 		reload_worldgen()
 		return true, "Done"
 	end
@@ -95,11 +92,8 @@ minetest.register_chatcommand("reload-mapgen", {
 minetest.register_chatcommand("update-map", {
 	description = "Updates the current map chunk.",
 	params = "",
+	prives = { ap_mapgen = true },
 	func = function(name, params)
-		if not minetest.check_player_privs(name, { ap_mapgen = true }) then
-			return false, "No permission to execute this command."
-		end
-		
 		local player = minetest.get_player_by_name(name)
 		local position = player:getpos()
 		
