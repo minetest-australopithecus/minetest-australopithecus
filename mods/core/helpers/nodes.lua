@@ -499,7 +499,7 @@ ap.core.helpers.register_grass = function(name, dig_speed)
 			dirt = dig_speed or DigSpeed.NORMAL,
 			oddly_breakable_by_hand = 2,
 			spread_minimum_light = 9,
-			spreads_on_dirt = DigSpeed.DUMMY
+			spreads_on_dirt = DigSpeed.NORMAL
 		},
 		name = name,
 		tiles = {

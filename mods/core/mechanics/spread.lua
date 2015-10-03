@@ -85,6 +85,25 @@ end
 -- @param active_object_count_wider The amount of active objects inside
 --                                  the node and its neighbours.
 local function abm_action(pos, node, active_object_count, active_object_count_wider)
+	stopwatch.start("spread")
+	
+	local speed = minetest.get_node_group("spreads_on_dirt")
+	local chance = 1
+	
+	if speed == DigSpeed.VERY_SLOW then
+		chance = 8
+	elseif speed == DigSpeed.SLOW then
+		chance = 6
+	elseif speed == DigSpeed.NORMAL then
+		chance = 4
+	elseif speed == DigSpeed.FAST then
+		chance = 2
+	end
+	
+	if chance ~= 1 and math.random(0, chance + 1) == chance then
+		return
+	end
+	
 	local minimum_light, maximum_light = get_light_values(node)
 	
 	-- Same height first.
@@ -101,13 +120,14 @@ local function abm_action(pos, node, active_object_count, active_object_count_wi
 	if spread(posutil.above(pos), node, minimum_light, maximum_light) then
 		return
 	end
+	stopwatch.stop("spread")
 end
 
 
 -- Now register the ABM.
 minetest.register_abm({
-	chance = 64,
-	interval = 30.0,
+	chance = 32,
+	interval = 10.0,
 	neighbors = {
 		dirt.name,
 		"air"

@@ -32,7 +32,7 @@ ap.core.helpers.register_dirt("snowy_tundra", {
 		dirt = DigSpeed.SLOW,
 		oddly_breakable_by_hand = 2,
 		becomes_dirt = DigSpeed.DUMMY,
-		spreads_on_dirt = DigSpeed.DUMMY
+		spreads_on_dirt = DigSpeed.SLOW
 	},
 	tiles = {
 		"snow.png", "dirt.png",
