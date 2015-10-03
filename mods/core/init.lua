@@ -45,7 +45,6 @@ dofile(base_path .. "/helpers/nodes.lua")
 
 -- Main files
 dofile(base_path .. "/debug.lua")
-dofile(base_path .. "/nodegroup.lua")
 dofile(base_path .. "/nodes.lua")
 dofile(base_path .. "/setup.lua")
 
