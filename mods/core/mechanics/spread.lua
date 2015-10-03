@@ -85,8 +85,6 @@ end
 -- @param active_object_count_wider The amount of active objects inside
 --                                  the node and its neighbours.
 local function abm_action(pos, node, active_object_count, active_object_count_wider)
-	stopwatch.start("spread")
-	
 	local speed = minetest.get_node_group("spreads_on_dirt")
 	local chance = 1
 	
@@ -120,7 +118,6 @@ local function abm_action(pos, node, active_object_count, active_object_count_wi
 	if spread(posutil.above(pos), node, minimum_light, maximum_light) then
 		return
 	end
-	stopwatch.stop("spread")
 end
 
 
