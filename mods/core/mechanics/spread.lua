@@ -25,10 +25,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
+--- Cached value of dirt.
 local dirt = {
 	name = "core:dirt"
 }
 
+--- Spreads the spreading_node around the given source_pos.
+--
+-- @param source_pos The source position.
+-- @param spreading_node The node that should be spread.
+-- @param minimum_light The minimum light required (inclusive).
+-- @param maximum_light The maximum light required (inclusive).
+-- @return true if the spreading_node was placed, false otherwise.
 local function spread(source_pos, spreading_node, minimum_light, maximum_light)
 	return nodeutil.surroundings(source_pos, -1, 1, -1, 1, 0, 0, function(pos, node)
 		if node.name == dirt.name then
@@ -51,8 +59,52 @@ local function spread(source_pos, spreading_node, minimum_light, maximum_light)
 	end)
 end
 
+--- Gets the required light levels for the given node.
+--
+-- @param node The node for which to get the light values.
+-- @return The minimum and maximum light values.
+local function get_light_values(node)
+	-- Get the required light values.
+	local minimum_light = minetest.get_item_group(node.name, "spread_minimum_light")
+	local maximum_light = minetest.get_item_group(node.name, "spread_maximum_light")
+	
+	-- Minimum can happily stay at zero, however we need to fix the maximum
+	-- value here.
+	if maximum_light == 0 then
+		maximum_light = 100
+	end
+	
+	return minimum_light, maximum_light
+end
 
--- The ABM that turns dirt into grass/snow.
+--- The action function for the ABM.
+--
+-- @param pos The current position.
+-- @param node The node at the current position
+-- @param active_object_count The amount of active objects inside the node.
+-- @param active_object_count_wider The amount of active objects inside
+--                                  the node and its neighbours.
+local function abm_action(pos, node, active_object_count, active_object_count_wider)
+	local minimum_light, maximum_light = get_light_values(node)
+	
+	-- Same height first.
+	if spread(pos, node, minimum_light, maximum_light) then
+		return
+	end
+	
+	-- Now we check below.
+	if spread(posutil.below(pos), node, minimum_light, maximum_light) then
+		return
+	end
+	
+	-- New check above.
+	if spread(posutil.above(pos), node, minimum_light, maximum_light) then
+		return
+	end
+end
+
+
+-- Now register the ABM.
 minetest.register_abm({
 	chance = 64,
 	interval = 30.0,
@@ -63,41 +115,6 @@ minetest.register_abm({
 	nodenames = {
 		"group:spreads_on_dirt"
 	},
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		-- Get the required light values.
-		local minimum_light = minetest.get_item_group(node.name, "spread_minimum_light")
-		local maximum_light = minetest.get_item_group(node.name, "spread_maximum_light")
-		
-		-- Minimum can happily stay at zero, however we need to fix the maximum
-		-- value here.
-		if maximum_light == 0 then
-			maximum_light = 100
-		end
-		
-		-- Same height first.
-		if spread(pos, node, minimum_light, maximum_light) then
-			return
-		end
-		
-		-- Now we check below.
-		local pos_below = {
-			x = pos.x,
-			y = pos.y - 1,
-			z = pos.z
-		}
-		if spread(pos_below, node, minimum_light, maximum_light) then
-			return
-		end
-		
-		-- New check above.
-		local pos_above = {
-			x = pos.x,
-			y = pos.y + 1,
-			z = pos.z
-		}
-		if spread(pos_above, node, minimum_light, maximum_light) then
-			return
-		end
-	end
+	action = abm_action
 })
 
