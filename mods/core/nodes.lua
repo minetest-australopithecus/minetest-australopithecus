@@ -29,10 +29,10 @@ ap.core.helpers.register_dirt()
 ap.core.helpers.register_dirt("snowy_tundra", {
 	drop = "core:dirt",
 	groups = {
-		dirt = NodeGroup.SLOW,
+		dirt = DigSpeed.SLOW,
 		oddly_breakable_by_hand = 2,
-		becomes_dirt = NodeGroup.DUMMY,
-		spreads_on_dirt = NodeGroup.DUMMY
+		becomes_dirt = DigSpeed.DUMMY,
+		spreads_on_dirt = DigSpeed.DUMMY
 	},
 	tiles = {
 		"snow.png", "dirt.png",
@@ -54,14 +54,14 @@ ap.core.helpers.register_grass("seasonal_shrubland")
 ap.core.helpers.register_grass("swamp")
 ap.core.helpers.register_grass("taiga")
 ap.core.helpers.register_grass("tropical_seasonal_rainforest")
-ap.core.helpers.register_grass("tundra", NodeGroup.SLOW)
+ap.core.helpers.register_grass("tundra", DigSpeed.SLOW)
 
 ap.core.helpers.register_gravel()
 
 ap.core.helpers.register_ice()
 ap.core.helpers.register_ice("glacial", {
 	groups = {
-		ice = NodeGroup.SLOW
+		ice = DigSpeed.SLOW
 	}
 })
 
@@ -74,7 +74,7 @@ ap.core.helpers.register_snow()
 
 ap.core.helpers.register_stone("sand", {
 	groups = {
-		stone = NodeGroup.FAST
+		stone = DigSpeed.FAST
 	}
 })
 

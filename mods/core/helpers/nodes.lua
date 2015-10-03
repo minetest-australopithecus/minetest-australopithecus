@@ -394,7 +394,7 @@ ap.core.helpers.register_dirt = function(name, prototype)
 		diggable = true,
 		drop = "core:" .. name,
 		groups = {
-			dirt = NodeGroup.NORMAL,
+			dirt = DigSpeed.NORMAL,
 			oddly_breakable_by_hand = 2
 		},
 		name = name,
@@ -495,11 +495,11 @@ ap.core.helpers.register_grass = function(name, dig_speed)
 		diggable = true,
 		drop = "core:dirt",
 		groups = {
-			becomes_dirt = NodeGroup.DUMMY,
-			dirt = dig_speed or NodeGroup.NORMAL,
+			becomes_dirt = DigSpeed.DUMMY,
+			dirt = dig_speed or DigSpeed.NORMAL,
 			oddly_breakable_by_hand = 2,
 			spread_minimum_light = 9,
-			spreads_on_dirt = NodeGroup.DUMMY
+			spreads_on_dirt = DigSpeed.DUMMY
 		},
 		name = name,
 		tiles = {
@@ -520,7 +520,7 @@ ap.core.helpers.register_gravel = function(name, prototype)
 		diggable = true,
 		drop = "core:" .. name,
 		groups = {
-			gravel = NodeGroup.NORMAL,
+			gravel = DigSpeed.NORMAL,
 			oddly_breakable_by_hand = 2
 		},
 		name = name,
@@ -558,7 +558,7 @@ ap.core.helpers.register_ice = function(name, prototype)
 			}
 		},
 		groups = {
-			ice = NodeGroup.NORMAL,
+			ice = DigSpeed.NORMAL,
 		},
 		name = name,
 		tiles = {
@@ -600,7 +600,7 @@ ap.core.helpers.register_rock = function(name, prototype)
 			}
 		},
 		groups = {
-			rock = NodeGroup.NORMAL,
+			rock = DigSpeed.NORMAL,
 		},
 		name = name,
 		tiles = {
@@ -629,7 +629,7 @@ ap.core.helpers.register_sand = function(name, prototype)
 		diggable = true,
 		drop = "core:" .. name,
 		groups = {
-			sand = NodeGroup.NORMAL,
+			sand = DigSpeed.NORMAL,
 			oddly_breakable_by_hand = 2
 		},
 		name = name,
@@ -649,7 +649,7 @@ ap.core.helpers.register_snow = function(name, prototype)
 		description = make_description(name),
 		diggable = true,
 		groups = {
-			snow = NodeGroup.NORMAL,
+			snow = DigSpeed.NORMAL,
 			oddly_breakable_by_hand = 2
 		},
 		name = name,
@@ -675,7 +675,7 @@ ap.core.helpers.register_stone = function(name, prototype)
 		diggable = true,
 		drop = "core:" .. name,
 		groups = {
-			stone = NodeGroup.NORMAL
+			stone = DigSpeed.NORMAL
 		},
 		name = name,
 		tiles = {
