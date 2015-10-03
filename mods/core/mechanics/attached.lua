@@ -37,22 +37,24 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
 	end
 	
 	nodeutil.surroundings(pos, -1, 1, -1, 1, -1, 1, function(spos, node)
-		local drop = false
+		local attached_to_vector = nil
 		
 		if nodeutil.has_group(node, "attached_to_facedir") then
-			drop = vector.equals(pos, vector.add(spos, facedirutil.get_vector(node.param2)))
+			attached_to_vector = facedirutil.get_vector(node.param2)
 		elseif nodeutil.has_group(node, "attached_to_wallmounted") then
-			drop = vector.equals(pos, vector.add(spos, wallmountedutil.get_vector(node.param2)))
+			attached_to_vector = wallmountedutil.get_vector(node.param2)
 		end
 		
-		if drop then
-			local dropped_items = minetest.get_node_drops(node.name, tool)
-			
-			for index, dropped_item in ipairs(dropped_items) do
-				local dropped_node = minetest.add_item(spos, dropped_item)
+		if attached_to_vector ~= nil then
+			if vector.equals(pos, vector.add(spos, attached_to_vector)) then
+				local dropped_items = minetest.get_node_drops(node.name, tool)
+				
+				for index, dropped_item in ipairs(dropped_items) do
+					local dropped_node = minetest.add_item(spos, dropped_item)
+				end
+				
+				minetest.set_node(spos, air)
 			end
-			
-			minetest.set_node(spos, air)
 		end
 	end)
 end)
