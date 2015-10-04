@@ -100,9 +100,9 @@ minetest.register_tool("core:debug_shovel", {
 	}
 })
 
-ap.core.artisanry:register("core:debug_axe", {})
-ap.core.artisanry:register("core:debug_hammer", {})
-ap.core.artisanry:register("core:debug_pickaxe", {})
-ap.core.artisanry:register("core:debug_shovel", {})
-ap.core.artisanry:register("torch:torch_burning 64", {})
+ap.core.artisanry:register("Debug", "core:debug_axe", {})
+ap.core.artisanry:register("Debug", "core:debug_hammer", {})
+ap.core.artisanry:register("Debug", "core:debug_pickaxe", {})
+ap.core.artisanry:register("Debug", "core:debug_shovel", {})
+ap.core.artisanry:register("Debug", "torch:torch_burning 64", {})
 

@@ -115,11 +115,11 @@ local function register_node(definition)
 	minetest.register_node(name, tableutil.clone(definition))
 end
 
-local function register_conversion(source, target)
-	ap.core.artisanry:register("core:" .. target, {
+local function register_conversion(group, source, target)
+	ap.core.artisanry:register(group, "core:" .. target, {
 		{ "core:" .. source }
 	})
-	ap.core.artisanry:register("core:" .. source, {
+	ap.core.artisanry:register("Blocks", "core:" .. source, {
 		{ "core:" .. target }
 	})
 end
@@ -146,7 +146,7 @@ local function register_plates(definition)
 		
 		register_node(plate_definition)
 		
-		register_conversion(definition.name, plate_name .. " " .. math.floor(10 / thickness))
+		register_conversion("Plates", definition.name, plate_name .. " " .. math.floor(10 / thickness))
 	end
 end
 
@@ -169,7 +169,7 @@ local function register_ramps(definition)
 	})
 	
 	register_node(ramp_definition)
-	register_conversion(definition.name, ramp_name)
+	register_conversion("Ramps", definition.name, ramp_name)
 	
 	-- Inner corner
 	local ramp_inner_corner_name = definition.name .. "_ramp_inner_corner"
@@ -183,7 +183,7 @@ local function register_ramps(definition)
 	})
 	
 	register_node(ramp_inner_corner_definition)
-	register_conversion(definition.name, ramp_inner_corner_name)
+	register_conversion("Ramps", definition.name, ramp_inner_corner_name)
 	
 	-- Outer corner
 	local ramp_outer_corner_name = definition.name .. "_ramp_outer_corner"
@@ -197,7 +197,7 @@ local function register_ramps(definition)
 	})
 	
 	register_node(ramp_outer_corner_definition)
-	register_conversion(definition.name, ramp_outer_corner_name)
+	register_conversion("Ramps", definition.name, ramp_outer_corner_name)
 	
 	-- Steep ramp
 	local steep_ramp_name = definition.name .. "_steep_ramp"
@@ -211,7 +211,7 @@ local function register_ramps(definition)
 	})
 	
 	register_node(steep_ramp_definition)
-	register_conversion(definition.name, steep_ramp_name)
+	register_conversion("Ramps", definition.name, steep_ramp_name)
 end
 
 local function register_stairs(definition)
@@ -233,7 +233,7 @@ local function register_stairs(definition)
 		})
 		
 		register_node(stair_definition)
-		register_conversion(definition.name, stair_name)
+		register_conversion("Stairs", definition.name, stair_name)
 		
 		-- Inner corner
 		local inner_corner_name = definition.name .. "_stair_inner_corner_" .. counter
@@ -245,7 +245,7 @@ local function register_stairs(definition)
 		})
 		
 		register_node(inner_corner_definition)
-		register_conversion(definition.name, inner_corner_name)
+		register_conversion("Stairs", definition.name, inner_corner_name)
 		
 		-- Outer corner
 		local outer_corner_name = definition.name .. "_stair_outer_corner_" .. counter
@@ -257,7 +257,7 @@ local function register_stairs(definition)
 		})
 		
 		register_node(outer_corner_definition)
-		register_conversion(definition.name, outer_corner_name)
+		register_conversion("Stairs", definition.name, outer_corner_name)
 		
 		-- Steep stair
 		local steep_stair_name = definition.name .. "_steep_stair_" .. counter
@@ -269,7 +269,7 @@ local function register_stairs(definition)
 		})
 		
 		register_node(steep_stair_definition)
-		register_conversion(definition.name, steep_stair_name)
+		register_conversion("Steep Stairs", definition.name, steep_stair_name)
 		
 		-- Inner steep corner
 		local inner_steep_corner_name = definition.name .. "_steep_stair_inner_corner_" .. counter
@@ -281,7 +281,7 @@ local function register_stairs(definition)
 		})
 		
 		register_node(inner_steep_corner_definition)
-		register_conversion(definition.name, inner_steep_corner_name)
+		register_conversion("Steep Stairs", definition.name, inner_steep_corner_name)
 		
 		-- Outer steep corner
 		local outer_steep_corner_name = definition.name .. "_steep_stair_outer_corner_" .. counter
@@ -293,7 +293,7 @@ local function register_stairs(definition)
 		})
 		
 		register_node(outer_steep_corner_definition)
-		register_conversion(definition.name, outer_steep_corner_name)
+		register_conversion("Steep Stairs", definition.name, outer_steep_corner_name)
 	end
 end
 
@@ -301,7 +301,7 @@ end
 local function register_bricks(definition)
 	local name = postfix_name(definition.name, "bricks")
 	
-	ap.core.artisanry:register("core:" .. postfix_name(definition.name, "cobble"), {
+	ap.core.artisanry:register("Blocks", "core:" .. postfix_name(definition.name, "cobble"), {
 		{ "core:" .. name }
 	})
 	
@@ -335,7 +335,7 @@ end
 local function register_cobble(definition)
 	local name = postfix_name(definition.name, "cobble")
 	
-	ap.core.artisanry:register("core:" .. postfix_name(definition.name, "rubble"), {
+	ap.core.artisanry:register("Blocks", "core:" .. postfix_name(definition.name, "rubble"), {
 		{ "core:" .. name }
 	})
 	
