@@ -56,7 +56,46 @@ dofile(base_path .. "/mechanics/spread.lua")
 
 
 -- Activate Artisanry
-artisanryui.activate(ap.core.artisanry)
+artisanryui.activate(ap.core.artisanry, function(player, groups)
+	local window = "size[15,13;]"
+	
+	local input ="list[detached:artisanryui;" .. player:get_player_name() .. "-input;1,2;5,5;]"
+	local output = "list[detached:artisanryui;" .. player:get_player_name() .. "-output;7,2;7,5;]"
+	
+	local groups_string = ""
+	groups:foreach(function(group, index)
+		groups_string = groups_string .. "," .. group
+	end)
+	
+	local groups_list = "dropdown[7,1;4,1;artisanryui-group;All,None" .. groups_string .. ";1]"
+	
+	local previous_button = "button[12,1;1,1;artisanryui-previous-page;<<]"
+	local next_button = "button[13,1;1,1;artisanryui-next-page;>>]"
+	
+	local inventory_background = "background[0,7;10,6;inventory.png]"
+	
+	local inventory = "list[current_player;main;1,8;8,3;8]"
+	local hotbar = "list[current_player;main;1,11;8,1;0]"
+	
+	local ring = "listring[current_player;main]"
+	ring = ring .. "listring[detached:artisanryui;" .. player:get_player_name() .. "-input]"
+	ring = ring .. "listring[current_player;main]"
+	ring = ring .. "listring[detached:artisanryui;" .. player:get_player_name() .. "-output]"
+	ring = ring .. "listring[current_player;main]"	
+	
+	local formspec = window
+		.. input
+		.. output
+		.. groups_list
+		.. previous_button
+		.. next_button
+		.. inventory_background
+		.. inventory
+		.. hotbar
+		.. ring
+	
+	return formspec
+end)
 
 
 
