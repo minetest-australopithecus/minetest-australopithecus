@@ -123,6 +123,7 @@ end
 
 -- Now register the ABM.
 minetest.register_abm({
+	catch_up = false,
 	chance = 32,
 	interval = 10.0,
 	neighbors = {
