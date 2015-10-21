@@ -1,6 +1,7 @@
 base
 artisanry
 player_model
+player_skins
 spawn_usher
 utils
 worldgen_utils

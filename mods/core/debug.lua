@@ -106,3 +106,8 @@ ap.core.artisanry:register("Debug", "core:debug_pickaxe", {})
 ap.core.artisanry:register("Debug", "core:debug_shovel", {})
 ap.core.artisanry:register("Debug", "torch:torch_burning 64", {})
 
+-- skins
+playerskins.skins:foreach(function(skin, index)
+	ap.core.artisanry:register("Clothes", skin.item_name, {})
+end)
+
