@@ -31,7 +31,7 @@ local dirt = {
 
 -- Replace grass with dirt if a node is placed on it.
 minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing)
-	if minetest.get_item_group(newnode.name, "preserves_below_node") > 0 then
+	if nodeutil.has_group(newnode, "preserves_below_node") then
 		return
 	end
 	
@@ -43,7 +43,7 @@ minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack
 	
 	local node = minetest.get_node(pos_underneath)
 	
-	if minetest.get_item_group(node.name, "becomes_dirt") > 0 then
+	if nodeutil.has_group(node, "becomes_dirt") then
 		minetest.set_node(pos_underneath, dirt)
 	end
 end)
