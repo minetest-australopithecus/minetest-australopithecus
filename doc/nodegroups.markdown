@@ -43,7 +43,8 @@ That means that this node will be dropped if the attached to node is mined.
 ### 2.4 becomes_dirt
 
 Designates that this node turns into dirt as soon as another node is placed
-on top of it.
+on top of it, as long as the node that is placed on it does not have the group
+"preserves_below_node" and is walkable.
 
 ### 2.4 preserves_below_node
 
