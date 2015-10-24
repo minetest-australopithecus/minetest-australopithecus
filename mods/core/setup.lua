@@ -78,6 +78,16 @@ local function hide_nametag(player)
 	player:set_nametag_attributes(nametag_attributes)
 end
 
+--- Sets the time of day to the configured time.
+local function set_gamestart_time()
+	minetest.set_timeofday(settings.get_number("ap_gamestart_time", 0.18))
+end
+
+
+-- Actions for when a player has been spawned.
+spawnusher.register_after_spawn_callback(function(player)
+	disable_sneak_glitch(player)
+end)
 
 -- Actions for when a player joins.
 minetest.register_on_joinplayer(function(player)
@@ -86,8 +96,11 @@ minetest.register_on_joinplayer(function(player)
 	hide_nametag(player)
 end)
 
--- Actions for when a player has been spawned.
-spawnusher.register_after_spawn_callback(function(player)
-	disable_sneak_glitch(player)
+minetest.register_on_newplayer(function(player)
+	-- Only set the time of day when the game starts, that is (most of
+	-- the time) the first join of the player "singleplayer".
+	if player:get_player_name() == "singleplayer" then
+		set_gamestart_time()
+	end
 end)
 
