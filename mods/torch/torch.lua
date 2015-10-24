@@ -95,11 +95,23 @@ local torch_burning_definition = tableutil.merge(torch_prototype, {
 		elseif placed_torch.param2 == 1 then
 			-- All cool, nothing to do.
 		else
-			minetest.set_node(pos, {
-				name = placed_torch.name .. "_wall",
-				param1 = placed_torch.param1,
-				param2 = wallmountedutil.to_facedir(placed_torch.param2)
-			})
+			-- The torch has been attached to a wall.
+			local attached_to_pos = vector.add(pos, wallmountedutil.get_vector(placed_torch.param2))
+			local attached_to_node = minetest.get_node(attached_to_pos)
+			
+			if nodeutil.is_walkable(attached_to_node) then
+				minetest.set_node(pos, {
+					name = placed_torch.name .. "_wall",
+					param1 = placed_torch.param1,
+					param2 = wallmountedutil.to_facedir(placed_torch.param2)
+				})
+			else
+				-- Disallow attaching the torch to a not walkable node.
+				minetest.set_node(pos, {
+					name = "air"
+				})
+				return true
+			end
 		end
 	end,
 	on_punch = function(pos, node, puncher, pointed_thing)
