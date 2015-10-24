@@ -225,7 +225,7 @@ biomes:register("Tundra", function(constructor)
 	constructor:add_param("temperature", { min = -6, max = 5 })
 	
 	constructor:require_node("bedrock", "core:rock")
-	constructor:require_node("shore_subsurface", "core:dirt")
+	constructor:require_node("shore_subsurface", "core:gravel")
 	constructor:require_node("shore_surface", "core:gravel")
 	constructor:require_node("subsurface", "core:dirt")
 	constructor:require_node("surface", "core:tundra_grass")
