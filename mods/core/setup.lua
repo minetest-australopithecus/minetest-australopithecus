@@ -67,7 +67,7 @@ end
 --
 -- @param player The Player on which to set it.
 local function hide_nametag(player)
-	if settings.get_bool("ap_nametags_visible", false) then
+	if not settings.get_bool("ap_nametags_visible", false) then
 		return
 	end
 	
