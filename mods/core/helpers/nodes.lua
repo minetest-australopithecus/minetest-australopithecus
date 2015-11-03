@@ -25,10 +25,27 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
-local nodebox_cache = {}
+local nodebox_cache = nil
 
 local function init_nodebox_cache()
-	if nodebox_cache.stairs == nil then
+	if nodebox_cache == nil then
+		nodebox_cache = {}
+		
+		nodebox_cache.corners = {}
+		nodebox_cache.corners.stepped = {}
+		
+		nodebox_cache.corners.corner = {
+			type = "fixed",
+			fixed = cornerutil.create_corner_nodebox(9)
+		}
+		
+		for counter = 2, 9, 1 do
+			nodebox_cache.corners.stepped[counter] = {
+				type = "fixed",
+				fixed = cornerutil.create_corner_nodebox(counter)
+			}
+		end
+		
 		nodebox_cache.stairs = {}
 		nodebox_cache.stairs.stepped = {}
 		nodebox_cache.stairs.stepped_inner = {}
@@ -139,6 +156,44 @@ local function register_conversion(group, source, target)
 	})
 end
 
+
+local function register_corners(definition)
+	if nodebox_cache.stairs == nil then
+		init_nodebox_cache()
+	end
+	
+	for counter = 2, 9, 1 do
+		local corner_name = definition.name .. "_corner_" .. counter
+		local corner_definition = tableutil.merge(definition, {
+			description = definition.description .. " (Corner with " .. counter .. " steps)",
+			drawtype = "nodebox",
+			drop = postfix_dropnames(definition.drop, "corner_" .. counter),
+			name = corner_name,
+			node_box = nodebox_cache.corners.stepped[counter],
+			paramtype = "light",
+			paramtype2 = "facedir"
+		})
+		
+		register_node(corner_definition)
+		register_conversion("Corners", definition.name, corner_name)
+	end
+	
+	-- Corner
+	local corner_smooth_name = definition.name .. "_corner_smooth"
+	local corner_smooth_definition = tableutil.merge(definition, {
+		description = definition.description .. " (Smooth Corner)",
+		drawtype = "mesh",
+		drop = postfix_dropnames(definition.drop, "corner_smooth"),
+		mesh = "corner.obj",
+		name = corner_smooth_name,
+		node_box = nodebox_cache.corners.corner,
+		paramtype = "light",
+		paramtype2 = "facedir"
+	})
+	
+	register_node(corner_smooth_definition)
+	register_conversion("Corners", definition.name, corner_smooth_name)
+end
 
 local function register_plates(definition)
 	for thickness = 1, 9, 1 do
@@ -342,6 +397,7 @@ local function register_bricks(definition)
 	
 	register_node(definition)
 	
+	register_corners(definition)
 	register_plates(definition)
 	register_ramps(definition)
 	register_stairs(definition)
@@ -376,6 +432,7 @@ local function register_cobble(definition)
 	
 	register_node(definition)
 	
+	register_corners(definition)
 	register_plates(definition)
 	register_ramps(definition)
 	register_stairs(definition)
@@ -395,6 +452,7 @@ local function register_rubble(definition)
 	
 	register_node(definition)
 	
+	register_corners(definition)
 	register_plates(definition)
 	register_ramps(definition)
 	register_stairs(definition)
@@ -424,6 +482,7 @@ ap.core.helpers.register_dirt = function(name, prototype)
 	
 	register_node(definition)
 	
+	register_corners(definition)
 	register_plates(definition)
 	register_ramps(definition)
 	register_stairs(definition)
@@ -550,6 +609,7 @@ ap.core.helpers.register_gravel = function(name, prototype)
 	
 	register_node(definition)
 	
+	register_corners(definition)
 	register_plates(definition)
 	register_ramps(definition)
 end
@@ -587,6 +647,7 @@ ap.core.helpers.register_ice = function(name, prototype)
 	
 	register_node(definition)
 	
+	register_corners(definition)
 	register_plates(definition)
 	register_ramps(definition)
 	register_stairs(definition)
@@ -678,6 +739,7 @@ ap.core.helpers.register_snow = function(name, prototype)
 	
 	register_node(definition)
 	
+	register_corners(definition)
 	register_plates(definition)
 	register_ramps(definition)
 	register_stairs(definition)
@@ -703,6 +765,7 @@ ap.core.helpers.register_stone = function(name, prototype)
 	
 	register_node(definition)
 	
+	register_corners(definition)
 	register_plates(definition)
 	register_ramps(definition)
 	register_stairs(definition)
