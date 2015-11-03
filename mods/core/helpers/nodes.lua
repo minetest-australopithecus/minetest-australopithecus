@@ -89,14 +89,6 @@ local function make_description(name)
 	return name
 end
 
-local function postfix_name(name, postfix)
-	if name ~= nil and name ~= "" then
-		return name .. "_" .. postfix
-	end
-	
-	return postfix
-end
-
 local function register_node(definition)
 	if definition.node_box ~= nil then
 		definition.collision_box = definition.node_box
@@ -114,6 +106,29 @@ local function register_node(definition)
 	
 	minetest.register_node(name, tableutil.clone(definition))
 end
+
+local function postfix_name(name, postfix)
+	if name ~= nil and name ~= "" then
+		return name .. "_" .. postfix
+	end
+	
+	return postfix
+end
+
+local function postfix_dropnames(drops, postfix)
+	if type(drops) == "string" then
+		return postfix_name(drops, postfix)
+	end
+	
+	drops = tableutil.clone(drops)
+	
+	for index, item in ipairs(drops.items) do
+		item.items[1] = postfix_name(item.items[1], postfix)
+	end
+	
+	return drops
+end
+
 
 local function register_conversion(group, source, target)
 	ap.core.artisanry:register(group, "core:" .. target, {
@@ -160,7 +175,7 @@ local function register_ramps(definition)
 	local ramp_definition = tableutil.merge(definition, {
 		description = definition.description .. " (Ramp)",
 		drawtype = "mesh",
-		drop = "core:" .. ramp_name,
+		drop = postfix_dropnames(definition.drop, "ramp"),
 		mesh = "ramp.obj",
 		name = ramp_name,
 		node_box = nodebox_cache.ramps.smooth,
@@ -176,7 +191,7 @@ local function register_ramps(definition)
 	local ramp_inner_corner_definition = tableutil.merge(ramp_definition, {
 		description = definition.description .. " (Ramp inner corner)",
 		drawtype = "mesh",
-		drop = "core:" .. ramp_inner_corner_name,
+		drop = postfix_dropnames(definition.drop, "ramp_inner_corner"),
 		mesh = "inner_corner_ramp.obj",
 		name = ramp_inner_corner_name,
 		node_box = nodebox_cache.ramps.smooth_inner
@@ -190,7 +205,7 @@ local function register_ramps(definition)
 	local ramp_outer_corner_definition = tableutil.merge(ramp_definition, {
 		description = definition.description .. " (Ramp outer corner)",
 		drawtype = "mesh",
-		drop = "core:" .. ramp_outer_corner_name,
+		drop = postfix_dropnames(definition.drop, "ramp_outer_corner"),
 		mesh = "outer_corner_ramp.obj",
 		name = ramp_outer_corner_name,
 		node_box = nodebox_cache.ramps.smooth_outer
@@ -204,7 +219,7 @@ local function register_ramps(definition)
 	local steep_ramp_definition = tableutil.merge(ramp_definition, {
 		description = definition.description .. " (Steep smooth ramp)",
 		drawtype = "mesh",
-		drop = "core:" .. steep_ramp_name,
+		drop = postfix_dropnames(definition.drop, "steep_ramp"),
 		mesh = "steep_ramp.obj",
 		name = steep_ramp_name,
 		node_box = nodebox_cache.ramps.steep_smooth
@@ -225,7 +240,7 @@ local function register_stairs(definition)
 		local stair_definition = tableutil.merge(definition, {
 			description = definition.description .. " (Stair with " .. counter .. " steps)",
 			drawtype = "nodebox",
-			drop = "core:" .. stair_name,
+			drop = postfix_dropnames(definition.drop, "stair_" .. counter),
 			name = stair_name,
 			node_box = nodebox_cache.stairs.stepped[counter],
 			paramtype = "light",
@@ -239,7 +254,7 @@ local function register_stairs(definition)
 		local inner_corner_name = definition.name .. "_stair_inner_corner_" .. counter
 		local inner_corner_definition = tableutil.merge(stair_definition, {
 			description = definition.description .. " (Stair inner corner with " .. counter .. " steps)",
-			drop = "core:" .. inner_corner_name,
+			drop = postfix_dropnames(definition.drop, "stair_inner_corner_" .. counter),
 			name = inner_corner_name,
 			node_box = nodebox_cache.stairs.stepped_inner[counter]
 		})
@@ -251,7 +266,7 @@ local function register_stairs(definition)
 		local outer_corner_name = definition.name .. "_stair_outer_corner_" .. counter
 		local outer_corner_definition = tableutil.merge(stair_definition, {
 			description = definition.description .. " (Stair outer corner with " .. counter .. " steps)",
-			drop = "core:" .. outer_corner_name,
+			drop = postfix_dropnames(definition.drop, "stair_outer_corner_" .. counter),
 			name = outer_corner_name,
 			node_box = nodebox_cache.stairs.stepped_outer[counter]
 		})
@@ -263,7 +278,7 @@ local function register_stairs(definition)
 		local steep_stair_name = definition.name .. "_steep_stair_" .. counter
 		local steep_stair_definition = tableutil.merge(stair_definition, {
 			description = definition.description .. " (Steep stair with " .. counter .. " steps)",
-			drop = "core:" .. steep_stair_name,
+			drop = postfix_dropnames(definition.drop, "_steep_stair_" .. counter),
 			name = steep_stair_name,
 			node_box = nodebox_cache.stairs.steep[counter],
 		})
@@ -275,7 +290,7 @@ local function register_stairs(definition)
 		local inner_steep_corner_name = definition.name .. "_steep_stair_inner_corner_" .. counter
 		local inner_steep_corner_definition = tableutil.merge(stair_definition, {
 			description = definition.description .. " (Steep stair inner corner with " .. counter .. " steps)",
-			drop = "core:" .. inner_steep_corner_name,
+			drop = postfix_dropnames(definition.drop, "steep_stair_inner_corner_" .. counter),
 			name = inner_steep_corner_name,
 			node_box = nodebox_cache.stairs.steep_inner[counter],
 		})
@@ -287,7 +302,7 @@ local function register_stairs(definition)
 		local outer_steep_corner_name = definition.name .. "_steep_stair_outer_corner_" .. counter
 		local outer_steep_corner_definition = tableutil.merge(stair_definition, {
 			description = definition.description .. " (Steep stair outer corner with " .. counter .. " steps)",
-			drop = "core:" .. outer_steep_corner_name,
+			drop = postfix_dropnames(definition.drop, "steep_stair_outer_corner_" .. counter),
 			name = outer_steep_corner_name,
 			node_box = nodebox_cache.stairs.steep_outer[counter],
 		})
@@ -648,6 +663,7 @@ ap.core.helpers.register_snow = function(name, prototype)
 	local definition = {
 		description = make_description(name),
 		diggable = true,
+		drop = "core:" .. name,
 		groups = {
 			snow = DigSpeed.NORMAL,
 			oddly_breakable_by_hand = 2
