@@ -158,7 +158,7 @@ end
 
 
 local function register_corners(definition)
-	if nodebox_cache.stairs == nil then
+	if nodebox_cache == nil then
 		init_nodebox_cache()
 	end
 	
@@ -221,7 +221,7 @@ local function register_plates(definition)
 end
 
 local function register_ramps(definition)
-	if nodebox_cache.stairs == nil then
+	if nodebox_cache == nil then
 		init_nodebox_cache()
 	end
 	
