@@ -235,7 +235,8 @@ local function register_ramps(definition)
 		name = ramp_name,
 		node_box = nodebox_cache.ramps.smooth,
 		paramtype = "light",
-		paramtype2 = "facedir"
+		paramtype2 = "facedir",
+		after_place_node = facedirutil.make_upsidedown
 	})
 	
 	register_node(ramp_definition)
@@ -299,7 +300,8 @@ local function register_stairs(definition)
 			name = stair_name,
 			node_box = nodebox_cache.stairs.stepped[counter],
 			paramtype = "light",
-			paramtype2 = "facedir"
+			paramtype2 = "facedir",
+			after_place_node = facedirutil.make_upsidedown
 		})
 		
 		register_node(stair_definition)
