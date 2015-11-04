@@ -568,7 +568,7 @@ ap.core.helpers.register_fluid = function(name, alpha, viscosity, type)
 	register_node(definition)
 end
 
-ap.core.helpers.register_grass = function(name, dig_speed)
+ap.core.helpers.register_grass = function(name, group_addition, definition_override)
 	name = postfix_name(name, "grass")
 	
 	local top_side = name .. ".png"
@@ -580,7 +580,7 @@ ap.core.helpers.register_grass = function(name, dig_speed)
 		drop = "core:dirt",
 		groups = {
 			becomes_dirt = DigSpeed.DUMMY,
-			dirt = dig_speed or DigSpeed.NORMAL,
+			dirt = DigSpeed.NORMAL,
 			oddly_breakable_by_hand = 2,
 			spread_minimum_light = 9,
 			spreads_on_dirt = DigSpeed.NORMAL
@@ -592,6 +592,14 @@ ap.core.helpers.register_grass = function(name, dig_speed)
 			side_side, side_side
 		}
 	}
+	
+	if group_addition ~= nil then
+		definition.groups = tableutil.merge(definition.groups, group_addition)
+	end
+	
+	if definition_override ~= nil then
+		definition = tableutil.merge(definition, definition_override)
+	end
 	
 	register_node(definition)
 end
