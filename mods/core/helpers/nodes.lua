@@ -204,14 +204,22 @@ local function register_plates(definition)
 			drop = "core:" .. plate_name,
 			name = plate_name,
 			node_box = {
-				type = "fixed",
-				fixed = {
+				type = "wallmounted",
+				wall_bottom = {
 					-0.5, -0.5, -0.5,
 					0.5, thickness * 0.1 - 0.5, 0.5
+				},
+				wall_side = {
+					-0.5, -0.5, -0.5,
+					thickness * 0.1 - 0.5, 0.5, 0.5
+				},
+				wall_top = {
+					-0.5, 0.5 - thickness * 0.1, -0.5,
+					0.5, 0.5, 0.5
 				}
 			},
 			paramtype = "light",
-			paramtype2 = "facedir"
+			paramtype2 = "wallmounted"
 		})
 		
 		register_node(plate_definition)
