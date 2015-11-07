@@ -25,3 +25,6 @@
 [submodule "deps/player-model"]
 	path = deps/player-model
 	url = https://github.com/minetest-australopithecus/minetest-australopithecus-player-model.git
+[submodule "deps/auto-drops"]
+	path = deps/auto-drops
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-auto-drops.git
