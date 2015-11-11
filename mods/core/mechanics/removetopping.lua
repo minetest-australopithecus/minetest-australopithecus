@@ -32,7 +32,7 @@ local dirt = {
 -- Replace grass with dirt if a node is placed on it.
 minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing)
 	if nodeutil.has_group(newnode, "preserves_below_node")
-		or not nodeutil.is_walkable(node) then
+		or not nodeutil.is_walkable(newnode) then
 		
 		-- If the node that is placed has either the needed group or is not
 		-- walkable, it should not remove the topping.
