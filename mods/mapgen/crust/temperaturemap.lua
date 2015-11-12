@@ -50,6 +50,8 @@ ap.mapgen.worldgen:register("crust.temperaturemap.major", function(constructor)
 end)
 
 ap.mapgen.worldgen:register("crust.temperaturemap.elevation", function(constructor)
+	constructor:add_param("ocean_level", -58)
+	
 	constructor:set_condition(worldgenfunctions.if_true("generate_temperaturemap"))
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
 		local elevation = metadata.heightmap[x][z]
@@ -65,7 +67,7 @@ ap.mapgen.worldgen:register("crust.temperaturemap.elevation", function(construct
 		elseif elevation >= 0 then
 			value = math.abs(math.floor(elevation / 27))
 			value = value * 3
-		else
+		elseif elevation >= module.params.ocean_level then
 			value = math.abs(math.floor(elevation / 27))
 			value = value * 3
 			value = -value
