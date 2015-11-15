@@ -28,3 +28,6 @@
 [submodule "deps/auto-drops"]
 	path = deps/auto-drops
 	url = https://github.com/minetest-australopithecus/minetest-australopithecus-auto-drops.git
+[submodule "deps/auto-pickup"]
+	path = deps/auto-pickup
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-auto-pickup.git
