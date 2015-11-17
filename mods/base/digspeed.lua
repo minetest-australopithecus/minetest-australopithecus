@@ -27,10 +27,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --- DigSpeed is a simple enumeration of values for node groups.
 DigSpeed = {
-	--- Specifies that the group is only used to select the node and does notice
-	-- have any significance beyond that.
-	DUMMY = 99,
-	
 	--- Fast digging speed.
 	FAST = 4,
 	

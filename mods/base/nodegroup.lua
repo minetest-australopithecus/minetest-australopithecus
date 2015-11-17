@@ -25,10 +25,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 
--- Load all files
-local base_path = minetest.get_modpath(minetest.get_current_modname())
-
-dofile(base_path .. "/digspeed.lua")
-dofile(base_path .. "/nodegroup.lua")
-dofile(base_path .. "/nodes.lua")
+--- NodeGroup is a simple enumeration of values for node groups.
+NodeGroup = {
+	--- Specifies that the group is only used to select the node and does not
+	-- have any significance beyond that.
+	DUMMY = 99
+}
 

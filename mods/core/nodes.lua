@@ -31,7 +31,7 @@ ap.core.helpers.register_dirt("snowy_tundra", {
 	groups = {
 		dirt = DigSpeed.SLOW,
 		oddly_breakable_by_hand = 2,
-		becomes_dirt = DigSpeed.DUMMY,
+		becomes_dirt = NodeGroup.DUMMY,
 		spreads_on_dirt = DigSpeed.SLOW
 	},
 	tiles = {
