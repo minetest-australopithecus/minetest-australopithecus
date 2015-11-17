@@ -33,16 +33,19 @@ Textures are from the awesome [Summerfields][summerfields] texture pack.
 Mods
 ====
 
- * base - Basic stuff needed for the mods.
- * core - The core of the game.
- * mapgen - The mapgen.
- * torch - Torches.
+ * base, basic stuff needed for the mods.
+ * core, the core of the game.
+ * mapgen, the mapgen.
+ * player-skins, allows to have different "clothes".
+ * torch, torches.
 
 
 Mods (external)
 ===============
 
  * [artisanry][artisanry], a replacement for the default build system.
+ * [auto-drops][auto-drops], a mod that drops all drops from a dug node.
+ * [auto-pickup][auto-pickup], a mod that allos to pick up items by moving over them.
  * [player-model][player-model], a mod that adds a model for the player.
  * [sneak-cam][sneak-cam], a mod that lowers the viewpoints of sneaking players.
  * [spawn-usher][spawn-usher], a system to place the player on spawns.
@@ -81,6 +84,8 @@ most of the time in #minetest, #minetest-dev and #minetest-mod channels.
 
 
  [artisanry]: https://github.com/RobertZenz/minetest-australopithecus-artisanry
+ [auto-drops]: https://github.com/RobertZenz/minetest-australopithecus-auto-drops
+ [auto-pickup]: https://github.com/RobertZenz/minetest-australopithecus-auto-pickup
  [australopithecus-wiki]: https://en.wikipedia.org/wiki/Australopithecus
  [diggles]: https://en.wikipedia.org/wiki/Diggles:_The_Myth_of_Fenris
  [dont-starve]: https://www.kleientertainment.com/games/dont-starve
