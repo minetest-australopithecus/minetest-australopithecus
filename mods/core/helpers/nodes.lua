@@ -52,9 +52,6 @@ local function init_nodebox_cache()
 		nodebox_cache.stairs.stepped_inner_flat = {}
 		nodebox_cache.stairs.stepped_outer = {}
 		nodebox_cache.stairs.stepped_outer_flat = {}
-		nodebox_cache.stairs.steep = {}
-		nodebox_cache.stairs.steep_inner = {}
-		nodebox_cache.stairs.steep_outer = {}
 		
 		for counter = 2, 9, 1 do
 			nodebox_cache.stairs.stepped[counter] = {
@@ -77,19 +74,6 @@ local function init_nodebox_cache()
 				type = "fixed",
 				fixed = ramputil.create_outer_corner_flat_nodebox(counter)
 			}
-			
-			nodebox_cache.stairs.steep[counter] = {
-				type = "fixed",
-				fixed = ramputil.create_steep_ramp_nodebox(counter)
-			}
-			nodebox_cache.stairs.steep_inner[counter] = {
-				type = "fixed",
-				fixed = ramputil.create_inner_steep_corner_nodebox(counter)
-			}
-			nodebox_cache.stairs.steep_outer[counter] = {
-				type = "fixed",
-				fixed = ramputil.create_outer_steep_corner_nodebox(counter)
-			}
 		end
 		
 		nodebox_cache.ramps = {}
@@ -98,10 +82,6 @@ local function init_nodebox_cache()
 		nodebox_cache.ramps.smooth_inner_flat = nodebox_cache.stairs.stepped_inner_flat[9]
 		nodebox_cache.ramps.smooth_outer = nodebox_cache.stairs.stepped_outer[9]
 		nodebox_cache.ramps.smooth_outer_flat = nodebox_cache.stairs.stepped_outer_flat[9]
-		
-		nodebox_cache.ramps.steep_smooth = nodebox_cache.stairs.steep[9]
-		nodebox_cache.ramps.steep_smooth_inner = nodebox_cache.stairs.steep_inner[9]
-		nodebox_cache.ramps.steep_smooth_outer = nodebox_cache.stairs.steep_outer[9]
 	end
 end
 
@@ -315,20 +295,6 @@ local function register_ramps(definition)
 	
 	register_node(ramp_outer_corner_flat_definition)
 	register_conversion("Ramps", definition.name, ramp_outer_corner_flat_name)
-	
-	-- Steep ramp
-	local steep_ramp_name = definition.name .. "_steep_ramp"
-	local steep_ramp_definition = tableutil.merge(ramp_definition, {
-		description = definition.description .. " (Steep smooth ramp)",
-		drawtype = "mesh",
-		drop = postfix_dropnames(definition.drop, "steep_ramp"),
-		mesh = "steep_ramp.obj",
-		name = steep_ramp_name,
-		node_box = nodebox_cache.ramps.steep_smooth
-	})
-	
-	register_node(steep_ramp_definition)
-	register_conversion("Ramps", definition.name, steep_ramp_name)
 end
 
 local function register_stairs(definition)
@@ -400,42 +366,6 @@ local function register_stairs(definition)
 		
 		register_node(outer_corner_flat_definition)
 		register_conversion("Stairs", definition.name, outer_corner_flat_name)
-		
-		-- Steep stair
-		local steep_stair_name = definition.name .. "_steep_stair_" .. counter
-		local steep_stair_definition = tableutil.merge(stair_definition, {
-			description = definition.description .. " (Steep stair with " .. counter .. " steps)",
-			drop = postfix_dropnames(definition.drop, "_steep_stair_" .. counter),
-			name = steep_stair_name,
-			node_box = nodebox_cache.stairs.steep[counter],
-		})
-		
-		register_node(steep_stair_definition)
-		register_conversion("Steep Stairs", definition.name, steep_stair_name)
-		
-		-- Inner steep corner
-		local inner_steep_corner_name = definition.name .. "_steep_stair_inner_corner_" .. counter
-		local inner_steep_corner_definition = tableutil.merge(stair_definition, {
-			description = definition.description .. " (Steep stair inner corner with " .. counter .. " steps)",
-			drop = postfix_dropnames(definition.drop, "steep_stair_inner_corner_" .. counter),
-			name = inner_steep_corner_name,
-			node_box = nodebox_cache.stairs.steep_inner[counter],
-		})
-		
-		register_node(inner_steep_corner_definition)
-		register_conversion("Steep Stairs", definition.name, inner_steep_corner_name)
-		
-		-- Outer steep corner
-		local outer_steep_corner_name = definition.name .. "_steep_stair_outer_corner_" .. counter
-		local outer_steep_corner_definition = tableutil.merge(stair_definition, {
-			description = definition.description .. " (Steep stair outer corner with " .. counter .. " steps)",
-			drop = postfix_dropnames(definition.drop, "steep_stair_outer_corner_" .. counter),
-			name = outer_steep_corner_name,
-			node_box = nodebox_cache.stairs.steep_outer[counter],
-		})
-		
-		register_node(outer_steep_corner_definition)
-		register_conversion("Steep Stairs", definition.name, outer_steep_corner_name)
 	end
 end
 
