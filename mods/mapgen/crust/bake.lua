@@ -347,39 +347,124 @@ ap.mapgen.worldgen:register("crust.baking.ocean", function(constructor)
 end)
 
 ap.mapgen.worldgen:register("crust.baking.ramps", function(constructor)
-	local rampplacer = RampPlacer:new()
+	local placer = MaskBasedPlacer:new()
+	local placerb = MaskBasedPlacer:new()
 	
-	rampplacer:register_air_like("core:water_source")
-	rampplacer:register_air_like("core:water_flowing")
-	
-	local register_ramp = function(name, ceiling, floor)
-		rampplacer:register_ramp(
-			"core:" .. name,
-			"core:" .. name .. "_ramp",
-			"core:" .. name .. "_ramp_inner_corner",
-			"core:" .. name .. "_ramp_outer_corner",
-			ceiling,
-			floor
-		)
+	local register_ramp = function(name)
+		placer:register_node({
+			initial_rotation = rotationutil.ROT_90,
+			node = "core:" .. name,
+			node_above = "air",
+			node_not_below = "air",
+			replacement_node = "core:" .. name .. "_ramp",
+			surroundings = {
+				MaskBasedPlacer.MASK_VALUE_IGNORE,
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				MaskBasedPlacer.MASK_VALUE_IGNORE,
+				"air"
+			},
+			upside_down = true
+		})
+		
+		placer:register_node({
+			initial_rotation = rotationutil.ROT_90,
+			node = "core:" .. name,
+			node_above = "air",
+			node_not_below = "air",
+			replacement_node = "core:" .. name .. "_ramp",
+			surroundings = {
+				MaskBasedPlacer.MASK_VALUE_IGNORE,
+				"air",
+				MaskBasedPlacer.MASK_VALUE_IGNORE,
+				{ ["not"] = "air" },
+				MaskBasedPlacer.MASK_VALUE_IGNORE,
+				"air",
+				MaskBasedPlacer.MASK_VALUE_IGNORE,
+				"air"
+			},
+			upside_down = true
+		})
+		
+		placer:register_node({
+			initial_rotation = rotationutil.ROT_90,
+			node = "core:" .. name,
+			node_above = "air",
+			node_not_below = "air",
+			replacement_node = "core:" .. name .. "_ramp_outer_corner_flat",
+			surroundings = {
+				MaskBasedPlacer.MASK_VALUE_IGNORE,
+				"air",
+				MaskBasedPlacer.MASK_VALUE_IGNORE,
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				MaskBasedPlacer.MASK_VALUE_IGNORE,
+				"air"
+			},
+			upside_down = true
+		})
+		
+		placer:register_node({
+			initial_rotation = rotationutil.ROT_90,
+			node = "core:" .. name,
+			node_above = "air",
+			node_not_below = "air",
+			replacement_node = "core:" .. name .. "_ramp_inner_corner_flat",
+			surroundings = {
+				"air",
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				{ ["not"] = "air" }
+			},
+			upside_down = true
+		})
+		
+		placerb:register_node({
+			initial_rotation = rotationutil.ROT_90,
+			node = "core:" .. name,
+			node_above = "core:" .. name .. "_ramp_outer_corner_flat",
+			node_not_below = "air",
+			replacement_node = "core:" .. name .. "_ramp_inner_corner_flat",
+			surroundings = {
+				"air",
+				MaskBasedPlacer.MASK_VALUE_IGNORE,
+				MaskBasedPlacer.MASK_VALUE_IGNORE,
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				{ ["not"] = "air" },
+				MaskBasedPlacer.MASK_VALUE_IGNORE,
+				MaskBasedPlacer.MASK_VALUE_IGNORE
+			},
+			upside_down = true
+		})
 	end
 	
-	register_ramp("dirt", true, true)
-	register_ramp("glacial_ice", true, true)
-	register_ramp("gravel", true, false)
-	register_ramp("red_rock", true, true)
-	register_ramp("rock", true, true)
-	register_ramp("sand", true, false)
-	register_ramp("sand_stone", true, true)
-	register_ramp("snow", true, false)
-	register_ramp("wasteland_dirt", true, true)
+	register_ramp("dirt")
+	register_ramp("glacial_ice")
+	register_ramp("gravel")
+	register_ramp("red_rock")
+	register_ramp("rock")
+	register_ramp("sand")
+	register_ramp("sand_stone")
+	register_ramp("snow")
 	
-	constructor:add_object("rampplacer", rampplacer)
+	constructor:add_object("placer", placer)
+	constructor:add_object("placerb", placerb)
 	
 	constructor:set_condition(function(module, metadata, minp, maxp)
 		return metadata.heightmap_range.max >= minp.y
 	end)
 	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
-		module.objects.rampplacer:run(manipulator, minp, maxp)
+		module.objects.placer:run(manipulator, minp, maxp)
+		module.objects.placerb:run(manipulator, minp, maxp)
 	end)
 end)
 
