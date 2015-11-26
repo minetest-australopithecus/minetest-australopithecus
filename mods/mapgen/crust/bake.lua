@@ -386,7 +386,8 @@ ap.mapgen.worldgen:register("crust.baking.ramps", function(constructor)
 				MaskBasedPlacer.MASK_VALUE_IGNORE,
 				"air"
 			},
-			upside_down = true
+			upside_down = true,
+			upside_down_pseudo_mirroring = true
 		})
 		
 		placer:register_node({
@@ -405,7 +406,8 @@ ap.mapgen.worldgen:register("crust.baking.ramps", function(constructor)
 				MaskBasedPlacer.MASK_VALUE_IGNORE,
 				"air"
 			},
-			upside_down = true
+			upside_down = true,
+			upside_down_pseudo_mirroring = true
 		})
 		
 		placer:register_node({
@@ -424,7 +426,8 @@ ap.mapgen.worldgen:register("crust.baking.ramps", function(constructor)
 				{ ["not"] = "air" },
 				{ ["not"] = "air" }
 			},
-			upside_down = true
+			upside_down = true,
+			upside_down_pseudo_mirroring = true
 		})
 		
 		placerb:register_node({
@@ -443,7 +446,8 @@ ap.mapgen.worldgen:register("crust.baking.ramps", function(constructor)
 				MaskBasedPlacer.MASK_VALUE_IGNORE,
 				MaskBasedPlacer.MASK_VALUE_IGNORE
 			},
-			upside_down = true
+			upside_down = true,
+			upside_down_pseudo_mirroring = true
 		})
 	end
 	
