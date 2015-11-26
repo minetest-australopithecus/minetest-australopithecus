@@ -234,7 +234,7 @@ local function register_ramps(definition)
 		node_box = nodebox_cache.ramps.smooth,
 		paramtype = "light",
 		paramtype2 = "facedir",
-		after_place_node = facedirutil.make_upsidedown
+		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
 	})
 	
 	register_node(ramp_definition)
@@ -248,7 +248,8 @@ local function register_ramps(definition)
 		drop = postfix_dropnames(definition.drop, "ramp_inner_corner"),
 		mesh = "inner_corner_ramp.obj",
 		name = ramp_inner_corner_name,
-		node_box = nodebox_cache.ramps.smooth_inner
+		node_box = nodebox_cache.ramps.smooth_inner,
+		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler(true)
 	})
 	
 	register_node(ramp_inner_corner_definition)
@@ -262,7 +263,8 @@ local function register_ramps(definition)
 		drop = postfix_dropnames(definition.drop, "ramp_outer_corner"),
 		mesh = "outer_corner_ramp.obj",
 		name = ramp_outer_corner_name,
-		node_box = nodebox_cache.ramps.smooth_outer
+		node_box = nodebox_cache.ramps.smooth_outer,
+		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler(true)
 	})
 	
 	register_node(ramp_outer_corner_definition)
@@ -276,7 +278,8 @@ local function register_ramps(definition)
 		drop = postfix_dropnames(definition.drop, "ramp_inner_corner_flat"),
 		mesh = "inner_corner_ramp_flat.obj",
 		name = ramp_inner_corner_flat_name,
-		node_box = nodebox_cache.ramps.smooth_inner_flat
+		node_box = nodebox_cache.ramps.smooth_inner_flat,
+		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler(true)
 	})
 	
 	register_node(ramp_inner_corner_flat_definition)
@@ -290,7 +293,8 @@ local function register_ramps(definition)
 		drop = postfix_dropnames(definition.drop, "ramp_outer_corner_flat"),
 		mesh = "outer_corner_ramp_flat.obj",
 		name = ramp_outer_corner_flat_name,
-		node_box = nodebox_cache.ramps.smooth_outer_flat
+		node_box = nodebox_cache.ramps.smooth_outer_flat,
+		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler(true)
 	})
 	
 	register_node(ramp_outer_corner_flat_definition)
@@ -313,7 +317,7 @@ local function register_stairs(definition)
 			node_box = nodebox_cache.stairs.stepped[counter],
 			paramtype = "light",
 			paramtype2 = "facedir",
-			after_place_node = facedirutil.make_upsidedown
+			after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
 		})
 		
 		register_node(stair_definition)
@@ -325,7 +329,8 @@ local function register_stairs(definition)
 			description = definition.description .. " (Stair inner corner with " .. counter .. " steps)",
 			drop = postfix_dropnames(definition.drop, "stair_inner_corner_" .. counter),
 			name = inner_corner_name,
-			node_box = nodebox_cache.stairs.stepped_inner[counter]
+			node_box = nodebox_cache.stairs.stepped_inner[counter],
+			after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
 		})
 		
 		register_node(inner_corner_definition)
@@ -337,7 +342,8 @@ local function register_stairs(definition)
 			description = definition.description .. " (Stair flat inner corner with " .. counter .. " steps)",
 			drop = postfix_dropnames(definition.drop, "stair_inner_corner_flat_" .. counter),
 			name = inner_corner_flat_name,
-			node_box = nodebox_cache.stairs.stepped_inner_flat[counter]
+			node_box = nodebox_cache.stairs.stepped_inner_flat[counter],
+			after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
 		})
 		
 		register_node(inner_corner_flat_definition)
@@ -349,7 +355,8 @@ local function register_stairs(definition)
 			description = definition.description .. " (Stair outer corner with " .. counter .. " steps)",
 			drop = postfix_dropnames(definition.drop, "stair_outer_corner_" .. counter),
 			name = outer_corner_name,
-			node_box = nodebox_cache.stairs.stepped_outer[counter]
+			node_box = nodebox_cache.stairs.stepped_outer[counter],
+			after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
 		})
 		
 		register_node(outer_corner_definition)
@@ -361,7 +368,8 @@ local function register_stairs(definition)
 			description = definition.description .. " (Stair flat outer corner with " .. counter .. " steps)",
 			drop = postfix_dropnames(definition.drop, "stair_outer_corner_flat_" .. counter),
 			name = outer_corner_flat_name,
-			node_box = nodebox_cache.stairs.stepped_outer_flat[counter]
+			node_box = nodebox_cache.stairs.stepped_outer_flat[counter],
+			after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
 		})
 		
 		register_node(outer_corner_flat_definition)
