@@ -733,6 +733,8 @@ ap.core.helpers.register_sand = function(name, prototype)
 	}
 	
 	register_node(definition)
+	
+	register_corners(definition)
 	register_ramps(definition)
 end
 
