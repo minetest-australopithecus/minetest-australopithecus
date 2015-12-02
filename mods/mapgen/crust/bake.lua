@@ -348,7 +348,7 @@ end)
 
 ap.mapgen.worldgen:register("crust.baking.ramps", function(constructor)
 	local placer = MaskBasedPlacer:new()
-	local placerb = MaskBasedPlacer:new()
+	local secondary_placer = MaskBasedPlacer:new()
 	
 	local register_ramp = function(name)
 		placer:register_node({
@@ -407,7 +407,14 @@ ap.mapgen.worldgen:register("crust.baking.ramps", function(constructor)
 				"air"
 			},
 			upside_down = true,
-			upside_down_pseudo_mirroring = true
+			upside_down_pseudo_mirroring = true,
+			after_place = function(x, z, y, definition, rotation, upside_down, manipulator)
+				if upside_down then
+					secondary_placer:run_on_coordinates(manipulator, x, z, y + 1)
+				else
+					secondary_placer:run_on_coordinates(manipulator, x, z, y - 1)
+				end
+			end
 		})
 		
 		placer:register_node({
@@ -430,10 +437,10 @@ ap.mapgen.worldgen:register("crust.baking.ramps", function(constructor)
 			upside_down_pseudo_mirroring = true
 		})
 		
-		placerb:register_node({
+		secondary_placer:register_node({
 			initial_rotation = rotationutil.ROT_90,
 			node = "core:" .. name,
-			node_above = "core:" .. name .. "_ramp_outer_corner_flat",
+			node_name_above = ".*_ramp_outer_corner_flat",
 			node_not_below = "air",
 			replacement_node = "core:" .. name .. "_ramp_inner_corner_flat",
 			surroundings = {
@@ -447,7 +454,17 @@ ap.mapgen.worldgen:register("crust.baking.ramps", function(constructor)
 				MaskBasedPlacer.MASK_VALUE_IGNORE
 			},
 			upside_down = true,
-			upside_down_pseudo_mirroring = true
+			upside_down_pseudo_mirroring = true,
+			after_place = function(x, z, y, definition, rotation, upside_down, manipulator)
+				-- Clone the rotation from the parent node.
+				local direction = 1
+				if upside_down then
+					direction = -1
+				end
+				
+				local parent_node, param2 = manipulator:get_node(x, z, y + direction)
+				manipulator:set_node(x, z, y, definition.replacement_node, param2)
+			end
 		})
 	end
 	
@@ -461,14 +478,15 @@ ap.mapgen.worldgen:register("crust.baking.ramps", function(constructor)
 	register_ramp("snow")
 	
 	constructor:add_object("placer", placer)
-	constructor:add_object("placerb", placerb)
 	
 	constructor:set_condition(function(module, metadata, minp, maxp)
 		return metadata.heightmap_range.max >= minp.y
 	end)
 	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
-		module.objects.placer:run(manipulator, minp, maxp)
-		module.objects.placerb:run(manipulator, minp, maxp)
+		local extended_minp = vector.subtract(minp, 1)
+		local extended_maxp = vector.add(maxp, 1)
+		
+		module.objects.placer:run(manipulator, extended_minp, extended_maxp)
 	end)
 end)
 
