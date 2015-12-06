@@ -31,3 +31,6 @@
 [submodule "deps/auto-pickup"]
 	path = deps/auto-pickup
 	url = https://github.com/minetest-australopithecus/minetest-australopithecus-auto-pickup.git
+[submodule "deps/auto-hud-hide"]
+	path = deps/auto-hud-hide
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-auto-hud-hide.git
