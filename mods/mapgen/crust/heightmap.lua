@@ -115,8 +115,8 @@ ap.mapgen.worldgen:register("crust.heightmap.canyon", function(constructor)
 	constructor:add_param("threshold_max", 0.3)
 	constructor:add_param("threshold_min", -0.3)
 	
-	constructor:require_noise2d("mask", 2, 0.3, 1.0, 7800)
-	constructor:require_noise2d("ridged", 5, 0.7, 1.0, 3780)
+	constructor:require_noise2d("mask", 2, 0.3, 0.9, 7800)
+	constructor:require_noise2d("ridged", 5, 0.7, 0.9, 3780)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(worldgenfunctions.masked_ridged_noise_2d("heightmap", "heightmap_info", "canyon"))
@@ -130,8 +130,8 @@ ap.mapgen.worldgen:register("crust.heightmap.ravine", function(constructor)
 	constructor:add_param("threshold_max", 0.3)
 	constructor:add_param("threshold_min", -0.3)
 	
-	constructor:require_noise2d("mask", 2, 0.3, 1.0, 970)
-	constructor:require_noise2d("ridged", 5, 0.6, 1.0, 500)
+	constructor:require_noise2d("mask", 2, 0.3, 0.9, 970)
+	constructor:require_noise2d("ridged", 5, 0.6, 0.9, 500)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(worldgenfunctions.masked_ridged_noise_2d("heightmap", "heightmap_info", "ravine"))
@@ -145,8 +145,8 @@ ap.mapgen.worldgen:register("crust.heightmap.channels", function(constructor)
 	constructor:add_param("threshold_max", 0.3)
 	constructor:add_param("threshold_min", -0.3)
 	
-	constructor:require_noise2d("mask", 2, 0.3, 1.0, 1050)
-	constructor:require_noise2d("ridged", 4, 0.6, 1.0, 250)
+	constructor:require_noise2d("mask", 2, 0.3, 0.9, 1050)
+	constructor:require_noise2d("ridged", 4, 0.6, 0.9, 250)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(worldgenfunctions.masked_ridged_noise_2d("heightmap", "heightmap_info", "channels"))
@@ -162,8 +162,8 @@ ap.mapgen.worldgen:register("crust.heightmap.cliffs", function(constructor)
 	constructor:add_param("threshold_min", 0.1)
 	constructor:add_param("summit", 0.1)
 	
-	constructor:require_noise2d("main", 4, 0.6, 1, 320)
-	constructor:require_noise2d("mask", 3, 0.3, 1, 240)
+	constructor:require_noise2d("main", 4, 0.6, 0.9, 320)
+	constructor:require_noise2d("mask", 3, 0.3, 0.9, 240)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
@@ -195,8 +195,8 @@ ap.mapgen.worldgen:register("crust.heightmap.extrusions", function(constructor)
 	constructor:add_param("value_min", 0)
 	constructor:add_param("value_max", 23)
 	
-	constructor:require_noise2d("main", 4, 0.8, 1, 245)
-	constructor:require_noise2d("mask", 5, 0.5, 1, 1080)
+	constructor:require_noise2d("main", 4, 0.8, 0.9, 245)
+	constructor:require_noise2d("mask", 5, 0.5, 0.9, 1080)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(worldgenfunctions.masked_noise_2d("heightmap"))
@@ -209,8 +209,8 @@ ap.mapgen.worldgen:register("crust.heightmap.positive-highlights", function(cons
 	constructor:add_param("value_min", 0)
 	constructor:add_param("value_max", 3)
 	
-	constructor:require_noise2d("main", 2, 0.6, 1, 15)
-	constructor:require_noise2d("mask", 6, 0.5, 1, 550)
+	constructor:require_noise2d("main", 2, 0.6, 0.9, 15)
+	constructor:require_noise2d("mask", 6, 0.5, 0.9, 550)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(worldgenfunctions.masked_noise_2d("heightmap", "heightmap_info", "positive_highlights"))
@@ -223,8 +223,8 @@ ap.mapgen.worldgen:register("crust.heightmap.negative-highlights", function(cons
 	constructor:add_param("value_min", 0)
 	constructor:add_param("value_max", -4)
 	
-	constructor:require_noise2d("main", 3, 0.4, 1, 15)
-	constructor:require_noise2d("mask", 6, 0.4, 1, 500)
+	constructor:require_noise2d("main", 3, 0.4, 0.9, 15)
+	constructor:require_noise2d("mask", 6, 0.4, 0.9, 500)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(worldgenfunctions.masked_noise_2d("heightmap", "heightmap_info", "negative_highlights"))
@@ -236,7 +236,7 @@ ap.mapgen.worldgen:register("crust.heightmap.peaks", function(constructor)
 	constructor:add_param("threshold_mask_max", 0.25)
 	constructor:add_param("threshold_mask_min", -0.25)
 	
-	constructor:require_noise2d("mask", 8, 0.6, 1, 1200)
+	constructor:require_noise2d("mask", 8, 0.6, 0.9, 1200)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(worldgenfunctions.masked_boost("heightmap", "heightmap_info", "peaks"))
@@ -248,7 +248,7 @@ ap.mapgen.worldgen:register("crust.heightmap.trenches", function(constructor)
 	constructor:add_param("threshold_mask_max", 0.5)
 	constructor:add_param("threshold_mask_min", -0.75)
 	
-	constructor:require_noise2d("mask", 6, 0.5, 1, 1200)
+	constructor:require_noise2d("mask", 6, 0.5, 0.9, 1200)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(worldgenfunctions.masked_boost("heightmap", "heightmap_info", "trenches"))
@@ -260,8 +260,8 @@ ap.mapgen.worldgen:register("crust.heightmap.flatlands", function(constructor)
 	constructor:add_param("threshold_mask_max", 1.0)
 	constructor:add_param("threshold_mask_min", 0.6)
 	
-	constructor:require_noise2d("main", 2, 0.4, 1, 5300)
-	constructor:require_noise2d("mask", 4, 0.7, 1, 1600)
+	constructor:require_noise2d("main", 2, 0.4, 0.9, 5300)
+	constructor:require_noise2d("mask", 4, 0.7, 0.9, 1600)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
@@ -296,7 +296,7 @@ ap.mapgen.worldgen:register("crust.heightmap.terraces", function(constructor)
 	constructor:add_param("threshold_mask_max", 1.0)
 	constructor:add_param("threshold_mask_min", 0.8)
 	
-	constructor:require_noise2d("mask", 4, 0.7, 1, 1900)
+	constructor:require_noise2d("mask", 4, 0.7, 0.9, 1900)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_heightmap"))
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
@@ -314,7 +314,7 @@ ap.mapgen.worldgen:register("crust.heightmap.terraces", function(constructor)
 					module.params.threshold_mask_min + module.params.fade,
 					1,
 					terrace_height)
-				terrace_height = mathutil.round(terrace_height)
+				terrace_height = math.ceil(terrace_height)
 			end
 			
 			height = height / terrace_height

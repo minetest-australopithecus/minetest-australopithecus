@@ -291,8 +291,16 @@ ap.mapgen.worldgen:register("crust.baking.surface-detection", function(construct
 								if biome ~= nil then
 									if metadata.crust.shore[x2][z2] then
 										manipulator:set_node(x2, z2, y, biome.nodes.shore_surface)
+										
+										if manipulator:get_node(x2, z2, y - 1) ~= module.nodes.air then
+											manipulator:set_node(x2, z2, y - 1, biome.nodes.shore_subsurface)
+										end
 									elseif y >= module.params.ocean_level then
 										manipulator:set_node(x2, z2, y, biome.nodes.surface)
+										
+										if manipulator:get_node(x2, z2, y - 1) ~= module.nodes.air then
+											manipulator:set_node(x2, z2, y - 1, biome.nodes.subsurface)
+										end
 									end
 								end
 							end
