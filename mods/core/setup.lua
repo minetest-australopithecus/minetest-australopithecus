@@ -31,11 +31,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --
 -- @param player The Player on which to set it.
 local function disable_sneak_glitch(player)
-	local physics_override = player:get_physics_override()
-	
-	physics_override.sneak_glitch = settings.get_bool("ap_sneak_glitch_available", false),
-	
-	player:set_physics_override(physics_override)
+	player:set_physics_override({
+		sneak_glitch = settings.get_bool("ap_sneak_glitch_available", false)
+	})
 end
 
 --- Hides the crosshair unless the option "ap_crosshair_visible" for showing
@@ -43,11 +41,9 @@ end
 --
 -- @param player The Player on which to set it.
 local function hide_crosshair(player)
-	local hud_flags = player:hud_get_flags()
-	
-	hud_flags.crosshair = settings.get_bool("ap_crosshair_visible", false)
-	
-	player:hud_set_flags(hud_flags)
+	player:hud_set_flags({
+		crosshair = settings.get_bool("ap_crosshair_visible", false)
+	})
 end
 
 --- Disables the minimap unless the option "ap_minimap_available" for showing
@@ -55,11 +51,9 @@ end
 --
 -- @param player The Player on which to set it.
 local function hide_minimap(player)
-	local hud_flags = player:hud_get_flags()
-	
-	hud_flags.minimap = settings.get_bool("ap_minimap_available", false)
-	
-	player:hud_set_flags(hud_flags)
+	player:hud_set_flags({
+		minimap = settings.get_bool("ap_minimap_available", false)
+	})
 end
 
 --- Hides the nametag unless the option "ap_nametags_visible" for showing
@@ -67,15 +61,11 @@ end
 --
 -- @param player The Player on which to set it.
 local function hide_nametag(player)
-	if not settings.get_bool("ap_nametags_visible", false) then
-		return
+	if settings.get_bool("ap_nametags_visible", false) then
+		player:set_nametag_attributes({
+			color = "00000000"
+		})
 	end
-	
-	local nametag_attributes = player:get_nametag_attributes()
-	
-	nametag_attributes.color = "00000000"
-	
-	player:set_nametag_attributes(nametag_attributes)
 end
 
 --- Sets the time of day to the configured time.
