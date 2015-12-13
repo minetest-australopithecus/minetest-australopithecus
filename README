@@ -47,6 +47,7 @@ Mods (external)
  * [auto-drops][auto-drops], a mod that drops all drops from a dug node.
  * [auto-hud-hide][auto-hud-hide], a mod that hides the HUD.
  * [auto-pickup][auto-pickup], a mod that allos to pick up items by moving over them.
+ * [death-inventory-drop][death-inventory-drop], a mod which makes the payer drop their inventory on death.
  * [player-model][player-model], a mod that adds a model for the player.
  * [sneak-cam][sneak-cam], a mod that lowers the viewpoints of sneaking players.
  * [spawn-usher][spawn-usher], a system to place the player on spawns.
@@ -89,6 +90,7 @@ most of the time in #minetest, #minetest-dev and #minetest-mod channels.
  [auto-hud-hide]: https://github.com/minetest-australopithecus/minetest-australopithecus-auto-hud-hide
  [auto-pickup]: https://github.com/RobertZenz/minetest-australopithecus-auto-pickup
  [australopithecus-wiki]: https://en.wikipedia.org/wiki/Australopithecus
+ [death-inventory-drop]: https://github.com/minetest-australopithecus/minetest-australopithecus-death-inventory-drop
  [diggles]: https://en.wikipedia.org/wiki/Diggles:_The_Myth_of_Fenris
  [dont-starve]: https://www.kleientertainment.com/games/dont-starve
  [dwarf-fortress]: http://www.bay12games.com/dwarves/
