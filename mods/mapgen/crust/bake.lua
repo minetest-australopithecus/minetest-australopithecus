@@ -314,6 +314,26 @@ ap.mapgen.worldgen:register("crust.baking.surface-detection", function(construct
 	end)
 end)
 
+ap.mapgen.worldgen:register("crust.baking.remove-single", function(constructor)
+	constructor:add_param("nodes", {
+		nodeutil.get_id("core:sand"),
+		nodeutil.get_id("core:snow")
+	})
+	
+	constructor:require_node("air", "air")
+	
+	constructor:set_condition(function(module, metadata, minp, maxp)
+		return metadata.heightmap_range.max >= minp.y
+	end)
+	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
+		if manipulator:get_node(x, z, y + 1) == module.nodes.air
+			and manipulator:get_node(x, z, y - 1) == module.nodes.air then
+			
+			manipulator:set_node(x, z, y, module.nodes.air)
+		end
+	end)
+end)
+
 ap.mapgen.worldgen:register("crust.baking.ocean", function(constructor)
 	constructor:add_param("cave_flood_depth", 23)
 	constructor:add_param("max_depth", 47 + 3)
