@@ -34,3 +34,6 @@
 [submodule "deps/auto-hud-hide"]
 	path = deps/auto-hud-hide
 	url = https://github.com/minetest-australopithecus/minetest-australopithecus-auto-hud-hide.git
+[submodule "deps/death-inventory-drop"]
+	path = deps/death-inventory-drop
+	url = https://github.com/minetest-australopithecus/minetest-australopithecus-death-inventory-drop.git
