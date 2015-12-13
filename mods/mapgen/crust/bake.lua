@@ -316,8 +316,8 @@ end)
 
 ap.mapgen.worldgen:register("crust.baking.remove-single", function(constructor)
 	constructor:add_param("nodes", {
-		nodeutil.get_id("core:sand"),
-		nodeutil.get_id("core:snow")
+		[nodeutil.get_id("core:sand")] = true,
+		[nodeutil.get_id("core:snow")] = true
 	})
 	
 	constructor:require_node("air", "air")
@@ -326,7 +326,8 @@ ap.mapgen.worldgen:register("crust.baking.remove-single", function(constructor)
 		return metadata.heightmap_range.max >= minp.y
 	end)
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
-		if manipulator:get_node(x, z, y + 1) == module.nodes.air
+		if module.params.nodes[manipulator:get_node(x, z, y)]
+			and manipulator:get_node(x, z, y + 1) == module.nodes.air
 			and manipulator:get_node(x, z, y - 1) == module.nodes.air then
 			
 			manipulator:set_node(x, z, y, module.nodes.air)
