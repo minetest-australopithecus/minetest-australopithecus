@@ -27,6 +27,7 @@ playerskins = {
 function playerskins.activate()
 	playerskins.create_inventory()
 	
+	minetest.register_on_dieplayer(playerskins.drop_clothes)
 	minetest.register_on_joinplayer(playerskins.setup_inventories)
 end
 
@@ -60,9 +61,17 @@ function playerskins.create_inventory()
 	})
 end
 
+function playerskins.drop_clothes(player)
+	if deathinventorydrop.active then
+		deathinventorydrop.drop_inventory(player, player:get_inventory(), "skin")
+		playerskins.inventory:set_stack(player:get_player_name(), 1, ItemStack(""))
+		playerskins.set_skin(player, nil)
+	end
+end
+
 function playerskins.set_skin(player, item_name)
 	if item_name == nil or #item_name == 0 then
-		return
+		playermodel.set_player_model(player, nil, { "character.png" }, nil)
 	end
 	
 	playerskins.skins:foreach(function(skin, index)
