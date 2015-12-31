@@ -501,6 +501,7 @@ ap.mapgen.worldgen:register("crust.baking.ramps", function(constructor)
 	register_ramp("sand")
 	register_ramp("sand_stone")
 	register_ramp("snow")
+	register_ramp("wasteland_dirt")
 	
 	constructor:add_object("placer", placer)
 	
