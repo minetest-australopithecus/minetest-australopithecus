@@ -18,12 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 --]]
 
 
-ap.mapgen.crust:register("baking.init", function(constructor)
-	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
-		metadata.crust = {}
-	end)
-end)
-
 ap.mapgen.crust:register("baking.shore", function(constructor)
 	constructor:add_param("ocean_level", -58)
 	constructor:add_param("shore_max", 6)
@@ -35,7 +29,7 @@ ap.mapgen.crust:register("baking.shore", function(constructor)
 		return metadata.heightmap_range.max >= minp.y
 	end)
 	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
-		metadata.crust.shore = arrayutil.create2d(minp.x, minp.z, maxp.x, maxp.z, nil)
+		metadata.shore = arrayutil.create2d(minp.x, minp.z, maxp.x, maxp.z, nil)
 	end)
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z, y)
 		local shore_height = module.noises.shore[x][z]
@@ -46,7 +40,7 @@ ap.mapgen.crust:register("baking.shore", function(constructor)
 			module.params.shore_min,
 			module.params.shore_max)
 		
-		metadata.crust.shore[x][z] = (metadata.heightmap[x][z] <= (module.params.ocean_level + shore_height))
+		metadata.shore[x][z] = (metadata.heightmap[x][z] <= (module.params.ocean_level + shore_height))
 	end)
 end)
 
@@ -66,16 +60,16 @@ ap.mapgen.crust:register("baking.heightmap", function(constructor)
 		return metadata.heightmap_range.max >= minp.y
 	end)
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z, y)
-		metadata.crust.biome = metadata.biomes[x][z]
-		metadata.crust.height = metadata.heightmap[x][z]
-		metadata.crust.is_shore = metadata.crust.shore[x][z]
-		metadata.crust.bedrock_depth = transform.linear(
+		metadata.biome = metadata.biomes[x][z]
+		metadata.height = metadata.heightmap[x][z]
+		metadata.is_shore = metadata.shore[x][z]
+		metadata.bedrock_depth = transform.linear(
 			module.noises.bedrock[x][z],
 			-1,
 			1,
 			module.params.bedrock_min,
 			module.params.bedrock_max)
-		metadata.crust.subsurface_depth = transform.linear(
+		metadata.subsurface_depth = transform.linear(
 			module.noises.subsurface[x][z],
 			-1,
 			1,
@@ -83,24 +77,24 @@ ap.mapgen.crust:register("baking.heightmap", function(constructor)
 			module.params.subsurface_max)
 	end)
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
-		if y > metadata.crust.height then
+		if y > metadata.height then
 			manipulator:set_node(x, z, y, module.nodes.air)
-		elseif y == metadata.crust.height then
-			if metadata.crust.is_shore then
-				manipulator:set_node(x, z, y, metadata.crust.biome.nodes.shore_surface)
+		elseif y == metadata.height then
+			if metadata.is_shore then
+				manipulator:set_node(x, z, y, metadata.biome.nodes.shore_surface)
 			else
-				manipulator:set_node(x, z, y, metadata.crust.biome.nodes.surface)
+				manipulator:set_node(x, z, y, metadata.biome.nodes.surface)
 			end
-		elseif y < metadata.crust.height
-			and y >= (metadata.crust.height - metadata.crust.subsurface_depth) then
-			if metadata.crust.is_shore then
-				manipulator:set_node(x, z, y, metadata.crust.biome.nodes.shore_subsurface)
+		elseif y < metadata.height
+			and y >= (metadata.height - metadata.subsurface_depth) then
+			if metadata.is_shore then
+				manipulator:set_node(x, z, y, metadata.biome.nodes.shore_subsurface)
 			else
-				manipulator:set_node(x, z, y, metadata.crust.biome.nodes.subsurface)
+				manipulator:set_node(x, z, y, metadata.biome.nodes.subsurface)
 			end
-		elseif y < (metadata.crust.height - metadata.crust.subsurface_depth)
-			and y >= (metadata.crust.height - metadata.crust.subsurface_depth - metadata.crust.bedrock_depth)then
-			manipulator:set_node(x, z, y, metadata.crust.biome.nodes.bedrock)
+		elseif y < (metadata.height - metadata.subsurface_depth)
+			and y >= (metadata.height - metadata.subsurface_depth - metadata.bedrock_depth)then
+			manipulator:set_node(x, z, y, metadata.biome.nodes.bedrock)
 		else
 			manipulator:set_node(x, z, y, module.nodes.rock)
 		end
@@ -136,10 +130,10 @@ ap.mapgen.crust:register("baking.transform", function(constructor)
 			module.params.min_depth,
 			module.params.max_depth)
 		
-		metadata.crust.transform_depth = metadata.heightmap[x][z] - depth
+		metadata.transform_depth = metadata.heightmap[x][z] - depth
 	end)
 	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
-		if y >= metadata.crust.transform_depth then
+		if y >= metadata.transform_depth then
 			local value = module.noises.main[x][z][y]
 			local mask_value = module.noises.mask[x][z][y]
 			mask_value = mathutil.clamp(mask_value, -1, 1)
@@ -285,7 +279,7 @@ ap.mapgen.crust:register("baking.surface-detection", function(constructor)
 								biome = biome[z2]
 								
 								if biome ~= nil then
-									if metadata.crust.shore[x2][z2] then
+									if metadata.shore[x2][z2] then
 										manipulator:set_node(x2, z2, y, biome.nodes.shore_surface)
 										
 										if manipulator:get_node(x2, z2, y - 1) ~= module.nodes.air then
