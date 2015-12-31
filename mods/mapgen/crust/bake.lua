@@ -127,7 +127,7 @@ ap.mapgen.worldgen:register("crust.baking.transform", function(constructor)
 		return maxp.y >= (metadata.heightmap_range.min - module.params.max_depth)
 			and minp.y <= metadata.heightmap_range.max
 	end)
-	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
+	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
 		local depth = module.noises.depth[x][z]
 		depth = transform.cosine(
 			depth,
@@ -136,7 +136,10 @@ ap.mapgen.worldgen:register("crust.baking.transform", function(constructor)
 			module.params.min_depth,
 			module.params.max_depth)
 		
-		if y >= (metadata.heightmap[x][z] - depth) then
+		metadata.crust.transform_depth = metadata.heightmap[x][z] - depth
+	end)
+	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
+		if y >= metadata.crust.transform_depth then
 			local value = module.noises.main[x][z][y]
 			local mask_value = module.noises.mask[x][z][y]
 			mask_value = mathutil.clamp(mask_value, -1, 1)
