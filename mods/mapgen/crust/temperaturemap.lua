@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 --]]
 
 
-ap.mapgen.worldgen:register("crust.temperaturemap.init", function(constructor)
+ap.mapgen.crust:register("temperaturemap.init", function(constructor)
 	constructor:add_param("base_value", 0)
 	
 	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
@@ -32,7 +32,7 @@ ap.mapgen.worldgen:register("crust.temperaturemap.init", function(constructor)
 	end)
 end)
 
-ap.mapgen.worldgen:register("crust.temperaturemap.major", function(constructor)
+ap.mapgen.crust:register("temperaturemap.major", function(constructor)
 	constructor:add_param("high", 75)
 	constructor:add_param("low", -25)
 	
@@ -42,7 +42,28 @@ ap.mapgen.worldgen:register("crust.temperaturemap.major", function(constructor)
 	constructor:set_run_2d(worldgenfunctions.ranged_noise_2d("temperaturemap"))
 end)
 
-ap.mapgen.worldgen:register("crust.temperaturemap.elevation", function(constructor)
+ap.mapgen.crust:register("temperaturemap.minor", function(constructor)
+	constructor:add_param("variation_max", 0.5)
+	constructor:add_param("variation_min", -0.5)
+	
+	constructor:require_noise2d("main", 5, 0.6, 1.0, 170)
+	
+	constructor:set_condition(worldgenfunctions.if_true("generate_temperaturemap"))
+	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
+		local value = module.noises.main[x][z]
+		value = mathutil.clamp(value, -1, 1)
+		value = transform.linear(
+			value,
+			-1,
+			1,
+			module.params.variation_min,
+			module.params.variation_max)
+		
+		metadata.temperaturemap[x][z] = metadata.temperaturemap[x][z] + value
+	end)
+end)
+
+ap.mapgen.crust:register("temperaturemap.elevation", function(constructor)
 	constructor:add_param("ocean_level", -58)
 	
 	constructor:set_condition(worldgenfunctions.if_true("generate_temperaturemap"))
@@ -67,27 +88,6 @@ ap.mapgen.worldgen:register("crust.temperaturemap.elevation", function(construct
 		end
 		
 		metadata.temperaturemap[x][z] = metadata.temperaturemap[x][z] - value
-	end)
-end)
-
-ap.mapgen.worldgen:register("crust.temperaturemap.details", function(constructor)
-	constructor:add_param("variation_max", 0.5)
-	constructor:add_param("variation_min", -0.5)
-	
-	constructor:require_noise2d("main", 5, 0.6, 1.0, 170)
-	
-	constructor:set_condition(worldgenfunctions.if_true("generate_temperaturemap"))
-	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
-		local value = module.noises.main[x][z]
-		value = mathutil.clamp(value, -1, 1)
-		value = transform.linear(
-			value,
-			-1,
-			1,
-			module.params.variation_min,
-			module.params.variation_max)
-		
-		metadata.temperaturemap[x][z] = metadata.temperaturemap[x][z] + value
 	end)
 end)
 

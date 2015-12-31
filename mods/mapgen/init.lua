@@ -22,24 +22,22 @@ local base_path = minetest.get_modpath(minetest.get_current_modname())
 
 
 ap.mapgen = {}
-ap.mapgen.worldgen = nil
+ap.mapgen.crust = nil
 
 
 ap.mapgen.reload_worldgen = function()
-	ap.mapgen.worldgen = WorldGen:new()
+	ap.mapgen.crust = WorldGen:new("Crust")
 	
 	-- Order is important.
 	
-	dofile(base_path .. "/base.lua")
-	
 	-- Crust
+	dofile(base_path .. "/crust/base.lua")
 	dofile(base_path .. "/crust/heightmap.lua")
 	dofile(base_path .. "/crust/temperaturemap.lua")
 	dofile(base_path .. "/crust/humiditymap.lua")
 	dofile(base_path .. "/crust/biomes.lua")
 	dofile(base_path .. "/crust/bake.lua")
-	
-	dofile(base_path .. "/finish.lua")
+	dofile(base_path .. "/crust/finish.lua")
 end
 
 
@@ -62,7 +60,7 @@ minetest.register_on_generated(function(minp, maxp, block_seed)
 	if settings.get_bool("ap_mapgen_activate", true) then
 		local manipulator = MapManipulator:new()
 		
-		ap.mapgen.worldgen:run(manipulator, minp, maxp, block_seed)
+		ap.mapgen.crust:run(manipulator, minp, maxp, block_seed)
 		
 		manipulator:set_data()
 	end

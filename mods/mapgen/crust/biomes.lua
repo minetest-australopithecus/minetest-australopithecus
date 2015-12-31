@@ -244,7 +244,7 @@ biomes:register("Wasteland", function(constructor)
 end)
 
 
-ap.mapgen.worldgen:register("crust.biomes", function(constructor)
+ap.mapgen.crust:register("biomes", function(constructor)
 	constructor:set_condition(function(module, metadata, minp, maxp)
 		if metadata.cache.biomes == nil then
 			metadata.cache.biomes = arrayutil.create2d(minp.x, minp.z, maxp.x, maxp.z, nil)

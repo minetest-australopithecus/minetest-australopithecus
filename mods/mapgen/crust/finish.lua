@@ -18,19 +18,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 --]]
 
 
--- Adds a BlockedCache to the persistent metadata storage and does extract
--- it into metadata.cache for simpler use.
-ap.mapgen.worldgen:register("init", function(constructor)
-	constructor:set_run_before(function(module, metadata, manipulator, minp, maxp)
-		if metadata.persistent.cache == nil then
-			metadata.persistent.cache = BlockedCache:new()
+-- We will fill everything with air that is still filled with "ignore".
+-- That removes odd lighting glitches that I've been seeing.
+ap.mapgen.crust:register("air", function(constructor)
+	constructor:require_node("air", "air")
+	
+	constructor:set_run_3d(function(module, metadata, manipulator, x, z, y)
+		if manipulator:get_node(x, z, y) == 126 then
+			manipulator:set_node(x, z, y, module.nodes.air)
 		end
-		
-		if not metadata.persistent.cache:is_cached(minp.x, minp.z) then
-			metadata.persistent.cache:put(minp.x, minp.z, {})
-		end
-		
-		metadata.cache = metadata.persistent.cache:get(minp.x, minp.z)
 	end)
 end)
 
