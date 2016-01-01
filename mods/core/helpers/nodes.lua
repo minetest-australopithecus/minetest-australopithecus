@@ -565,6 +565,7 @@ ap.core.helpers.register_grass = function(name, group_addition, definition_overr
 	name = postfix_name(name, "grass")
 	
 	local top_side = name .. ".png"
+	local side_front = textureutil.tileable("dirt.png^" .. name .. "_front_overlay.png", true, false)
 	local side_side = textureutil.tileable("dirt.png^" .. name .. "_side_overlay.png", true, false)
 	
 	local definition = {
@@ -581,7 +582,7 @@ ap.core.helpers.register_grass = function(name, group_addition, definition_overr
 		name = name,
 		tiles = {
 			top_side, "dirt.png",
-			side_side, side_side,
+			side_front, side_front,
 			side_side, side_side
 		}
 	}
