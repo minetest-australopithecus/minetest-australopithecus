@@ -34,7 +34,7 @@ biomes:register("Chaparral", function(constructor)
 	constructor:set_fits(biomesfunctions.default())
 end)
 
-biomes:register("Deciduous Forest", function(constructor)
+biomes:register("Deciduous", function(constructor)
 	constructor:add_param("humidity", { min = 75, max = 999999 })
 	constructor:add_param("temperature", { min = 30, max = 50 })
 	
