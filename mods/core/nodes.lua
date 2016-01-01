@@ -38,7 +38,7 @@ ap.core.helpers.register_dirt("wasteland")
 ap.core.helpers.register_fluid("water", 160, 1)
 
 ap.core.helpers.register_grass("chaparral")
-ap.core.helpers.register_grass("deciduous_forest")
+ap.core.helpers.register_grass("deciduous")
 ap.core.helpers.register_grass("grassland", { spreads_on_dirt = DigSpeed.FAST })
 ap.core.helpers.register_grass("rainforest", { spreads_on_dirt = DigSpeed.VERY_FAST })
 ap.core.helpers.register_grass("savannah", { spreads_on_dirt = DigSpeed.VERY_SLOW })

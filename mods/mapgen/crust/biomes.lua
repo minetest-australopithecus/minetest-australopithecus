@@ -42,7 +42,7 @@ biomes:register("Deciduous", function(constructor)
 	constructor:require_node("shore_subsurface", "core:sand")
 	constructor:require_node("shore_surface", "core:sand")
 	constructor:require_node("subsurface", "core:dirt")
-	constructor:require_node("surface", "core:deciduous_forest_grass")
+	constructor:require_node("surface", "core:deciduous_grass")
 	constructor:require_node("water_surface", "core:water_source")
 	constructor:require_node("water_subsurface", "core:water_source")
 	
