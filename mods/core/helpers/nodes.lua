@@ -374,6 +374,9 @@ end
 local function register_bricks(definition)
 	local name = postfix_name(definition.name, "bricks")
 	
+	local top = name .. "_top.png"
+	local side = name .. ".png"
+	
 	ap.core.artisanry:register("Blocks", "core:" .. postfix_name(definition.name, "cobble"), {
 		{ "core:" .. name }
 	})
@@ -394,7 +397,9 @@ local function register_bricks(definition)
 		},
 		name = name,
 		tiles = {
-			name .. ".png"
+			top, top,
+			side, side,
+			side, side
 		}
 	})
 	
