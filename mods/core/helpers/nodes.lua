@@ -227,6 +227,7 @@ local function register_ramps(definition)
 		node_box = nodebox_cache.ramps.smooth,
 		paramtype = "light",
 		paramtype2 = "facedir",
+		tiles = { textureutil.cube(definition.tiles) },
 		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
 	})
 	
