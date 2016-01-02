@@ -171,7 +171,8 @@ local function register_corners(definition)
 		name = corner_smooth_name,
 		node_box = nodebox_cache.corners.corner,
 		paramtype = "light",
-		paramtype2 = "facedir"
+		paramtype2 = "facedir",
+		tiles = { textureutil.cube(definition.tiles) }
 	})
 	
 	register_node(corner_smooth_definition)
