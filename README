@@ -38,6 +38,7 @@ Mods
  * mapgen, the mapgen.
  * player-skins, allows to have different "clothes".
  * torch, torches.
+ * trash, provides a trash inventory for each player.
 
 
 Mods (external)

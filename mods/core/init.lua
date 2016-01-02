@@ -70,7 +70,9 @@ artisanryui.activate(ap.core.artisanry, function(player, groups)
 	local inventory = "list[current_player;main;1,8;8,3;8]"
 	local hotbar = "list[current_player;main;1,11;8,1;0]"
 	
-	local skin_inventory = "list[detached:playerskins;" .. name .. ";9,8;1,1;]"
+	local skin_inventory = "list[detached:playerskins;" .. name .. ";10,8;1,1;]"
+	
+	local trash_inventory = "list[detached:trash;" .. name .. ";10,10;1,1;]"
 	
 	local ring = "listring[current_player;main]"
 	ring = ring .. "listring[detached:artisanryui;" .. name .. "-input]"
@@ -87,6 +89,7 @@ artisanryui.activate(ap.core.artisanry, function(player, groups)
 		.. inventory
 		.. hotbar
 		.. skin_inventory
+		.. trash_inventory
 		.. ring
 	
 	return formspec
