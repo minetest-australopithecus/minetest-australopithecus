@@ -54,6 +54,8 @@ artisanryui.activate(ap.core.artisanry, function(player, groups)
 	
 	local window = "size[15,13;]"
 	
+	local background = "image[-0.5,-1;20,17;inventory.png]"
+	
 	local input ="list[detached:artisanryui;" .. name .. "-input;1,2;5,5;]"
 	local output = "list[detached:artisanryui;" .. name .. "-output;7,2;7,5;]"
 	
@@ -81,6 +83,7 @@ artisanryui.activate(ap.core.artisanry, function(player, groups)
 	ring = ring .. "listring[current_player;main]"
 	
 	local formspec = window
+		.. background
 		.. input
 		.. output
 		.. groups_list
