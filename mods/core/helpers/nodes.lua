@@ -184,8 +184,9 @@ local function register_plates(definition)
 		local plate_name = definition.name .. "_plate_" .. thickness
 		local plate_definition = tableutil.merge(definition, {
 			description = definition.description .. " (Plate, " .. thickness .. "/10)",
-			drawtype = "nodebox",
+			drawtype = "mesh",
 			drop = "core:" .. plate_name,
+			mesh = "block_" .. thickness .. ".obj",
 			name = plate_name,
 			node_box = {
 				type = "wallmounted",
@@ -203,7 +204,8 @@ local function register_plates(definition)
 				}
 			},
 			paramtype = "light",
-			paramtype2 = "wallmounted"
+			paramtype2 = "wallmounted",
+			tiles = { textureutil.cube(definition.tiles) }
 		})
 		
 		register_node(plate_definition)
