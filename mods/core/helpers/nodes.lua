@@ -363,7 +363,7 @@ local function register_pyramids_stepped(definition)
 	
 	for counter = 2, 9, 1 do
 		-- Pyramid
-		local single_name = pyramid_name .. counter
+		local single_name = pyramid_name .. "_" .. counter
 		local single_definition = tableutil.merge(prototype, {
 			description = definition.description .. " (Pyramid with " .. counter .. " steps)",
 			drop = postfix_dropnames(definition.drop, counter),
