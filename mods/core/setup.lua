@@ -66,6 +66,12 @@ local function set_gamestart_time()
 	minetest.set_timeofday(settings.get_number("ap_gamestart_time", 0.18))
 end
 
+--- Sets up the hotbar.
+local function setup_hotbar(player)
+	player:hud_set_hotbar_image("hotbar.png")
+	player:hud_set_hotbar_selected_image("hotbar_selection.png")
+end
+
 
 -- Actions for when a player has been spawned.
 spawnusher.register_after_spawn_callback(function(player)
@@ -77,6 +83,7 @@ minetest.register_on_joinplayer(function(player)
 	hide_crosshair(player)
 	hide_minimap(player)
 	hide_nametag(player)
+	setup_hotbar(player)
 end)
 
 minetest.register_on_newplayer(function(player)
