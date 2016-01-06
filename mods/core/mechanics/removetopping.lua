@@ -22,7 +22,7 @@ local dirt = {
 	name = "core:dirt"
 }
 
--- Replace grass with dirt if a node is placed on it.
+-- Replaces nodes dirt if a node is placed above it.
 minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing)
 	if nodeutil.has_group(newnode, "preserves_below_node")
 		or not nodeutil.is_walkable(newnode) then
