@@ -50,4 +50,8 @@ on top of it, as long as the node that is placed on it does not have the group
 
 Designates that this node does not trigger the becomes_dirt mechanic.
 
+### 2.5 preserves_below_node_when_wallmounted
+
+Same as preserves_below_node, except that it only preserves the below node if
+it is not mounted on a wall or the ceiling.
 

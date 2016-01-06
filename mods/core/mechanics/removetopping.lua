@@ -25,7 +25,9 @@ local dirt = {
 -- Replaces nodes dirt if a node is placed above it.
 minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing)
 	if nodeutil.has_group(newnode, "preserves_below_node")
-		or not nodeutil.is_walkable(newnode) then
+		or not nodeutil.is_walkable(newnode)
+		or (nodeutil.has_group(newnode, "preserves_below_node_when_wallmounted")
+			and wallmountedutil.is_wallmounted(newnode)) then
 		
 		-- If the node that is placed has either the needed group or is not
 		-- walkable, it should not remove the topping.

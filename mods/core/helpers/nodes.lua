@@ -230,6 +230,7 @@ local function register_plates(definition)
 			description = definition.description .. " (Plate, " .. thickness .. "/10)",
 			drawtype = "mesh",
 			drop = "core:" .. plate_name,
+			groups = tableutil.merge(definition.groups, { preserves_below_node_when_wallmounted = NodeGroup.DUMMY }),
 			mesh = "block_" .. thickness .. ".obj",
 			name = plate_name,
 			node_box = {
