@@ -633,6 +633,8 @@ local function register_bricks(definition)
 	
 	register_corners(definition)
 	register_plates(definition)
+	register_pyramids(definition)
+	register_pyramids_stepped(definition)
 	register_ramps(definition)
 	register_stairs(definition)
 end
@@ -668,6 +670,8 @@ local function register_cobble(definition)
 	
 	register_corners(definition)
 	register_plates(definition)
+	register_pyramids(definition)
+	register_pyramids_stepped(definition)
 	register_ramps(definition)
 	register_stairs(definition)
 end
@@ -688,6 +692,8 @@ local function register_rubble(definition)
 	
 	register_corners(definition)
 	register_plates(definition)
+	register_pyramids(definition)
+	register_pyramids_stepped(definition)
 	register_ramps(definition)
 	register_stairs(definition)
 end
