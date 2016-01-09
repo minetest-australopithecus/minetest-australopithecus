@@ -37,6 +37,9 @@ minetest.register_tool("core:debug_axe", {
 	inventory_image = "iron_axe.png",
 	range = 5.0,
 	tool_capabilities = {
+		damage_groups = {
+			fleshy = 1
+		},
 		full_punch_interval = 1.0,
 		groupcaps = {
 			wood = create_dig_group(2.0)
@@ -49,6 +52,9 @@ minetest.register_tool("core:debug_hammer", {
 	inventory_image = "iron_hammer.png",
 	range = 5.0,
 	tool_capabilities = {
+		damage_groups = {
+			fleshy = 1
+		},
 		full_punch_interval = 1.0,
 		groupcaps = {
 			building = create_dig_group(1.0),
@@ -64,6 +70,9 @@ minetest.register_tool("core:debug_pickaxe", {
 	inventory_image = "iron_pickaxe.png",
 	range = 5.0,
 	tool_capabilities = {
+		damage_groups = {
+			fleshy = 1
+		},
 		full_punch_interval = 1.0,
 		groupcaps = {
 			dirt = create_dig_group(2.0),
@@ -82,6 +91,9 @@ minetest.register_tool("core:debug_shovel", {
 	inventory_image = "iron_shovel.png",
 	range = 5.0,
 	tool_capabilities = {
+		damage_groups = {
+			fleshy = 1
+		},
 		full_punch_interval = 1.0,
 		groupcaps = {
 			dirt = create_dig_group(1.0),
