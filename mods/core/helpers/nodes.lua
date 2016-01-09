@@ -513,6 +513,7 @@ local function register_ramps(definition)
 		description = definition.description .. " (Ramp flat outer corner)",
 		drawtype = "mesh",
 		drop = postfix_dropnames(definition.drop, "ramp_outer_corner_flat"),
+		groups = tableutil.merge(definition.groups, { preserves_below_node = NodeGroup.DUMMY }),
 		mesh = "outer_corner_ramp_flat.obj",
 		name = ramp_outer_corner_flat_name,
 		node_box = nodebox_cache.ramps.smooth_outer_flat,
@@ -589,6 +590,7 @@ local function register_stairs(definition)
 		local outer_corner_flat_definition = tableutil.merge(stair_definition, {
 			description = definition.description .. " (Stair flat outer corner with " .. counter .. " steps)",
 			drop = postfix_dropnames(definition.drop, "stair_outer_corner_flat_" .. counter),
+			groups = tableutil.merge(definition.groups, { preserves_below_node = NodeGroup.DUMMY }),
 			name = outer_corner_flat_name,
 			node_box = nodebox_cache.stairs.stepped_outer_flat[counter],
 			after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
