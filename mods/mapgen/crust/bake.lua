@@ -243,7 +243,7 @@ ap.mapgen.crust:register("baking.lower-caves", function(constructor)
 end)
 
 ap.mapgen.crust:register("baking.surface-detection", function(constructor)
-	constructor:add_param("max_depth", 57 + 55555)
+	constructor:add_param("max_depth", 57 + 5)
 	constructor:add_param("ocean_level", -58)
 	constructor:add_param("overlap", 3)
 	
