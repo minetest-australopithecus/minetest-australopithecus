@@ -325,46 +325,6 @@ ap.mapgen.crust:register("baking.remove-single", function(constructor)
 	end)
 end)
 
-ap.mapgen.crust:register("baking.ocean", function(constructor)
-	constructor:add_param("cave_flood_depth", 23)
-	constructor:add_param("max_depth", 47 + 3)
-	constructor:add_param("ocean_level", -58)
-	
-	constructor:require_node("air", "air")
-	
-	constructor:set_condition(function(module, metadata, minp, maxp)
-		return minp.y <= (module.params.ocean_level - module.params.cave_flood_depth)
-			and maxp.y >= (metadata.heightmap_range.min - module.params.max_depth)
-	end)
-	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
-		local current_height = metadata.surfacemap[x][z] or metadata.heightmap[x][z]
-		
-		if current_height <= module.params.ocean_level then
-			local biome = metadata.biomes[x][z]
-			
-			-- Main operation for flodding everything with water.
-			for y = metadata.maxp.y, math.max(metadata.minp.y, current_height), -1 do
-				if manipulator:get_node(x, z, y) == module.nodes.air then
-					if y == module.params.ocean_level then
-						manipulator:set_node(x, z, y, biome.nodes.water_surface)
-					elseif y <= module.params.ocean_level then
-						manipulator:set_node(x, z, y, biome.nodes.water_subsurface)
-					end
-				end
-			end
-			
-			-- Now we will flood the caves below us.
-			if current_height > metadata.minp.y then
-				for y = current_height, math.max(metadata.minp.y, current_height - module.params.cave_flood_depth), -1 do
-					if manipulator:get_node(x, z, y) == module.nodes.air then
-						manipulator:set_node(x, z, y, biome.nodes.water_subsurface)
-					end
-				end
-			end
-		end
-	end)
-end)
-
 ap.mapgen.crust:register("baking.ramps", function(constructor)
 	local placer = MaskBasedPlacer:new()
 	local secondary_placer = MaskBasedPlacer:new()
@@ -507,6 +467,46 @@ ap.mapgen.crust:register("baking.ramps", function(constructor)
 		local extended_maxp = vector.add(maxp, 1)
 		
 		module.objects.placer:run(manipulator, extended_minp, extended_maxp)
+	end)
+end)
+
+ap.mapgen.crust:register("baking.ocean", function(constructor)
+	constructor:add_param("cave_flood_depth", 23)
+	constructor:add_param("max_depth", 47 + 3)
+	constructor:add_param("ocean_level", -58)
+	
+	constructor:require_node("air", "air")
+	
+	constructor:set_condition(function(module, metadata, minp, maxp)
+		return minp.y <= (module.params.ocean_level - module.params.cave_flood_depth)
+			and maxp.y >= (metadata.heightmap_range.min - module.params.max_depth)
+	end)
+	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
+		local current_height = metadata.surfacemap[x][z] or metadata.heightmap[x][z]
+		
+		if current_height <= module.params.ocean_level then
+			local biome = metadata.biomes[x][z]
+			
+			-- Main operation for flodding everything with water.
+			for y = metadata.maxp.y, math.max(metadata.minp.y, current_height), -1 do
+				if manipulator:get_node(x, z, y) == module.nodes.air then
+					if y == module.params.ocean_level then
+						manipulator:set_node(x, z, y, biome.nodes.water_surface)
+					elseif y <= module.params.ocean_level then
+						manipulator:set_node(x, z, y, biome.nodes.water_subsurface)
+					end
+				end
+			end
+			
+			-- Now we will flood the caves below us.
+			if current_height > metadata.minp.y then
+				for y = current_height, math.max(metadata.minp.y, current_height - module.params.cave_flood_depth), -1 do
+					if manipulator:get_node(x, z, y) == module.nodes.air then
+						manipulator:set_node(x, z, y, biome.nodes.water_subsurface)
+					end
+				end
+			end
+		end
 	end)
 end)
 
