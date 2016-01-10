@@ -111,12 +111,12 @@ ap.core.artisanry:register("Debug", "core:debug_pickaxe", {})
 ap.core.artisanry:register("Debug", "core:debug_shovel", {})
 ap.core.artisanry:register("Debug", "torch:torch_burning 64", {})
 
-ap.core.artisanry:register("Debug", "core:bark", {})
-ap.core.artisanry:register("Debug", "core:birch_bark", {})
-ap.core.artisanry:register("Debug", "core:jungletree_bark", {})
-ap.core.artisanry:register("Debug", "core:maple_bark", {})
-ap.core.artisanry:register("Debug", "core:oak_bark", {})
-ap.core.artisanry:register("Debug", "core:pine_bark", {})
+ap.core.artisanry:register("Debug", "core:log", {})
+ap.core.artisanry:register("Debug", "core:birch_log", {})
+ap.core.artisanry:register("Debug", "core:jungletree_log", {})
+ap.core.artisanry:register("Debug", "core:maple_log", {})
+ap.core.artisanry:register("Debug", "core:oak_log", {})
+ap.core.artisanry:register("Debug", "core:pine_log", {})
 
 -- skins
 playerskins.skins:foreach(function(skin, index)
