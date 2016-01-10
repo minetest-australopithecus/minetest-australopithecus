@@ -1038,3 +1038,62 @@ ap.core.helpers.register_stone = function(name, prototype)
 	register_stairs(definition)
 end
 
+ap.core.helpers.register_wood = function(name, prototype)
+	local log_name = postfix_name(name, "log")
+	local log_definition = {
+		description = make_description(log_name),
+		diggable = true,
+		drop = "core:" .. log_name,
+		groups = {
+			simple_wallmounted = NodeGroup.DUMMY,
+			wood = DigSpeed.NORMAL
+		},
+		name = log_name,
+		paramtype2 = "facedir",
+		tiles = {
+			log_name .. "_top.png", log_name .. "_top.png",
+			log_name .. ".png", log_name .. ".png",
+			log_name .. ".png", log_name .. ".png"
+		}
+	}
+	
+	register_node(log_definition)
+	
+	-- Remove the simple wallmounted group to make sure that it does not
+	-- interfere with the other definitions.
+	log_definition = tableutil.clone(log_definition)
+	log_definition.groups.simple_wallmounted = nil
+	
+	register_corners(log_definition)
+	register_plates(log_definition)
+	register_ramps(log_definition)
+	register_stairs(log_definition)
+	
+	local planks_name = postfix_name(name, "planks")
+	local planks_definition = {
+		description = make_description(planks_name),
+		diggable = true,
+		drop = "core:" .. planks_name,
+		groups = {
+			wood = DigSpeed.NORMAL
+		},
+		name = planks_name,
+		tiles = {
+			planks_name .. ".png"
+		}
+	}
+	
+	register_node(planks_definition)
+	
+	register_corners(planks_definition)
+	register_plates(planks_definition)
+	register_pyramids(planks_definition)
+	register_pyramids_stepped(planks_definition)
+	register_ramps(planks_definition)
+	register_stairs(planks_definition)
+	
+	ap.core.artisanry:register("Blocks", "core:" .. planks_name, {
+		{ "core:" .. log_name }
+	})
+end
+

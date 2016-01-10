@@ -71,3 +71,10 @@ ap.core.helpers.register_stone("sand", {
 	}
 })
 
+ap.core.helpers.register_wood()
+ap.core.helpers.register_wood("birch")
+ap.core.helpers.register_wood("jungletree")
+ap.core.helpers.register_wood("maple")
+ap.core.helpers.register_wood("oak")
+ap.core.helpers.register_wood("pine")
+
