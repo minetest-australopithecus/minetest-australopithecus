@@ -58,11 +58,7 @@ end)
 
 minetest.register_on_generated(function(minp, maxp, block_seed)
 	if settings.get_bool("ap_mapgen_activate", true) then
-		local manipulator = MapManipulator:new()
-		
-		ap.mapgen.crust:run(manipulator, minp, maxp, block_seed)
-		
-		manipulator:set_data()
+		ap.mapgen.crust:run(MapManipulator:new(), minp, maxp, block_seed, true)
 	end
 end)
 
