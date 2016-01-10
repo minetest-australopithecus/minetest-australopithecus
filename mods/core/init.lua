@@ -44,6 +44,7 @@ dofile(base_path .. "/setup.lua")
 -- Mechanics.
 dofile(base_path .. "/mechanics/attached.lua")
 dofile(base_path .. "/mechanics/removetopping.lua")
+dofile(base_path .. "/mechanics/simplewallmounted.lua")
 dofile(base_path .. "/mechanics/spread.lua")
 
 

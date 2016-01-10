@@ -55,3 +55,11 @@ Designates that this node does not trigger the becomes_dirt mechanic.
 Same as preserves_below_node, except that it only preserves the below node if
 it is not mounted on a wall or the ceiling.
 
+### 2.6 simple_wallmounted
+
+Designates that this node uses a simple wallmounted variant, the node must have
+"facedir" as `paramtype2`. The simple wallmounted group makes sure that the top
+of the node is always facing towards the player if placed, which means that it
+will be rotated by 90 degrees if placed on a whole, and 180 degrees when placed
+on the ceiling.
+
