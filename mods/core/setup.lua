@@ -63,7 +63,7 @@ end
 
 --- Sets the time of day to the configured time.
 local function set_gamestart_time()
-	minetest.set_timeofday(settings.get_number("ap_gamestart_time", 0.18))
+	minetest.set_timeofday(settings.get_number("ap_gamestart_time", 0.27))
 end
 
 --- Sets up the hotbar.
