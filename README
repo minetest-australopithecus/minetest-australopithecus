@@ -30,6 +30,29 @@ Textures
 Textures are from the awesome [Summerfields][summerfields] texture pack.
 
 
+Fonts
+=====
+
+There is a font that is distributed with the game which is suggested to be used.
+Here is the configuration that is suggested:
+
+    # The font path is relative to the minetest executable, which might need
+    # to be adjusted.
+    font_path = ../games/australopithecus/mods/core/fonts/CatV_6x12_9.ttf
+    
+    # We are using a small shadow.
+    font_shadow = 1
+    
+    # Which is slightly transparent.
+    font_shadow_alpha = 192
+    
+    # Suggested font sizes are 21 and 27, depending on your display.
+    font_size = 21
+    
+    # Last but not least, make sure that freetype fonts are enabled.
+    freetype = true
+    
+
 Mods
 ====
 
