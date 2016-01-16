@@ -117,6 +117,26 @@ local function init_nodebox_cache()
 		nodebox_cache.pyramids.smooth_connected_end = nodebox_cache.pyramids.stepped_connected_end[9]
 		nodebox_cache.pyramids.smooth_connected_straight = nodebox_cache.pyramids.stepped_connected_straight[9]
 		nodebox_cache.pyramids.smooth_connected_t = nodebox_cache.pyramids.stepped_connected_t[9]
+		
+		nodebox_cache.pyramids_halfheight = {}
+		nodebox_cache.pyramids_halfheight.stepped = {}
+		nodebox_cache.pyramids_halfheight.stepped_connected_corner = {}
+		nodebox_cache.pyramids_halfheight.stepped_connected_cross = {}
+		nodebox_cache.pyramids_halfheight.stepped_connected_end = {}
+		nodebox_cache.pyramids_halfheight.stepped_connected_straight = {}
+		nodebox_cache.pyramids_halfheight.stepped_connected_t = {}
+		
+		for key, value in pairs(nodebox_cache.pyramids) do
+			if stringutil.startswith(key, "smooth") then
+				nodebox_cache.pyramids_halfheight[key] = nodeboxutil.set_height(value, 0.5)
+			else
+				nodebox_cache.pyramids_halfheight[value] = {}
+				
+				for index, nodebox in ipairs(value) do
+					nodebox_cache.pyramids_halfheight[value][index] = nodeboxutil.set_height(nodebox, 0.5)
+				end
+			end
+		end
 	end
 end
 
@@ -149,12 +169,18 @@ local function register_node(definition)
 	minetest.register_node(name, tableutil.clone(definition))
 end
 
-local function postfix_name(name, postfix)
-	if name ~= nil and name ~= "" then
-		return name .. "_" .. postfix
+local function postfix_name(name, postfix, separator)
+	if postfix == nil or #postfix == 0 then
+		return name
 	end
 	
-	return postfix
+	if name == nil or #name == 0 then
+		return postfix
+	end
+	
+	separator = separator or "_"
+	
+	return name .. separator .. postfix
 end
 
 local function postfix_dropnames(drops, postfix)
@@ -264,14 +290,12 @@ local function register_pyramids(definition)
 		init_nodebox_cache()
 	end
 	
-	-- Pyramid
-	local pyramid_name = definition.name .. "_pyramid"
-	local pyramid_definition = tableutil.merge(definition, {
+	local prototype = tableutil.merge(definition, {
 		description = definition.description .. " (Pyramid)",
 		drawtype = "mesh",
 		drop = postfix_dropnames(definition.drop, "pyramid"),
 		mesh = "pyramid.obj",
-		name = pyramid_name,
+		name = definition.name .. "_pyramid",
 		node_box = nodebox_cache.pyramids.smooth,
 		paramtype = "light",
 		paramtype2 = "facedir",
@@ -279,73 +303,45 @@ local function register_pyramids(definition)
 		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
 	})
 	
-	register_node(pyramid_definition)
-	register_conversion("Pyramids", definition.name, pyramid_name)
+	local register_pyramid = function(name_postfix)
+		name_postfix = name_postfix or ""
+		
+		local full_name = name_postfix
+		if #full_name > 0 then
+			full_name = name_postfix .. "_"
+		end
+		
+		local full_definition = tableutil.merge(prototype, {
+			description = definition.description .. " (" .. postfix_name("Pyramid", stringutil.trim(string.gsub(full_name, "_", " ")), " ") .. ")",
+			drop = postfix_dropnames(prototype.drop, name_postfix),
+			mesh = postfix_name("pyramid", name_postfix) .. ".obj",
+			name = postfix_name(prototype.name, name_postfix),
+			node_box = nodebox_cache.pyramids[postfix_name("smooth", name_postfix)]
+		})
+		
+		register_node(full_definition)
+		register_conversion("Pyramids", definition.name, full_definition.name)
+		
+		local halfheight_name = postfix_name("halfheight", name_postfix)
+		
+		local halfheight_definition = tableutil.merge(prototype, {
+			description = definition.description .. " (" .. postfix_name("Pyramid", stringutil.trim(string.gsub(halfheight_name, "_", " ")), " ") .. ")",
+			drop = postfix_dropnames(prototype.drop, halfheight_name),
+			mesh = "pyramid_" .. halfheight_name .. ".obj",
+			name = postfix_name(prototype.name, halfheight_name),
+			node_box = nodebox_cache.pyramids_halfheight[postfix_name("smooth", name_postfix)]
+		})
+		
+		register_node(halfheight_definition)
+		register_conversion("Pyramids (half-height)", definition.name, halfheight_definition.name)
+	end
 	
-	-- Connected Cross
-	local connected_cross_name = pyramid_name .. "_connected_cross"
-	local connected_cross_definition = tableutil.merge(pyramid_definition, {
-		description = definition.description .. " (Pyramid connected cross)",
-		drop = postfix_dropnames(pyramid_definition.drop, "connected_cross"),
-		mesh = "pyramid_connected_cross.obj",
-		name = pyramid_name .. "_connected_cross",
-		node_box = nodebox_cache.pyramids.smooth_connected_cross
-	})
-	
-	register_node(connected_cross_definition)
-	register_conversion("Pyramids", definition.name, connected_cross_name)
-	
-	-- Connected Corner
-	local connected_corner_name = pyramid_name .. "_connected_corner"
-	local connected_corner_definition = tableutil.merge(pyramid_definition, {
-		description = definition.description .. " (Pyramid connected corner)",
-		drop = postfix_dropnames(pyramid_definition.drop, "connected_corner"),
-		mesh = "pyramid_connected_corner.obj",
-		name = pyramid_name .. "_connected_corner",
-		node_box = nodebox_cache.pyramids.smooth_connected_corner
-	})
-	
-	register_node(connected_corner_definition)
-	register_conversion("Pyramids", definition.name, connected_corner_name)
-	
-	-- Connected End
-	local connected_end_name = pyramid_name .. "_connected_end"
-	local connected_end_definition = tableutil.merge(pyramid_definition, {
-		description = definition.description .. " (Pyramid connected end)",
-		drop = postfix_dropnames(pyramid_definition.drop, "connected_end"),
-		mesh = "pyramid_connected_end.obj",
-		name = pyramid_name .. "_connected_end",
-		node_box = nodebox_cache.pyramids.smooth_connected_end
-	})
-	
-	register_node(connected_end_definition)
-	register_conversion("Pyramids", definition.name, connected_end_name)
-	
-	-- Connected Straight
-	local connected_straight_name = pyramid_name .. "_connected_straight"
-	local connected_straight_definition = tableutil.merge(pyramid_definition, {
-		description = definition.description .. " (Pyramid connected straight)",
-		drop = postfix_dropnames(pyramid_definition.drop, "connected_straight"),
-		mesh = "pyramid_connected_straight.obj",
-		name = pyramid_name .. "_connected_straight",
-		node_box = nodebox_cache.pyramids.smooth_connected_straight
-	})
-	
-	register_node(connected_straight_definition)
-	register_conversion("Pyramids", definition.name, connected_straight_name)
-	
-	-- Connected T-Section
-	local connected_t_name = pyramid_name .. "_connected_t"
-	local connected_t_definition = tableutil.merge(pyramid_definition, {
-		description = definition.description .. " (Pyramid connected T-section)",
-		drop = postfix_dropnames(pyramid_definition.drop, "connected_t"),
-		mesh = "pyramid_connected_t.obj",
-		name = pyramid_name .. "_connected_t",
-		node_box = nodebox_cache.pyramids.smooth_connected_t
-	})
-	
-	register_node(connected_t_definition)
-	register_conversion("Pyramids", definition.name, connected_t_name)
+	register_pyramid()
+	register_pyramid("connected_corner")
+	register_pyramid("connected_cross")
+	register_pyramid("connected_end")
+	register_pyramid("connected_straight")
+	register_pyramid("connected_t")
 end
 
 local function register_pyramids_stepped(definition)
@@ -365,77 +361,43 @@ local function register_pyramids_stepped(definition)
 	})
 	
 	for counter = 2, 9, 1 do
-		-- Pyramid
-		local single_name = pyramid_name .. "_" .. counter
-		local single_definition = tableutil.merge(prototype, {
-			description = definition.description .. " (Pyramid with " .. counter .. " steps)",
-			drop = postfix_dropnames(definition.drop, counter),
-			name = single_name,
-			node_box = nodebox_cache.pyramids.stepped[counter],
-		})
+		local register_pyramid = function(name_postfix)
+			name_postfix = name_postfix or ""
+			
+			local full_name = name_postfix
+			if #full_name > 0 then
+				full_name = name_postfix .. "_"
+			end
+			
+			local full_definition = tableutil.merge(prototype, {
+				description = definition.description .. " (Pyramid " .. string.gsub(full_name, "_", " ") .. "with " .. counter .. " steps)",
+				drop = postfix_dropnames(prototype.drop, full_name .. counter),
+				name = pyramid_name .. "_" .. full_name .. counter,
+				node_box = nodebox_cache.pyramids[postfix_name("stepped", name_postfix)][counter]
+			})
+			
+			register_node(full_definition)
+			register_conversion("Pyramids", definition.name, full_definition.name)
+			
+			local halfheight_name = postfix_name("halfheight", full_name)
+			
+			local halfheight_definition = tableutil.merge(prototype, {
+				description = definition.description .. " (Pyramid " .. string.gsub(halfheight_name, "_", " ") .. "with " .. counter .. " steps)",
+				drop = postfix_dropnames(prototype.drop, halfheight_name .. counter),
+				name = pyramid_name .. "_" .. halfheight_name .. counter,
+				node_box = nodeboxutil.set_height(full_definition.node_box, 0.5)
+			})
+			
+			register_node(halfheight_definition)
+			register_conversion("Pyramids (half-height)", definition.name, halfheight_definition.name)
+		end
 		
-		register_node(single_definition)
-		register_conversion("Pyramids", definition.name, single_name)
-		
-		-- Connected Cross
-		local connected_cross_name = pyramid_name .. "_connected_cross_" .. counter
-		local connected_cross_definition = tableutil.merge(prototype, {
-			description = definition.description .. " (Pyramid connected cross with " .. counter .. " steps)",
-			drop = postfix_dropnames(prototype.drop, "connected_cross_" .. counter),
-			name = connected_cross_name,
-			node_box = nodebox_cache.pyramids.stepped_connected_cross[counter]
-		})
-		
-		register_node(connected_cross_definition)
-		register_conversion("Pyramids", definition.name, connected_cross_name)
-		
-		-- Connected Corner
-		local connected_corner_name = pyramid_name .. "_connected_corner_" .. counter
-		local connected_corner_definition = tableutil.merge(prototype, {
-			description = definition.description .. " (Pyramid connected corner with " .. counter .. " steps)",
-			drop = postfix_dropnames(prototype.drop, "connected_corner_" .. counter),
-			name = connected_corner_name,
-			node_box = nodebox_cache.pyramids.stepped_connected_corner[counter]
-		})
-		
-		register_node(connected_corner_definition)
-		register_conversion("Pyramids", definition.name, connected_corner_name)
-		
-		-- Connected End
-		local connected_end_name = pyramid_name .. "_connected_end_" .. counter
-		local connected_end_definition = tableutil.merge(prototype, {
-			description = definition.description .. " (Pyramid connected end with " .. counter .. " steps)",
-			drop = postfix_dropnames(prototype.drop, "connected_end_" .. counter),
-			name = connected_end_name,
-			node_box = nodebox_cache.pyramids.stepped_connected_end[counter]
-		})
-		
-		register_node(connected_end_definition)
-		register_conversion("Pyramids", definition.name, connected_end_name)
-		
-		-- Connected Straight
-		local connected_straight_name = pyramid_name .. "_connected_straight_" .. counter
-		local connected_straight_definition = tableutil.merge(prototype, {
-			description = definition.description .. " (Pyramid connected straight with " .. counter .. " steps)",
-			drop = postfix_dropnames(prototype.drop, "connected_straight_" .. counter),
-			name = connected_straight_name,
-			node_box = nodebox_cache.pyramids.stepped_connected_straight[counter]
-		})
-		
-		register_node(connected_straight_definition)
-		register_conversion("Pyramids", definition.name, connected_straight_name)
-		
-		-- Connected T-Section
-		local connected_t_name = pyramid_name .. "_connected_t_" .. counter
-		local connected_t_definition = tableutil.merge(prototype, {
-			description = definition.description .. " (Pyramid connected T-section with " .. counter .. " steps)",
-			drop = postfix_dropnames(prototype.drop, "connected_t_" .. counter),
-			name = connected_t_name,
-			node_box = nodebox_cache.pyramids.stepped_connected_t[counter]
-		})
-		
-		register_node(connected_t_definition)
-		register_conversion("Pyramids", definition.name, connected_t_name)
+		register_pyramid()
+		register_pyramid("connected_corner")
+		register_pyramid("connected_cross")
+		register_pyramid("connected_end")
+		register_pyramid("connected_straight")
+		register_pyramid("connected_t")
 	end
 end
 
