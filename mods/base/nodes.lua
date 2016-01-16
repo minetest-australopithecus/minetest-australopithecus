@@ -23,7 +23,7 @@ minetest.register_node("base:dummy", {
 	drop = nil,
 	light_source = 14,
 	tiles = {
-		textureutil.dummy(tango.scarletred_1, tango.aluminium_1)
+		textureutil.dummy(tango.SCARLETRED_1, tango.ALUMINIUM_1)
 	}
 })
 
