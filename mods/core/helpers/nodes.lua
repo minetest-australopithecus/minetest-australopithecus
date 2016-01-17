@@ -18,6 +18,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 --]]
 
 
+
+local upsidedown_handler_default = facedirutil.create_after_node_placed_upsidedown_handler()
+
+local upsidedown_handler_mirrored = facedirutil.create_after_node_placed_upsidedown_handler(true)
+
 local nodebox_cache = nil
 
 local function init_nodebox_cache()
@@ -300,7 +305,7 @@ local function register_pyramids(definition)
 		paramtype = "light",
 		paramtype2 = "facedir",
 		tiles = { textureutil.cube(definition.tiles) },
-		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
+		after_place_node = upsidedown_handler_default
 	})
 	
 	local register_pyramid = function(name_postfix)
@@ -357,7 +362,7 @@ local function register_pyramids_stepped(definition)
 		name = pyramid_name,
 		paramtype = "light",
 		paramtype2 = "facedir",
-		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
+		after_place_node = upsidedown_handler_default
 	})
 	
 	for counter = 2, 9, 1 do
@@ -418,7 +423,7 @@ local function register_ramps(definition)
 		paramtype = "light",
 		paramtype2 = "facedir",
 		tiles = { textureutil.cube(definition.tiles) },
-		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
+		after_place_node = upsidedown_handler_default
 	})
 	
 	register_node(ramp_definition)
@@ -433,7 +438,7 @@ local function register_ramps(definition)
 		mesh = "inner_corner_ramp.obj",
 		name = ramp_inner_corner_name,
 		node_box = nodebox_cache.ramps.smooth_inner,
-		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler(true)
+		after_place_node = upsidedown_handler_mirrored
 	})
 	
 	register_node(ramp_inner_corner_definition)
@@ -448,7 +453,7 @@ local function register_ramps(definition)
 		mesh = "outer_corner_ramp.obj",
 		name = ramp_outer_corner_name,
 		node_box = nodebox_cache.ramps.smooth_outer,
-		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler(true)
+		after_place_node = upsidedown_handler_mirrored
 	})
 	
 	register_node(ramp_outer_corner_definition)
@@ -463,7 +468,7 @@ local function register_ramps(definition)
 		mesh = "inner_corner_ramp_flat.obj",
 		name = ramp_inner_corner_flat_name,
 		node_box = nodebox_cache.ramps.smooth_inner_flat,
-		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler(true)
+		after_place_node = upsidedown_handler_mirrored
 	})
 	
 	register_node(ramp_inner_corner_flat_definition)
@@ -479,7 +484,7 @@ local function register_ramps(definition)
 		mesh = "outer_corner_ramp_flat.obj",
 		name = ramp_outer_corner_flat_name,
 		node_box = nodebox_cache.ramps.smooth_outer_flat,
-		after_place_node = facedirutil.create_after_node_placed_upsidedown_handler(true)
+		after_place_node = upsidedown_handler_mirrored
 	})
 	
 	register_node(ramp_outer_corner_flat_definition)
@@ -502,7 +507,7 @@ local function register_stairs(definition)
 			node_box = nodebox_cache.stairs.stepped[counter],
 			paramtype = "light",
 			paramtype2 = "facedir",
-			after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
+			after_place_node = upsidedown_handler_default
 		})
 		
 		register_node(stair_definition)
@@ -515,7 +520,7 @@ local function register_stairs(definition)
 			drop = postfix_dropnames(definition.drop, "stair_inner_corner_" .. counter),
 			name = inner_corner_name,
 			node_box = nodebox_cache.stairs.stepped_inner[counter],
-			after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
+			after_place_node = upsidedown_handler_default
 		})
 		
 		register_node(inner_corner_definition)
@@ -528,7 +533,7 @@ local function register_stairs(definition)
 			drop = postfix_dropnames(definition.drop, "stair_inner_corner_flat_" .. counter),
 			name = inner_corner_flat_name,
 			node_box = nodebox_cache.stairs.stepped_inner_flat[counter],
-			after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
+			after_place_node = upsidedown_handler_default
 		})
 		
 		register_node(inner_corner_flat_definition)
@@ -541,7 +546,7 @@ local function register_stairs(definition)
 			drop = postfix_dropnames(definition.drop, "stair_outer_corner_" .. counter),
 			name = outer_corner_name,
 			node_box = nodebox_cache.stairs.stepped_outer[counter],
-			after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
+			after_place_node = upsidedown_handler_default
 		})
 		
 		register_node(outer_corner_definition)
@@ -555,7 +560,7 @@ local function register_stairs(definition)
 			groups = tableutil.merge(definition.groups, { preserves_below_node = NodeGroup.DUMMY }),
 			name = outer_corner_flat_name,
 			node_box = nodebox_cache.stairs.stepped_outer_flat[counter],
-			after_place_node = facedirutil.create_after_node_placed_upsidedown_handler()
+			after_place_node = upsidedown_handler_default
 		})
 		
 		register_node(outer_corner_flat_definition)
