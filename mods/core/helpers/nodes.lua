@@ -1031,11 +1031,6 @@ ap.core.helpers.register_wood = function(name, prototype)
 	log_definition = tableutil.clone(log_definition)
 	log_definition.groups.simple_wallmounted = nil
 	
-	register_corners(log_definition)
-	register_plates(log_definition)
-	register_ramps(log_definition)
-	register_stairs(log_definition)
-	
 	local planks_name = postfix_name(name, "planks")
 	local planks_definition = {
 		description = make_description(planks_name),
@@ -1052,15 +1047,20 @@ ap.core.helpers.register_wood = function(name, prototype)
 	
 	register_node(planks_definition)
 	
+	ap.core.artisanry:register("Blocks", "core:" .. planks_name, {
+		{ "core:" .. log_name }
+	})
+	
+	register_corners(log_definition)
+	register_plates(log_definition)
+	register_ramps(log_definition)
+	register_stairs(log_definition)
+	
 	register_corners(planks_definition)
 	register_plates(planks_definition)
 	register_pyramids(planks_definition)
 	register_pyramids_stepped(planks_definition)
 	register_ramps(planks_definition)
 	register_stairs(planks_definition)
-	
-	ap.core.artisanry:register("Blocks", "core:" .. planks_name, {
-		{ "core:" .. log_name }
-	})
 end
 
