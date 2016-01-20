@@ -255,11 +255,12 @@ ap.mapgen.crust:register("baking.surface-detection", function(constructor)
 		
 		return metadata.heightmap_range.max >= minp.y
 			and maxp.y >= module.params.ocean_level
+			and maxp.y >= (metadata.heightmap_range.min - module.params.max_depth)
 	end)
 	constructor:set_run_2d(function(module, metadata, manipulator, x, z)
 		-- The +1 -1 is for overshooting our range, this fixes that the surface
 		-- is not correctly detected on block borders.
-		for y = metadata.maxp.y + 1, metadata.minp.y - 1, -1 do
+		for y = metadata.maxp.y + 16, math.max(metadata.minp.y - 16, metadata.heightmap_range.min - module.params.max_depth), -1 do
 			local current_node = manipulator:get_node(x, z, y)
 			
 			if current_node == module.nodes.ignore then
