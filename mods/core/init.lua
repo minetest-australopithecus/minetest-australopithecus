@@ -37,6 +37,7 @@ dofile(base_path .. "/helpers/helpers.lua")
 dofile(base_path .. "/helpers/nodes.lua")
 
 -- Main files
+dofile(base_path .. "/chatcommands.lua")
 dofile(base_path .. "/debug.lua")
 dofile(base_path .. "/nodes.lua")
 dofile(base_path .. "/setup.lua")
